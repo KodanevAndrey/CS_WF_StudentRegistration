@@ -1,0 +1,103 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|e:\\vs_c#_projects\\windowsformsprojects\\student_registration\\student_registration\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|e:\\vs_c#_projects\\windowsformsprojects\\student_registration\\student_registration\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|e:\\vs_c#_projects\\windowsformsprojects\\student_registration\\student_registration\\formselectedopentable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\formselectedopentable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|e:\\vs_c#_projects\\windowsformsprojects\\student_registration\\student_registration\\formselectedopentable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\formselectedopentable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|e:\\vs_c#_projects\\windowsformsprojects\\student_registration\\student_registration\\dbhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\dbhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FormSelectedOpenTable.cs",
+              "DocumentMoniker": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\Student_Registration\\FormSelectedOpenTable.cs",
+              "RelativeDocumentMoniker": "Student_Registration\\FormSelectedOpenTable.cs",
+              "ToolTip": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\Student_Registration\\FormSelectedOpenTable.cs",
+              "RelativeToolTip": "Student_Registration\\FormSelectedOpenTable.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-26T15:08:06.886Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FormSelectedOpenTable.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\Student_Registration\\FormSelectedOpenTable.cs",
+              "RelativeDocumentMoniker": "Student_Registration\\FormSelectedOpenTable.cs",
+              "ToolTip": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\Student_Registration\\FormSelectedOpenTable.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "Student_Registration\\FormSelectedOpenTable.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-26T15:07:18.251Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FormAdmin.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\Student_Registration\\FormAdmin.cs",
+              "RelativeDocumentMoniker": "Student_Registration\\FormAdmin.cs",
+              "ToolTip": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\Student_Registration\\FormAdmin.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "Student_Registration\\FormAdmin.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-26T14:49:28.861Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FormAdmin.cs",
+              "DocumentMoniker": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\Student_Registration\\FormAdmin.cs",
+              "RelativeDocumentMoniker": "Student_Registration\\FormAdmin.cs",
+              "ToolTip": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\Student_Registration\\FormAdmin.cs",
+              "RelativeToolTip": "Student_Registration\\FormAdmin.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAkwBIAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-26T14:30:58.714Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DBHelper.cs",
+              "DocumentMoniker": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\Student_Registration\\DBHelper.cs",
+              "RelativeDocumentMoniker": "Student_Registration\\DBHelper.cs",
+              "ToolTip": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\Student_Registration\\DBHelper.cs",
+              "RelativeToolTip": "Student_Registration\\DBHelper.cs",
+              "ViewState": "AgIAALUBAAAAAAAAAADwvwwCAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-26T12:55:36.623Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
