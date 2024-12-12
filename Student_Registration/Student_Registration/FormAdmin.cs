@@ -90,7 +90,7 @@ namespace Student_Registration
 
         private void dgvViewer_Click(object sender, EventArgs e)
         {
-            db.SelectToTable(lbStatusText, dgvViewer);
+            db.SelectCellToTable(lbStatusText, dgvViewer);
         }
     }
 }

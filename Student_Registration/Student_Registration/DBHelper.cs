@@ -28,6 +28,7 @@ namespace ConnectSQLite_KodanevAndrey
         private string TableSelectColumnName;
         private string TableSelectCellName;
         private int TableSelectRowIndex;
+        private int TableSelectColumnIndex;
         private List<int> DBTableColumnsTypeBlob = new List<int>();
         private List<int> DBTableColumnsTypeText = new List<int>();
         private List<int> DBTableColumnsTypeInt = new List<int>();
@@ -207,7 +208,7 @@ namespace ConnectSQLite_KodanevAndrey
             }
         }
 
-        public void SelectToTable(Label lbStatusText, DataGridView dgvViewer)
+        public void SelectCellToTable(Label lbStatusText, DataGridView dgvViewer)
         {
             int selectedRowCount = dgvViewer.GetCellCount(DataGridViewElementStates.Selected);
             if (selectedRowCount > 0)
@@ -217,6 +218,7 @@ namespace ConnectSQLite_KodanevAndrey
                 {
                     TableSelectColumnName = dgvViewer.SelectedCells[i].OwningColumn.Name.ToString();
                     TableSelectRowIndex = dgvViewer.SelectedCells[i].RowIndex;
+                    TableSelectColumnIndex = dgvViewer.SelectedCells[i].ColumnIndex;
                     sb.Append("Row: " + TableSelectRowIndex);
                     sb.Append(", Column: " + TableSelectColumnName);
                     if (dgvViewer.SelectedCells[i].Value != null) { TableSelectCellName = dgvViewer.SelectedCells[i].Value.ToString(); sb.Append(" Cell: " + TableSelectCellName); }
@@ -224,7 +226,8 @@ namespace ConnectSQLite_KodanevAndrey
                     sb.Append(Environment.NewLine);
                 }
                 sb.Append("Total: " + selectedRowCount.ToString());
-                lbStatusText.Text = sb.ToString() + "Selected Rows";
+                //lbStatusText.Text = sb.ToString() + "Selected Rows";
+                lbStatusText.Text = "столбец Name = " + TableSelectColumnName + "столбец Index = " + TableSelectColumnIndex + "\nстрочка = " + TableSelectRowIndex +"\nячейка = " + TableSelectCellName;
             }
         }
 
@@ -370,23 +373,37 @@ namespace ConnectSQLite_KodanevAndrey
             DataTable dTable = new DataTable();
             adapter.Fill(dTable);
             int RowCount = dTable.Rows.Count;
+            bool IsActive = true;
             try
             {
-                m_sqlCmd.CommandText = "UPDATE " + TableNameDB + " SET ";
-                m_sqlCmd.CommandText += TableSelectColumnName + " = ";
-                for (int j = 0; j < dgvViewer.Columns.Count; j++)
+                foreach(int IndexColumnsTypeInt in DBTableColumnsTypeInt)
                 {
-                    if (TableSelectColumnName == dgvViewer.Columns[j].Name)
-                        m_sqlCmd.CommandText += "'" + dgvViewer.Rows[RowCount].Cells[j].Value + "'";
+                    if (TableSelectColumnIndex == IndexColumnsTypeInt)
+                        if (!CheckToInt(dgvViewer.Rows[TableSelectRowIndex].Cells[TableSelectColumnIndex].Value))
+                        {
+                            IsActive = false;
+                            status = "введено некорректное значение: ячейка под столбцом " + dgvViewer.Columns[TableSelectColumnIndex].Name + " имеет числовой тип!";
+                        }
                 }
-                m_sqlCmd.CommandText += " WHERE " + TableSelectColumnName + " = ";
-                if (TableSelectCellName != "NULL") { m_sqlCmd.CommandText += "'" + TableSelectCellName + "'"; m_sqlCmd.ExecuteNonQuery(); status += "ЗАПИСЬ ВЫПОЛНЕНА!"; }
-                else { status += "выберите ячейту для изменения!"; }
 
+                if (IsActive == true)
+                {
+                    m_sqlCmd.CommandText = "UPDATE " + TableNameDB + " SET ";
+                    m_sqlCmd.CommandText += TableSelectColumnName + " = ";
+                    for (int j = 0; j < dgvViewer.Columns.Count; j++)
+                    {
+                        if (TableSelectColumnName == dgvViewer.Columns[j].Name)
+                        {
+                            lbStatusText.Text = "новое значение выбранной ячейки сейчас = " + dgvViewer.Rows[TableSelectRowIndex].Cells[j].Value;
+                            lbStatusText.Text += "\nПри выполнении операции было выбрано:" + "\nстолбец = " + TableSelectColumnName + "\nстрочка = " + TableSelectRowIndex + "\nячейка = " + TableSelectCellName;
+                            m_sqlCmd.CommandText += "'" + dgvViewer.Rows[TableSelectRowIndex].Cells[j].Value + "'";
+                        }
+                    }
+                    m_sqlCmd.CommandText += " WHERE " + TableSelectColumnName + " = ";
+                    if (TableSelectCellName != "NULL") { m_sqlCmd.CommandText += "'" + TableSelectCellName + "'"; m_sqlCmd.ExecuteNonQuery(); status += "ЗАПИСЬ ВЫПОЛНЕНА!"; }
+                    else { status += "выберите ячейту для изменения!"; }
 
-                lbStatusText.Text = m_sqlCmd.CommandText;
-
-                //ReadDB(lbStatusText, dgvViewer);
+                }
             }
             catch (SQLiteException ex)
             {
