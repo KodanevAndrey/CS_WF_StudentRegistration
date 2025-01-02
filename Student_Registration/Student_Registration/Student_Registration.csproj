@@ -72,12 +72,6 @@
     <Compile Include="FormAdmin.Designer.cs">
       <DependentUpon>FormAdmin.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormCreateDB.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormCreateDB.Designer.cs">
-      <DependentUpon>FormCreateDB.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,9 +88,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormAdmin.resx">
       <DependentUpon>FormAdmin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormCreateDB.resx">
-      <DependentUpon>FormCreateDB.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>

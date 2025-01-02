@@ -328,7 +328,7 @@ namespace ConnectSQLite_KodanevAndrey
             lbCommand.Text = m_sqlCmd.CommandText;
         }
 
-        public void DeleteDB(Label lbStatusText)
+        public void DeleteDB(Label lbStatusText, Label lbCommandText)
         {
             /*
             DialogResult dialogResult = MessageBox.Show("Sure", "Some Title", MessageBoxButtons.YesNo);
@@ -360,6 +360,7 @@ namespace ConnectSQLite_KodanevAndrey
             {
                 MessageBox.Show("Error DeleteDB: " + ex.Message);
             }
+            lbCommandText.Text = m_sqlCmd.CommandText;
         }
 
         public void ResetDB(Label lbStatusText, Label lbCommand, DataGridView dgvViewer)
