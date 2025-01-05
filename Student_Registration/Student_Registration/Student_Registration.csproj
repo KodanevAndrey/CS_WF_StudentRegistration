@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountManager.cs" />
     <Compile Include="DBHelper.cs" />
     <Compile Include="FormAdmin.cs">
       <SubType>Form</SubType>

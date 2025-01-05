@@ -16,6 +16,8 @@ namespace Student_Registration
         private FormSelectedOpenTable form;
         public DBHelper db = new DBHelper();
 
+        private AccountManager AM;
+
         private string DBName = null;
         private string TableName = null;
         private List<string> listColumns = new List<string>();
@@ -141,6 +143,22 @@ namespace Student_Registration
             }
             if (IsError) MessageBox.Show("выберите пункт в списке чтобы удалить столбец!");
             else listStringColums.Items.Remove(listStringColums.SelectedItem);
+        }
+
+        private void cbUserType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cbUserType.SelectedItem.ToString() == "перподаватель")
+            {
+                label6.Text = "учитель";
+                AM  = new AccountManager("TeacherAccounts.sqlite");
+                AM.ConnectDB(lbStatusAM);
+                AM.LoadItems(lbStatusAM, comboBox1);
+            }
+            if (cbUserType.SelectedItem.ToString() == "студент")
+            {
+                label6.Text = "группа";
+                //AM.
+            }
         }
     }
 }

@@ -30,6 +30,19 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCreateDB = new System.Windows.Forms.TabPage();
+            this.lbStatus = new System.Windows.Forms.Label();
+            this.btnCreateDB = new System.Windows.Forms.Button();
+            this.listStringColums = new System.Windows.Forms.ListBox();
+            this.btnDeleteColum = new System.Windows.Forms.Button();
+            this.btnAddColum = new System.Windows.Forms.Button();
+            this.CBColumnType = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtColumnName = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtTableName = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtDBName = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.tabConnectDB = new System.Windows.Forms.TabPage();
             this.lbStatusText = new System.Windows.Forms.Label();
             this.lbCommand = new System.Windows.Forms.Label();
@@ -42,22 +55,14 @@
             this.dgvViewer = new System.Windows.Forms.DataGridView();
             this.btnReadDB = new System.Windows.Forms.Button();
             this.tabAccountManager = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtDBName = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtTableName = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtColumnName = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.CBColumnType = new System.Windows.Forms.ComboBox();
-            this.btnAddColum = new System.Windows.Forms.Button();
-            this.btnDeleteColum = new System.Windows.Forms.Button();
-            this.listStringColums = new System.Windows.Forms.ListBox();
-            this.btnCreateDB = new System.Windows.Forms.Button();
-            this.lbStatus = new System.Windows.Forms.Label();
-            this.btnResetPassword = new System.Windows.Forms.Button();
-            this.btnAddTeacher = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cbUserType = new System.Windows.Forms.ComboBox();
+            this.lbStatusAM = new System.Windows.Forms.Label();
             this.btnAddStudent = new System.Windows.Forms.Button();
+            this.btnAddTeacher = new System.Windows.Forms.Button();
+            this.btnResetPassword = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabCreateDB.SuspendLayout();
             this.tabConnectDB.SuspendLayout();
@@ -98,6 +103,122 @@
             this.tabCreateDB.Size = new System.Drawing.Size(929, 561);
             this.tabCreateDB.TabIndex = 0;
             this.tabCreateDB.Text = "Create new DB";
+            // 
+            // lbStatus
+            // 
+            this.lbStatus.AutoSize = true;
+            this.lbStatus.Location = new System.Drawing.Point(6, 541);
+            this.lbStatus.Name = "lbStatus";
+            this.lbStatus.Size = new System.Drawing.Size(35, 13);
+            this.lbStatus.TabIndex = 20;
+            this.lbStatus.Text = "status";
+            // 
+            // btnCreateDB
+            // 
+            this.btnCreateDB.Location = new System.Drawing.Point(3, 505);
+            this.btnCreateDB.Name = "btnCreateDB";
+            this.btnCreateDB.Size = new System.Drawing.Size(100, 33);
+            this.btnCreateDB.TabIndex = 19;
+            this.btnCreateDB.Text = "Create Database";
+            this.btnCreateDB.UseVisualStyleBackColor = true;
+            this.btnCreateDB.Click += new System.EventHandler(this.btnCreateDB_Click);
+            // 
+            // listStringColums
+            // 
+            this.listStringColums.FormattingEnabled = true;
+            this.listStringColums.Location = new System.Drawing.Point(9, 168);
+            this.listStringColums.Name = "listStringColums";
+            this.listStringColums.Size = new System.Drawing.Size(333, 329);
+            this.listStringColums.TabIndex = 18;
+            // 
+            // btnDeleteColum
+            // 
+            this.btnDeleteColum.Location = new System.Drawing.Point(89, 140);
+            this.btnDeleteColum.Name = "btnDeleteColum";
+            this.btnDeleteColum.Size = new System.Drawing.Size(89, 22);
+            this.btnDeleteColum.TabIndex = 17;
+            this.btnDeleteColum.Text = "Delete Column";
+            this.btnDeleteColum.UseVisualStyleBackColor = true;
+            this.btnDeleteColum.Click += new System.EventHandler(this.btnDeleteColum_Click);
+            // 
+            // btnAddColum
+            // 
+            this.btnAddColum.Location = new System.Drawing.Point(6, 140);
+            this.btnAddColum.Name = "btnAddColum";
+            this.btnAddColum.Size = new System.Drawing.Size(77, 22);
+            this.btnAddColum.TabIndex = 16;
+            this.btnAddColum.Text = "Add Column";
+            this.btnAddColum.UseVisualStyleBackColor = true;
+            this.btnAddColum.Click += new System.EventHandler(this.btnAddColum_Click);
+            // 
+            // CBColumnType
+            // 
+            this.CBColumnType.FormattingEnabled = true;
+            this.CBColumnType.Items.AddRange(new object[] {
+            "INTEGER",
+            "TEXT",
+            "BLOB"});
+            this.CBColumnType.Location = new System.Drawing.Point(97, 88);
+            this.CBColumnType.Name = "CBColumnType";
+            this.CBColumnType.Size = new System.Drawing.Size(121, 21);
+            this.CBColumnType.TabIndex = 15;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(18, 96);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(69, 13);
+            this.label4.TabIndex = 14;
+            this.label4.Text = "Column Type";
+            // 
+            // txtColumnName
+            // 
+            this.txtColumnName.Location = new System.Drawing.Point(97, 62);
+            this.txtColumnName.Name = "txtColumnName";
+            this.txtColumnName.Size = new System.Drawing.Size(192, 20);
+            this.txtColumnName.TabIndex = 13;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(18, 69);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(73, 13);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Column Name";
+            // 
+            // txtTableName
+            // 
+            this.txtTableName.Location = new System.Drawing.Point(97, 36);
+            this.txtTableName.Name = "txtTableName";
+            this.txtTableName.Size = new System.Drawing.Size(192, 20);
+            this.txtTableName.TabIndex = 5;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(26, 43);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(65, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Table Name";
+            // 
+            // txtDBName
+            // 
+            this.txtDBName.Location = new System.Drawing.Point(97, 10);
+            this.txtDBName.Name = "txtDBName";
+            this.txtDBName.Size = new System.Drawing.Size(192, 20);
+            this.txtDBName.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(85, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "DataBase Name";
             // 
             // tabConnectDB
             // 
@@ -219,6 +340,11 @@
             // tabAccountManager
             // 
             this.tabAccountManager.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.tabAccountManager.Controls.Add(this.comboBox1);
+            this.tabAccountManager.Controls.Add(this.label6);
+            this.tabAccountManager.Controls.Add(this.label5);
+            this.tabAccountManager.Controls.Add(this.cbUserType);
+            this.tabAccountManager.Controls.Add(this.lbStatusAM);
             this.tabAccountManager.Controls.Add(this.btnAddStudent);
             this.tabAccountManager.Controls.Add(this.btnAddTeacher);
             this.tabAccountManager.Controls.Add(this.btnResetPassword);
@@ -228,148 +354,81 @@
             this.tabAccountManager.TabIndex = 2;
             this.tabAccountManager.Text = "AccountManager";
             // 
-            // label1
+            // comboBox1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 17);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "DataBase Name";
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "повый пердмет"});
+            this.comboBox1.Location = new System.Drawing.Point(115, 39);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 7;
             // 
-            // txtDBName
+            // label6
             // 
-            this.txtDBName.Location = new System.Drawing.Point(97, 10);
-            this.txtDBName.Name = "txtDBName";
-            this.txtDBName.Size = new System.Drawing.Size(192, 20);
-            this.txtDBName.TabIndex = 3;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(74, 47);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(35, 13);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "label6";
             // 
-            // label2
+            // label5
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(26, 43);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Table Name";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(31, 20);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(78, 13);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "пользователь";
             // 
-            // txtTableName
+            // cbUserType
             // 
-            this.txtTableName.Location = new System.Drawing.Point(97, 36);
-            this.txtTableName.Name = "txtTableName";
-            this.txtTableName.Size = new System.Drawing.Size(192, 20);
-            this.txtTableName.TabIndex = 5;
+            this.cbUserType.FormattingEnabled = true;
+            this.cbUserType.Items.AddRange(new object[] {
+            "перподаватель",
+            "студент"});
+            this.cbUserType.Location = new System.Drawing.Point(115, 12);
+            this.cbUserType.Name = "cbUserType";
+            this.cbUserType.Size = new System.Drawing.Size(121, 21);
+            this.cbUserType.TabIndex = 4;
+            this.cbUserType.SelectedIndexChanged += new System.EventHandler(this.cbUserType_SelectedIndexChanged);
             // 
-            // label3
+            // lbStatusAM
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 69);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(73, 13);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "Column Name";
+            this.lbStatusAM.AutoSize = true;
+            this.lbStatusAM.Location = new System.Drawing.Point(6, 541);
+            this.lbStatusAM.Name = "lbStatusAM";
+            this.lbStatusAM.Size = new System.Drawing.Size(35, 13);
+            this.lbStatusAM.TabIndex = 3;
+            this.lbStatusAM.Text = "status";
             // 
-            // txtColumnName
+            // btnAddStudent
             // 
-            this.txtColumnName.Location = new System.Drawing.Point(97, 62);
-            this.txtColumnName.Name = "txtColumnName";
-            this.txtColumnName.Size = new System.Drawing.Size(192, 20);
-            this.txtColumnName.TabIndex = 13;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(18, 96);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(69, 13);
-            this.label4.TabIndex = 14;
-            this.label4.Text = "Column Type";
-            // 
-            // CBColumnType
-            // 
-            this.CBColumnType.FormattingEnabled = true;
-            this.CBColumnType.Items.AddRange(new object[] {
-            "INTEGER",
-            "TEXT",
-            "BLOB"});
-            this.CBColumnType.Location = new System.Drawing.Point(97, 88);
-            this.CBColumnType.Name = "CBColumnType";
-            this.CBColumnType.Size = new System.Drawing.Size(121, 21);
-            this.CBColumnType.TabIndex = 15;
-            // 
-            // btnAddColum
-            // 
-            this.btnAddColum.Location = new System.Drawing.Point(6, 140);
-            this.btnAddColum.Name = "btnAddColum";
-            this.btnAddColum.Size = new System.Drawing.Size(77, 22);
-            this.btnAddColum.TabIndex = 16;
-            this.btnAddColum.Text = "Add Column";
-            this.btnAddColum.UseVisualStyleBackColor = true;
-            this.btnAddColum.Click += new System.EventHandler(this.btnAddColum_Click);
-            // 
-            // btnDeleteColum
-            // 
-            this.btnDeleteColum.Location = new System.Drawing.Point(89, 140);
-            this.btnDeleteColum.Name = "btnDeleteColum";
-            this.btnDeleteColum.Size = new System.Drawing.Size(89, 22);
-            this.btnDeleteColum.TabIndex = 17;
-            this.btnDeleteColum.Text = "Delete Column";
-            this.btnDeleteColum.UseVisualStyleBackColor = true;
-            this.btnDeleteColum.Click += new System.EventHandler(this.btnDeleteColum_Click);
-            // 
-            // listStringColums
-            // 
-            this.listStringColums.FormattingEnabled = true;
-            this.listStringColums.Location = new System.Drawing.Point(9, 168);
-            this.listStringColums.Name = "listStringColums";
-            this.listStringColums.Size = new System.Drawing.Size(333, 329);
-            this.listStringColums.TabIndex = 18;
-            // 
-            // btnCreateDB
-            // 
-            this.btnCreateDB.Location = new System.Drawing.Point(3, 505);
-            this.btnCreateDB.Name = "btnCreateDB";
-            this.btnCreateDB.Size = new System.Drawing.Size(100, 33);
-            this.btnCreateDB.TabIndex = 19;
-            this.btnCreateDB.Text = "Create Database";
-            this.btnCreateDB.UseVisualStyleBackColor = true;
-            this.btnCreateDB.Click += new System.EventHandler(this.btnCreateDB_Click);
-            // 
-            // lbStatus
-            // 
-            this.lbStatus.AutoSize = true;
-            this.lbStatus.Location = new System.Drawing.Point(6, 541);
-            this.lbStatus.Name = "lbStatus";
-            this.lbStatus.Size = new System.Drawing.Size(35, 13);
-            this.lbStatus.TabIndex = 20;
-            this.lbStatus.Text = "status";
-            // 
-            // btnResetPassword
-            // 
-            this.btnResetPassword.Location = new System.Drawing.Point(6, 3);
-            this.btnResetPassword.Name = "btnResetPassword";
-            this.btnResetPassword.Size = new System.Drawing.Size(209, 23);
-            this.btnResetPassword.TabIndex = 0;
-            this.btnResetPassword.Text = "Изменить пароль администратора";
-            this.btnResetPassword.UseVisualStyleBackColor = true;
+            this.btnAddStudent.Location = new System.Drawing.Point(709, 80);
+            this.btnAddStudent.Name = "btnAddStudent";
+            this.btnAddStudent.Size = new System.Drawing.Size(209, 23);
+            this.btnAddStudent.TabIndex = 2;
+            this.btnAddStudent.Text = "Добавить ученика";
+            this.btnAddStudent.UseVisualStyleBackColor = true;
             // 
             // btnAddTeacher
             // 
-            this.btnAddTeacher.Location = new System.Drawing.Point(6, 32);
+            this.btnAddTeacher.Location = new System.Drawing.Point(709, 51);
             this.btnAddTeacher.Name = "btnAddTeacher";
             this.btnAddTeacher.Size = new System.Drawing.Size(209, 23);
             this.btnAddTeacher.TabIndex = 1;
             this.btnAddTeacher.Text = "добавить учителя";
             this.btnAddTeacher.UseVisualStyleBackColor = true;
             // 
-            // btnAddStudent
+            // btnResetPassword
             // 
-            this.btnAddStudent.Location = new System.Drawing.Point(6, 61);
-            this.btnAddStudent.Name = "btnAddStudent";
-            this.btnAddStudent.Size = new System.Drawing.Size(209, 23);
-            this.btnAddStudent.TabIndex = 2;
-            this.btnAddStudent.Text = "Добавить ученика";
-            this.btnAddStudent.UseVisualStyleBackColor = true;
+            this.btnResetPassword.Location = new System.Drawing.Point(709, 22);
+            this.btnResetPassword.Name = "btnResetPassword";
+            this.btnResetPassword.Size = new System.Drawing.Size(209, 23);
+            this.btnResetPassword.TabIndex = 0;
+            this.btnResetPassword.Text = "Изменить пароль администратора";
+            this.btnResetPassword.UseVisualStyleBackColor = true;
             // 
             // FormAdmin
             // 
@@ -387,6 +446,7 @@
             this.tabConnectDB.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvViewer)).EndInit();
             this.tabAccountManager.ResumeLayout(false);
+            this.tabAccountManager.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -423,5 +483,10 @@
         private System.Windows.Forms.Button btnResetPassword;
         private System.Windows.Forms.Button btnAddStudent;
         private System.Windows.Forms.Button btnAddTeacher;
+        private System.Windows.Forms.Label lbStatusAM;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cbUserType;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
