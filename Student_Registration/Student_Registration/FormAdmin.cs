@@ -150,14 +150,29 @@ namespace Student_Registration
             if(cbUserType.SelectedItem.ToString() == "перподаватель")
             {
                 label6.Text = "учитель";
+                cbSelectUser.Items.Add("добавить");
                 AM  = new AccountManager("TeacherAccounts.sqlite");
                 AM.ConnectDB(lbStatusAM);
-                AM.LoadItems(lbStatusAM, comboBox1);
+                AM.ReadAllName(lbStatusAM, cbSelectUser);
             }
             if (cbUserType.SelectedItem.ToString() == "студент")
             {
                 label6.Text = "группа";
+                cbSelectUser.Items.Add("добавить");
                 //AM.
+            }
+        }
+
+        private void cbSelectUser_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cbSelectUser.SelectedItem.ToString() == "добавить")
+            {
+
+            }
+            else
+            {
+                AM.ReadSelectedRecord(lbStatusText, cbSelectUser.SelectedIndex, txtName, txtSurname, txtPatronymic);
+
             }
         }
     }

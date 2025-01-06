@@ -50,7 +50,54 @@ namespace Student_Registration
             return Conected;
         }
 
-        public void LoadItems(Label lbStatusText, ComboBox comboBox)
+        public void ReadAllName(Label lbStatusText, ComboBox comboBox)
+        {
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+                return;
+            }
+
+            try
+            {
+                /*
+                string query = @"
+                        SELECT a.id, a.name, a.surname, a.patronymic, a.email, a.password, a.phone_number, a.house_number, a.apartment_number, b.uchebnaya_distsiplina_name, c.city_name, d.street_name
+                        AS AccountsTable, b.uchebnaya_distsiplina_name, c.city_name, d.street_name
+                        FROM AccountsTable a
+                        JOIN UchebnayaDistsiplinaTable b ON a.uchebnaya_distsiplina = b.id
+                        JOIN CityTable c ON a.city = c.id
+                        JOIN StreetTable d ON a.street = d.id
+                        ;";
+                */
+
+                string query = @"
+                        SELECT name, surname, patronymic 
+                        FROM AccountsTable 
+                        ;";
+
+                using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))
+                {
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            //string userID = reader["id"].ToString();
+                            string name = reader["name"].ToString();
+                            string userName = reader["surname"].ToString();
+                            string patronymic = reader["patronymic"].ToString();
+                            //string password = reader["password"].ToString();
+                            comboBox.Items.Add(userName + " " + name[0] + "." + patronymic[0] + ".");
+                        }
+                    }
+                }
+            }
+            catch (SQLiteException ex) {
+                MessageBox.Show("ERROR:" + ex);
+            }
+        }
+
+        public void ReadSelectedRecord(Label lbStatusText, int ID, TextBox textName, TextBox textSurname, TextBox textPatronymic)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -61,24 +108,26 @@ namespace Student_Registration
             try
             {
                 string query = @"
-                        SELECT a.id, a.name a.userName, a.patronymic, b.uchebnaya_distsiplina, a.email, a.password, a.phone_number, c.city, d.street, a.house_number, a.apartment_number
-                        AS BasicTable, b.uchebnaya_distsiplina_name, c.city_name, d.street_name
-                        FROM BasicTable a
-                        JOIN UchebnayaDistsiplinaTable b ON a.uchebnaya_distsiplina = b.id
-                        JOIN CityTable c ON a.city = c.id
-                        JOIN StreetTable d ON a.street = d.id
-                        ;";
+                        SELECT a.id, a.name, a.surname, a.patronymic, a.email, a.password, a.phone_number, a.house_number, a.apartment_number, b.uchebnaya_distsiplina_name, c.city_name, d.street_name
+                        AS AccountsTable, b.uchebnaya_distsiplina_name, c.city_name, d.street_name
+                        FROM AccountsTable a " +
+                        "JOIN UchebnayaDistsiplinaTable b ON a.uchebnaya_distsiplina = b.id " +
+                        "JOIN CityTable c ON a.city = c.id " +
+                        "JOIN StreetTable d ON a.street = d.id " +
+                        "WHERE a.id = ' "+ ID +" ' " +
+                        ";";
 
                 using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))
                 {
                     using (SQLiteDataReader reader = command.ExecuteReader())
                     {
-                        while (reader.Read())
-                        {
-                            //string userID = reader["id"].ToString();
-                            string userName = reader["userName"].ToString();
-                            comboBox.Items.Add(userName);
-                        }
+                         reader.Read();
+                        Dictionary<string, string> data = new Dictionary<string, string>();
+                        //string userID = reader["id"].ToString();
+                        textName.Text = reader["name"].ToString();
+                        textSurname.Text = reader["surname"].ToString();
+                        textPatronymic.Text = reader["patronymic"].ToString();
+                        //string password = reader["password"].ToString();
                     }
                 }
             }
