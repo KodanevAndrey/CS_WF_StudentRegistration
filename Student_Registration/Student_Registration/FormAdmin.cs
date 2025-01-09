@@ -29,6 +29,8 @@ namespace Student_Registration
             this.Location = new Point(300, 300);
             this.MaximizeBox = false;
             CBColumnType.SelectedItem = "INTEGER";
+            EnabledAllTextElements(false);
+            cbSelectUser.Enabled = false;
         }
 
         public void Connect()
@@ -119,6 +121,36 @@ namespace Student_Registration
             else lbStatus.Text = "введите имя для новой базы данных!";
         }
 
+        private void EnabledAllTextElements(bool IsActive)
+        {
+            txtName.Enabled = IsActive;
+            txtSurname.Enabled = IsActive;
+            txtPatronymic.Enabled = IsActive;
+            cbUchebnayaDistsiplina.Enabled = IsActive;
+            txtEmail.Enabled = IsActive;
+            txtPassword.Enabled = IsActive;
+            txtPhone.Enabled = IsActive;
+            cbCity.Enabled = IsActive;
+            cbStreet.Enabled = IsActive;
+            txtHouseNumber.Enabled = IsActive;
+            txtapArtmentNumber.Enabled = IsActive;
+        }
+
+        private void ClearAllTextElements()
+        {
+            txtName.Text = "";
+            txtSurname.Text = "";
+            txtPatronymic.Text = "";
+            cbUchebnayaDistsiplina.SelectedItem = null;
+            txtEmail.Text = "";
+            txtPassword.Text = "";
+            txtPhone.Text = "";
+            cbCity.SelectedItem = null;
+            cbStreet.SelectedItem = null;
+            txtHouseNumber.Text = "";
+            txtapArtmentNumber.Text = "";
+        }
+
         private void btnAddColum_Click(object sender, EventArgs e)
         {
             if (txtColumnName.Text != "")
@@ -150,14 +182,19 @@ namespace Student_Registration
             if(cbUserType.SelectedItem.ToString() == "перподаватель")
             {
                 label6.Text = "учитель";
+                cbSelectUser.Enabled = true;
                 cbSelectUser.Items.Add("добавить");
                 AM  = new AccountManager("TeacherAccounts.sqlite");
                 AM.ConnectDB(lbStatusAM);
                 AM.ReadAllName(lbStatusAM, cbSelectUser);
+                AM.LoadAllItemsForComboBox(cbUchebnayaDistsiplina, "UchebnayaDistsiplinaTable", "uchebnaya_distsiplina_name");
+                AM.LoadAllItemsForComboBox(cbCity, "CityTable", "city_name");
+                AM.LoadAllItemsForComboBox(cbStreet, "StreetTable", "street_name");
             }
             if (cbUserType.SelectedItem.ToString() == "студент")
             {
                 label6.Text = "группа";
+                cbSelectUser.Enabled = true;
                 cbSelectUser.Items.Add("добавить");
                 //AM.
             }
@@ -167,11 +204,33 @@ namespace Student_Registration
         {
             if(cbSelectUser.SelectedItem.ToString() == "добавить")
             {
-
+                EnabledAllTextElements(true);
+                ClearAllTextElements();
             }
             else
             {
-                AM.ReadSelectedRecord(lbStatusText, cbSelectUser.SelectedIndex, txtName, txtSurname, txtPatronymic);
+                Dictionary<string, string> data = new Dictionary<string, string>();
+
+                data = AM.ReadSelectedRecord(lbStatusText, cbSelectUser.SelectedIndex);
+
+                EnabledAllTextElements(true);
+
+                txtName.Text = data["name"].ToString();
+                txtSurname.Text = data["surname"].ToString();
+                txtPatronymic.Text = data["patronymic"].ToString();
+
+                cbUchebnayaDistsiplina.SelectedItem = data["uchebnaya_distsiplina_name"];
+
+                txtEmail.Text = data["email"].ToString();
+                txtPassword.Text = data["password"].ToString();
+                txtPhone.Text = data["phone_number"].ToString();
+
+                cbCity.SelectedItem = data["city_name"];
+
+                cbStreet.SelectedItem = data["street_name"];
+
+                txtHouseNumber.Text = data["house_number"].ToString();
+                txtapArtmentNumber.Text = data["apartment_number"].ToString();
 
             }
         }

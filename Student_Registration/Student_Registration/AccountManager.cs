@@ -97,14 +97,14 @@ namespace Student_Registration
             }
         }
 
-        public void ReadSelectedRecord(Label lbStatusText, int ID, TextBox textName, TextBox textSurname, TextBox textPatronymic)
+        public Dictionary<string, string> ReadSelectedRecord(Label lbStatusText, int ID)
         {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
             if (m_dbConn.State != ConnectionState.Open)
             {
                 MessageBox.Show("Open connection with database");
-                return;
             }
-
             try
             {
                 string query = @"
@@ -122,16 +122,45 @@ namespace Student_Registration
                     using (SQLiteDataReader reader = command.ExecuteReader())
                     {
                          reader.Read();
-                        Dictionary<string, string> data = new Dictionary<string, string>();
-                        //string userID = reader["id"].ToString();
-                        textName.Text = reader["name"].ToString();
-                        textSurname.Text = reader["surname"].ToString();
-                        textPatronymic.Text = reader["patronymic"].ToString();
-                        //string password = reader["password"].ToString();
+                        int count = reader.FieldCount;
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            if (!data.ContainsKey(reader.GetName(i)))
+                                data.Add(reader.GetName(i), reader[i].ToString());
+                        }
                     }
                 }
             }
             catch (SQLiteException ex) {
+                MessageBox.Show("ERROR:" + ex);
+            }
+            return data;
+        }
+
+        public void LoadAllItemsForComboBox(ComboBox comboBox, string TableName, string ColumName)
+        {
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+            }
+
+            try
+            {
+                string query = @"SELECT "+ ColumName +" FROM " + TableName + ";";
+
+                using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))
+                {
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            comboBox.Items.Add(reader[ColumName].ToString());
+                        }
+                    }
+                }
+            }
+            catch (SQLiteException ex)
+            {
                 MessageBox.Show("ERROR:" + ex);
             }
         }
