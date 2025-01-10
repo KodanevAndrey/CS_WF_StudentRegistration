@@ -114,11 +114,11 @@ namespace Student_Registration
                         "city INTEGER NOT NULL, " +
                         "street INTEGER NOT NULL, " +
                         "house_number INTEGER NOT NULL, " +
-                        "apartment_number INTEGER NOT NULL " +
-                        "CONSTRAINT " + tableName + "_CityTable_FK FOREIGN KEY (city) REFERENCES CityTable(id)" +
-                        "CONSTRAINT " + tableName + "_StreetTable_FK FOREIGN KEY (street) REFERENCES StreetTable(id)" +
-                        "CONSTRAINT " + tableName + "_GroupsTable_FK FOREIGN KEY (group_student) REFERENCES GroupsTable(id)" +
-                        ");";
+                        "apartment_number INTEGER NOT NULL, " +
+                        "CONSTRAINT " + tableName + "_CityTable_FK FOREIGN KEY (city) REFERENCES CityTable(id), " +
+                        "CONSTRAINT "+ tableName +"_GroupsTable_FK FOREIGN KEY (group_student) REFERENCES GroupsTable(id), " +
+                        "CONSTRAINT "+ tableName +"_StreetTable_FK FOREIGN KEY (street) REFERENCES StreetTable(id))" +
+                        ";";
 
                 m_sqlCmd.CommandText = query;
                 m_sqlCmd.ExecuteNonQuery();
@@ -126,7 +126,7 @@ namespace Student_Registration
             }
             catch(SQLiteException ex)
             {
-                MessageBox.Show("ERROR:" + ex);
+                MessageBox.Show("ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
             }       
         }
 

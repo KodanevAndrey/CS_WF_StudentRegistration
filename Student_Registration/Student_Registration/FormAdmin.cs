@@ -226,6 +226,7 @@ namespace Student_Registration
                 cbSelectGroup.Items.Add("добавить группу");
                 cbSelectUser.Items.Add("добавить");
                 AM.ConnectDB(lbStatusAM, "StudentsAccounts.sqlite");
+                AM.ReadCountTables(lbStatusAM, cbSelectGroup);
                 //
                 //
                 AM.LoadAllItemsForComboBox(cbCity, "CityTable", "city_name");
