@@ -15,8 +15,7 @@ namespace Student_Registration
     {
         private FormSelectedOpenTable form;
         public DBHelper db = new DBHelper();
-
-        private AccountManager AM;
+        private AccountManager AM = new AccountManager();
 
         private string DBName = null;
         private string TableName = null;
@@ -29,8 +28,13 @@ namespace Student_Registration
             this.Location = new Point(300, 300);
             this.MaximizeBox = false;
             CBColumnType.SelectedItem = "INTEGER";
-            EnabledAllTextElements(false);
+            EnabledAllTextElementsToAM(false);
+            EnabledAllButtonToConnectDB(false);
+            cbSelectGroup.Enabled = false;
             cbSelectUser.Enabled = false;
+
+            txtNewGroup.Enabled = false;
+            btnCreateNewGroup.Enabled = false;
         }
 
         public void Connect()
@@ -43,6 +47,7 @@ namespace Student_Registration
                 db.GetTableInfo(lbStatusText);
                 db.LoadTableInfo(lbStatusText, dgvViewer);
                 db.ReadDB(lbStatusText, dgvViewer);
+                EnabledAllButtonToConnectDB(true);
             }
         }
 
@@ -121,7 +126,17 @@ namespace Student_Registration
             else lbStatus.Text = "введите имя для новой базы данных!";
         }
 
-        private void EnabledAllTextElements(bool IsActive)
+        private void EnabledAllButtonToConnectDB(bool IsActive)
+        {
+            btnReadDB.Enabled = IsActive;
+            btnAddDB.Enabled = IsActive;
+            btnAddImageDB.Enabled = IsActive;
+            btnResetDB.Enabled = IsActive;
+            btnDeleteDB.Enabled = IsActive;
+            btnDeleteAllDB.Enabled = IsActive;
+        }
+
+        private void EnabledAllTextElementsToAM(bool IsActive)
         {
             txtName.Enabled = IsActive;
             txtSurname.Enabled = IsActive;
@@ -181,11 +196,16 @@ namespace Student_Registration
         {
             if(cbUserType.SelectedItem.ToString() == "перподаватель")
             {
+                ClearAllTextElements();
+                EnabledAllTextElementsToAM(false);
+                cbSelectGroup.Items.Clear();
+                cbSelectGroup.SelectedItem = null;
+                cbSelectGroup.Enabled = false;
+
                 label6.Text = "учитель";
                 cbSelectUser.Enabled = true;
                 cbSelectUser.Items.Add("добавить");
-                AM  = new AccountManager("TeacherAccounts.sqlite");
-                AM.ConnectDB(lbStatusAM);
+                AM.ConnectDB(lbStatusAM, "TeacherAccounts.sqlite");
                 AM.ReadAllName(lbStatusAM, cbSelectUser);
                 AM.LoadAllItemsForComboBox(cbUchebnayaDistsiplina, "UchebnayaDistsiplinaTable", "uchebnaya_distsiplina_name");
                 AM.LoadAllItemsForComboBox(cbCity, "CityTable", "city_name");
@@ -193,10 +213,23 @@ namespace Student_Registration
             }
             if (cbUserType.SelectedItem.ToString() == "студент")
             {
-                label6.Text = "группа";
+                ClearAllTextElements();
+                EnabledAllTextElementsToAM(false);
+                cbSelectUser.SelectedItem = null;
+                cbSelectUser.Items.Clear();
+
+                label6.Text = "студент";
+                cbSelectGroup.Enabled = true;
                 cbSelectUser.Enabled = true;
+                btnCreateNewGroup.Enabled = true;
+                txtNewGroup.Enabled = true;
+                cbSelectGroup.Items.Add("добавить группу");
                 cbSelectUser.Items.Add("добавить");
-                //AM.
+                AM.ConnectDB(lbStatusAM, "StudentsAccounts.sqlite");
+                //
+                //
+                AM.LoadAllItemsForComboBox(cbCity, "CityTable", "city_name");
+                AM.LoadAllItemsForComboBox(cbStreet, "StreetTable", "street_name");
             }
         }
 
@@ -204,7 +237,7 @@ namespace Student_Registration
         {
             if(cbSelectUser.SelectedItem.ToString() == "добавить")
             {
-                EnabledAllTextElements(true);
+                EnabledAllTextElementsToAM(true);
                 ClearAllTextElements();
             }
             else
@@ -213,7 +246,7 @@ namespace Student_Registration
 
                 data = AM.ReadSelectedRecord(lbStatusText, cbSelectUser.SelectedIndex);
 
-                EnabledAllTextElements(true);
+                EnabledAllTextElementsToAM(true);
 
                 txtName.Text = data["name"].ToString();
                 txtSurname.Text = data["surname"].ToString();
@@ -233,6 +266,11 @@ namespace Student_Registration
                 txtapArtmentNumber.Text = data["apartment_number"].ToString();
 
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            AM.CreateNewTable(lbStatusAM, txtNewGroup.Text);
         }
     }
 }

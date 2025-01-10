@@ -83,6 +83,10 @@
             this.cbUserType = new System.Windows.Forms.ComboBox();
             this.lbStatusAM = new System.Windows.Forms.Label();
             this.btnResetPassword = new System.Windows.Forms.Button();
+            this.cbSelectGroup = new System.Windows.Forms.ComboBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.btnCreateNewGroup = new System.Windows.Forms.Button();
+            this.txtNewGroup = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabCreateDB.SuspendLayout();
             this.tabConnectDB.SuspendLayout();
@@ -360,6 +364,10 @@
             // tabAccountManager
             // 
             this.tabAccountManager.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.tabAccountManager.Controls.Add(this.txtNewGroup);
+            this.tabAccountManager.Controls.Add(this.btnCreateNewGroup);
+            this.tabAccountManager.Controls.Add(this.label18);
+            this.tabAccountManager.Controls.Add(this.cbSelectGroup);
             this.tabAccountManager.Controls.Add(this.label17);
             this.tabAccountManager.Controls.Add(this.txtapArtmentNumber);
             this.tabAccountManager.Controls.Add(this.label16);
@@ -576,7 +584,7 @@
             // cbSelectUser
             // 
             this.cbSelectUser.FormattingEnabled = true;
-            this.cbSelectUser.Location = new System.Drawing.Point(115, 39);
+            this.cbSelectUser.Location = new System.Drawing.Point(115, 63);
             this.cbSelectUser.Name = "cbSelectUser";
             this.cbSelectUser.Size = new System.Drawing.Size(121, 21);
             this.cbSelectUser.TabIndex = 7;
@@ -585,7 +593,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(74, 47);
+            this.label6.Location = new System.Drawing.Point(74, 66);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(35, 13);
             this.label6.TabIndex = 6;
@@ -623,12 +631,46 @@
             // 
             // btnResetPassword
             // 
-            this.btnResetPassword.Location = new System.Drawing.Point(709, 22);
+            this.btnResetPassword.Location = new System.Drawing.Point(666, 10);
             this.btnResetPassword.Name = "btnResetPassword";
             this.btnResetPassword.Size = new System.Drawing.Size(209, 23);
             this.btnResetPassword.TabIndex = 0;
             this.btnResetPassword.Text = "Изменить пароль администратора";
             this.btnResetPassword.UseVisualStyleBackColor = true;
+            // 
+            // cbSelectGroup
+            // 
+            this.cbSelectGroup.FormattingEnabled = true;
+            this.cbSelectGroup.Location = new System.Drawing.Point(115, 36);
+            this.cbSelectGroup.Name = "cbSelectGroup";
+            this.cbSelectGroup.Size = new System.Drawing.Size(121, 21);
+            this.cbSelectGroup.TabIndex = 32;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(68, 44);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(41, 13);
+            this.label18.TabIndex = 33;
+            this.label18.Text = "группа";
+            // 
+            // btnCreateNewGroup
+            // 
+            this.btnCreateNewGroup.Location = new System.Drawing.Point(348, 35);
+            this.btnCreateNewGroup.Name = "btnCreateNewGroup";
+            this.btnCreateNewGroup.Size = new System.Drawing.Size(154, 23);
+            this.btnCreateNewGroup.TabIndex = 34;
+            this.btnCreateNewGroup.Text = "testCreateNewTable";
+            this.btnCreateNewGroup.UseVisualStyleBackColor = true;
+            this.btnCreateNewGroup.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // txtNewGroup
+            // 
+            this.txtNewGroup.Location = new System.Drawing.Point(242, 37);
+            this.txtNewGroup.Name = "txtNewGroup";
+            this.txtNewGroup.Size = new System.Drawing.Size(100, 20);
+            this.txtNewGroup.TabIndex = 35;
             // 
             // FormAdmin
             // 
@@ -708,5 +750,9 @@
         private System.Windows.Forms.TextBox txtHouseNumber;
         private System.Windows.Forms.TextBox txtapArtmentNumber;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.ComboBox cbSelectGroup;
+        private System.Windows.Forms.Button btnCreateNewGroup;
+        private System.Windows.Forms.TextBox txtNewGroup;
     }
 }

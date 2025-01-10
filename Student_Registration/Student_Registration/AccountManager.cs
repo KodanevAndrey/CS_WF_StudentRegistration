@@ -9,10 +9,11 @@ using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
 using System.Data;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 
 namespace Student_Registration
 {
-    public class AccountManager 
+    public class AccountManager
     {
         private string dbFileName;
         private string TableNameDB;
@@ -21,14 +22,9 @@ namespace Student_Registration
         private SQLiteDataAdapter adapter;
         private string fileLocation = string.Empty;
 
-        public AccountManager(string fileName)
+        public void ConnectDB(Label lbStatusText ,string fileName)
         {
-            this.dbFileName = fileName;
-        }
-
-        public bool ConnectDB(Label lbStatusText)
-        {
-            bool Conected = false;
+            dbFileName = fileName;
             if (!File.Exists(dbFileName))
                 MessageBox.Show("База данных: "+ dbFileName +" отсутствует!");
             else
@@ -37,9 +33,8 @@ namespace Student_Registration
                     m_dbConn = new SQLiteConnection("Data Source=" + dbFileName + ";Version=3;");
                     m_dbConn.Open();
                     m_sqlCmd.Connection = m_dbConn;
-                    lbStatusText.Text = "Connected";
+                    lbStatusText.Text = "Connected: " + dbFileName;
                     lbStatusText.ForeColor = Color.Green;
-                    Conected = true;
                 }
                 catch (SQLiteException ex)
                 {
@@ -47,7 +42,92 @@ namespace Student_Registration
                     lbStatusText.ForeColor = Color.Red;
                     MessageBox.Show("Error ConnectDB: " + ex.Message);
                 }
-            return Conected;
+        }
+
+        public void ReadCountTables(Label lbStatusText, ComboBox comboBox)
+        {
+            bool correct = true;
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+                return;
+            }
+
+            List<string> DontReadTables = new List<string>();
+            DontReadTables.Add("sqlite_sequence");
+            DontReadTables.Add("GroupsTable");
+            DontReadTables.Add("CityTable");
+            DontReadTables.Add("StreetTable");
+
+            try
+            {
+                string query = "SELECT count(*) FROM sqlite_master WHERE type='table';";
+                using (var command = new SQLiteCommand(query, m_dbConn))
+                {
+                    int tableCount = Convert.ToInt32(command.ExecuteScalar());
+                    lbStatusText.Text = "Количество таблиц в базе данных: " + tableCount;
+                }
+                query = "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;";
+
+                using (var command = new SQLiteCommand(query, m_dbConn))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            correct = true;
+                            foreach (string row in DontReadTables) {
+                                if (reader["name"].ToString() == row)
+                                 correct = false;
+                            }
+                            if(correct == true)
+                                comboBox.Items.Add(reader["name"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("Error LoadCountTables: " + ex.Message);
+            }
+        }
+
+        public void CreateNewTable(Label status, string tableName)
+        {
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+                return;
+            }
+            try
+            {
+                string query = @"
+                        CREATE TABLE "+ tableName +" ( " +
+                        "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                        "name TEXT NOT NULL, " +
+                        "surname TEXT NOT NULL, " +
+                        "patronymic TEXT NOT NULL, " +
+                        "group_student INTEGER NOT NULL, " +
+                        "email TEXT NOT NULL, " +
+                        "password TEXT NOT NULL, " +
+                        "phone_number INTEGER NOT NULL, " +
+                        "city INTEGER NOT NULL, " +
+                        "street INTEGER NOT NULL, " +
+                        "house_number INTEGER NOT NULL, " +
+                        "apartment_number INTEGER NOT NULL " +
+                        "CONSTRAINT " + tableName + "_CityTable_FK FOREIGN KEY (city) REFERENCES CityTable(id)" +
+                        "CONSTRAINT " + tableName + "_StreetTable_FK FOREIGN KEY (street) REFERENCES StreetTable(id)" +
+                        "CONSTRAINT " + tableName + "_GroupsTable_FK FOREIGN KEY (group_student) REFERENCES GroupsTable(id)" +
+                        ");";
+
+                m_sqlCmd.CommandText = query;
+                m_sqlCmd.ExecuteNonQuery();
+                status.Text += " Группа создана!";
+            }
+            catch(SQLiteException ex)
+            {
+                MessageBox.Show("ERROR:" + ex);
+            }       
         }
 
         public void ReadAllName(Label lbStatusText, ComboBox comboBox)
