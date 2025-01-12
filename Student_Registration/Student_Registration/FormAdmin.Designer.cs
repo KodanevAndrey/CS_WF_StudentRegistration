@@ -55,6 +55,10 @@
             this.dgvViewer = new System.Windows.Forms.DataGridView();
             this.btnReadDB = new System.Windows.Forms.Button();
             this.tabAccountManager = new System.Windows.Forms.TabPage();
+            this.txtNewGroup = new System.Windows.Forms.TextBox();
+            this.btnCreateNewGroup = new System.Windows.Forms.Button();
+            this.label18 = new System.Windows.Forms.Label();
+            this.cbSelectGroup = new System.Windows.Forms.ComboBox();
             this.label17 = new System.Windows.Forms.Label();
             this.txtapArtmentNumber = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
@@ -83,10 +87,6 @@
             this.cbUserType = new System.Windows.Forms.ComboBox();
             this.lbStatusAM = new System.Windows.Forms.Label();
             this.btnResetPassword = new System.Windows.Forms.Button();
-            this.cbSelectGroup = new System.Windows.Forms.ComboBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.btnCreateNewGroup = new System.Windows.Forms.Button();
-            this.txtNewGroup = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabCreateDB.SuspendLayout();
             this.tabConnectDB.SuspendLayout();
@@ -402,6 +402,41 @@
             this.tabAccountManager.TabIndex = 2;
             this.tabAccountManager.Text = "AccountManager";
             // 
+            // txtNewGroup
+            // 
+            this.txtNewGroup.Location = new System.Drawing.Point(242, 37);
+            this.txtNewGroup.Name = "txtNewGroup";
+            this.txtNewGroup.Size = new System.Drawing.Size(100, 20);
+            this.txtNewGroup.TabIndex = 35;
+            // 
+            // btnCreateNewGroup
+            // 
+            this.btnCreateNewGroup.Location = new System.Drawing.Point(348, 35);
+            this.btnCreateNewGroup.Name = "btnCreateNewGroup";
+            this.btnCreateNewGroup.Size = new System.Drawing.Size(154, 23);
+            this.btnCreateNewGroup.TabIndex = 34;
+            this.btnCreateNewGroup.Text = "testCreateNewTable";
+            this.btnCreateNewGroup.UseVisualStyleBackColor = true;
+            this.btnCreateNewGroup.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(68, 44);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(41, 13);
+            this.label18.TabIndex = 33;
+            this.label18.Text = "группа";
+            // 
+            // cbSelectGroup
+            // 
+            this.cbSelectGroup.FormattingEnabled = true;
+            this.cbSelectGroup.Location = new System.Drawing.Point(115, 36);
+            this.cbSelectGroup.Name = "cbSelectGroup";
+            this.cbSelectGroup.Size = new System.Drawing.Size(121, 21);
+            this.cbSelectGroup.TabIndex = 32;
+            this.cbSelectGroup.SelectedIndexChanged += new System.EventHandler(this.cbSelectGroup_SelectedIndexChanged);
+            // 
             // label17
             // 
             this.label17.AutoSize = true;
@@ -637,40 +672,6 @@
             this.btnResetPassword.TabIndex = 0;
             this.btnResetPassword.Text = "Изменить пароль администратора";
             this.btnResetPassword.UseVisualStyleBackColor = true;
-            // 
-            // cbSelectGroup
-            // 
-            this.cbSelectGroup.FormattingEnabled = true;
-            this.cbSelectGroup.Location = new System.Drawing.Point(115, 36);
-            this.cbSelectGroup.Name = "cbSelectGroup";
-            this.cbSelectGroup.Size = new System.Drawing.Size(121, 21);
-            this.cbSelectGroup.TabIndex = 32;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(68, 44);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(41, 13);
-            this.label18.TabIndex = 33;
-            this.label18.Text = "группа";
-            // 
-            // btnCreateNewGroup
-            // 
-            this.btnCreateNewGroup.Location = new System.Drawing.Point(348, 35);
-            this.btnCreateNewGroup.Name = "btnCreateNewGroup";
-            this.btnCreateNewGroup.Size = new System.Drawing.Size(154, 23);
-            this.btnCreateNewGroup.TabIndex = 34;
-            this.btnCreateNewGroup.Text = "testCreateNewTable";
-            this.btnCreateNewGroup.UseVisualStyleBackColor = true;
-            this.btnCreateNewGroup.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // txtNewGroup
-            // 
-            this.txtNewGroup.Location = new System.Drawing.Point(242, 37);
-            this.txtNewGroup.Name = "txtNewGroup";
-            this.txtNewGroup.Size = new System.Drawing.Size(100, 20);
-            this.txtNewGroup.TabIndex = 35;
             // 
             // FormAdmin
             // 

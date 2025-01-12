@@ -111,7 +111,6 @@ namespace Student_Registration
                     TableName = txtTableName.Text;
                     if (listColumns.Count > 0)
                     {
-                        //listColumns.Add("_time TEXT");
                         db.CreateNewDB(lbStatus, DBName, TableName, listColumns);
                         listColumns.Clear();
                         txtDBName.Clear();
@@ -199,14 +198,21 @@ namespace Student_Registration
                 ClearAllTextElements();
                 EnabledAllTextElementsToAM(false);
                 cbSelectGroup.Items.Clear();
-                cbSelectGroup.SelectedItem = null;
+                cbSelectGroup.SelectedItem = "";
+                cbSelectGroup.Text = "";
                 cbSelectGroup.Enabled = false;
 
+                cbSelectUser.SelectedItem = "";
+                cbSelectUser.Text = "";
+                cbSelectUser.Items.Clear();
+                cbSelectUser.Enabled = false;
+
                 label6.Text = "учитель";
+                label10.Text = "дисциплина";
                 cbSelectUser.Enabled = true;
                 cbSelectUser.Items.Add("добавить");
                 AM.ConnectDB(lbStatusAM, "TeacherAccounts.sqlite");
-                AM.ReadAllName(lbStatusAM, cbSelectUser);
+                AM.ReadAllName(lbStatusAM, cbSelectUser, "AccountsTable");
                 AM.LoadAllItemsForComboBox(cbUchebnayaDistsiplina, "UchebnayaDistsiplinaTable", "uchebnaya_distsiplina_name");
                 AM.LoadAllItemsForComboBox(cbCity, "CityTable", "city_name");
                 AM.LoadAllItemsForComboBox(cbStreet, "StreetTable", "street_name");
@@ -215,20 +221,20 @@ namespace Student_Registration
             {
                 ClearAllTextElements();
                 EnabledAllTextElementsToAM(false);
-                cbSelectUser.SelectedItem = null;
+                cbSelectUser.SelectedItem = "";
+                cbSelectUser.Text = "";
                 cbSelectUser.Items.Clear();
+                cbSelectUser.Enabled= false;
 
                 label6.Text = "студент";
+                label10.Text = "группа";
                 cbSelectGroup.Enabled = true;
-                cbSelectUser.Enabled = true;
                 btnCreateNewGroup.Enabled = true;
                 txtNewGroup.Enabled = true;
                 cbSelectGroup.Items.Add("добавить группу");
-                cbSelectUser.Items.Add("добавить");
                 AM.ConnectDB(lbStatusAM, "StudentsAccounts.sqlite");
                 AM.ReadCountTables(lbStatusAM, cbSelectGroup);
-                //
-                //
+                AM.LoadAllItemsForComboBox(cbUchebnayaDistsiplina, "GroupsTable", "group_name");
                 AM.LoadAllItemsForComboBox(cbCity, "CityTable", "city_name");
                 AM.LoadAllItemsForComboBox(cbStreet, "StreetTable", "street_name");
             }
@@ -236,7 +242,9 @@ namespace Student_Registration
 
         private void cbSelectUser_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cbSelectUser.SelectedItem.ToString() == "добавить")
+            string TableName = "";
+
+            if (cbSelectUser.SelectedItem.ToString() == "добавить")
             {
                 EnabledAllTextElementsToAM(true);
                 ClearAllTextElements();
@@ -245,33 +253,50 @@ namespace Student_Registration
             {
                 Dictionary<string, string> data = new Dictionary<string, string>();
 
-                data = AM.ReadSelectedRecord(lbStatusText, cbSelectUser.SelectedIndex);
+                if(cbSelectGroup.SelectedItem != null) TableName = cbSelectGroup.SelectedItem.ToString();
+                data = AM.ReadSelectedRecord(lbStatusText, cbSelectUser.SelectedIndex, cbUserType.SelectedItem.ToString(), TableName);
 
                 EnabledAllTextElementsToAM(true);
+
+                if(cbUserType.SelectedItem.ToString() == "перподаватель") cbUchebnayaDistsiplina.SelectedItem = data["uchebnaya_distsiplina_name"];
+                else if(cbUserType.SelectedItem.ToString() == "студент") cbUchebnayaDistsiplina.SelectedItem = data["group_name"];
 
                 txtName.Text = data["name"].ToString();
                 txtSurname.Text = data["surname"].ToString();
                 txtPatronymic.Text = data["patronymic"].ToString();
-
-                cbUchebnayaDistsiplina.SelectedItem = data["uchebnaya_distsiplina_name"];
-
                 txtEmail.Text = data["email"].ToString();
                 txtPassword.Text = data["password"].ToString();
                 txtPhone.Text = data["phone_number"].ToString();
-
                 cbCity.SelectedItem = data["city_name"];
-
                 cbStreet.SelectedItem = data["street_name"];
-
                 txtHouseNumber.Text = data["house_number"].ToString();
                 txtapArtmentNumber.Text = data["apartment_number"].ToString();
-
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             AM.CreateNewTable(lbStatusAM, txtNewGroup.Text);
+        }
+
+        private void cbSelectGroup_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbSelectUser.Items.Clear();
+            cbSelectUser.Items.Add("добавить");
+            cbSelectUser.SelectedItem = "";
+            cbSelectUser.Text = "";
+            ClearAllTextElements();
+            EnabledAllTextElementsToAM(false);
+
+            if (cbSelectGroup.SelectedItem.ToString() == "добавить")
+            {
+
+            }
+            else
+            {
+                cbSelectUser.Enabled = true;
+                AM.ReadAllName(lbStatusAM, cbSelectUser, cbSelectGroup.SelectedItem.ToString());
+            }
         }
     }
 }

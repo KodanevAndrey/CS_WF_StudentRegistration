@@ -123,6 +123,11 @@ namespace Student_Registration
                 m_sqlCmd.CommandText = query;
                 m_sqlCmd.ExecuteNonQuery();
                 status.Text += " Группа создана!";
+
+                query = "INSERT INTO GroupsTable (group_name) VALUES ("+ tableName +")";
+                m_sqlCmd.CommandText = query;
+                m_sqlCmd.ExecuteNonQuery();
+                status.Text += " таблица добавлена в список!";
             }
             catch(SQLiteException ex)
             {
@@ -130,7 +135,9 @@ namespace Student_Registration
             }       
         }
 
-        public void ReadAllName(Label lbStatusText, ComboBox comboBox)
+
+
+        public void ReadAllName(Label lbStatusText, ComboBox comboBox, string TableName)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -151,10 +158,7 @@ namespace Student_Registration
                         ;";
                 */
 
-                string query = @"
-                        SELECT name, surname, patronymic 
-                        FROM AccountsTable 
-                        ;";
+                string query = @" SELECT name, surname, patronymic FROM "+ TableName +" ;";
 
                 using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))
                 {
@@ -177,7 +181,7 @@ namespace Student_Registration
             }
         }
 
-        public Dictionary<string, string> ReadSelectedRecord(Label lbStatusText, int ID)
+        public Dictionary<string, string> ReadSelectedRecord(Label lbStatusText, int ID, string UserType, string tableName)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
@@ -187,15 +191,32 @@ namespace Student_Registration
             }
             try
             {
-                string query = @"
+                string query = "";
+
+                if (UserType == "перподаватель")
+                {
+                     query = @"
                         SELECT a.id, a.name, a.surname, a.patronymic, a.email, a.password, a.phone_number, a.house_number, a.apartment_number, b.uchebnaya_distsiplina_name, c.city_name, d.street_name
                         AS AccountsTable, b.uchebnaya_distsiplina_name, c.city_name, d.street_name
                         FROM AccountsTable a " +
                         "JOIN UchebnayaDistsiplinaTable b ON a.uchebnaya_distsiplina = b.id " +
                         "JOIN CityTable c ON a.city = c.id " +
                         "JOIN StreetTable d ON a.street = d.id " +
-                        "WHERE a.id = ' "+ ID +" ' " +
+                        "WHERE a.id = ' " + ID + " ' " +
                         ";";
+                }
+                else if (UserType == "студент")
+                {
+                     query = @"
+                        SELECT a.id, a.name, a.surname, a.patronymic, a.email, a.password, a.phone_number, a.house_number, a.apartment_number, b.group_name, c.city_name, d.street_name " +
+                        "AS " + tableName + ", b.group_name, c.city_name, d.street_name " +
+                        "FROM " + tableName +" a " +
+                        "JOIN GroupsTable b ON a.group_student = b.id " +
+                        "JOIN CityTable c ON a.city = c.id " +
+                        "JOIN StreetTable d ON a.street = d.id " +
+                        "WHERE a.id = ' " + ID + " ' " +
+                        ";";
+                }
 
                 using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))
                 {
