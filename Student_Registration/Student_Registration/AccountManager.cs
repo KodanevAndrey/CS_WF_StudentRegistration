@@ -47,12 +47,13 @@ namespace Student_Registration
         public void ReadCountTables(Label lbStatusText, ComboBox comboBox)
         {
             bool correct = true;
+            comboBox.Items.Add("добавить группу");
             if (m_dbConn.State != ConnectionState.Open)
             {
                 MessageBox.Show("Open connection with database");
                 return;
             }
-
+            comboBox.Items.Clear();
             List<string> DontReadTables = new List<string>();
             DontReadTables.Add("sqlite_sequence");
             DontReadTables.Add("GroupsTable");
@@ -118,16 +119,12 @@ namespace Student_Registration
                         "CONSTRAINT " + tableName + "_CityTable_FK FOREIGN KEY (city) REFERENCES CityTable(id), " +
                         "CONSTRAINT "+ tableName +"_GroupsTable_FK FOREIGN KEY (group_student) REFERENCES GroupsTable(id), " +
                         "CONSTRAINT "+ tableName +"_StreetTable_FK FOREIGN KEY (street) REFERENCES StreetTable(id))" +
-                        ";";
+                        "; " +
+                        "INSERT INTO GroupsTable (group_name) VALUES ('" + tableName + "');";
 
                 m_sqlCmd.CommandText = query;
                 m_sqlCmd.ExecuteNonQuery();
-                status.Text += " Группа создана!";
-
-                query = "INSERT INTO GroupsTable (group_name) VALUES ("+ tableName +")";
-                m_sqlCmd.CommandText = query;
-                m_sqlCmd.ExecuteNonQuery();
-                status.Text += " таблица добавлена в список!";
+                status.Text += " Группа создана и добавлена в список!";
             }
             catch(SQLiteException ex)
             {
@@ -144,7 +141,6 @@ namespace Student_Registration
                 MessageBox.Show("Open connection with database");
                 return;
             }
-
             try
             {
                 /*
@@ -181,7 +177,7 @@ namespace Student_Registration
             }
         }
 
-        public Dictionary<string, string> ReadSelectedRecord(Label lbStatusText, int ID, string UserType, string tableName)
+        public Dictionary<string, string> ReadSelectedOnlyRow(Label lbStatusText, int ID, string tableName)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
@@ -193,7 +189,7 @@ namespace Student_Registration
             {
                 string query = "";
 
-                if (UserType == "перподаватель")
+                if (tableName == "NULL")
                 {
                      query = @"
                         SELECT a.id, a.name, a.surname, a.patronymic, a.email, a.password, a.phone_number, a.house_number, a.apartment_number, b.uchebnaya_distsiplina_name, c.city_name, d.street_name
@@ -205,7 +201,7 @@ namespace Student_Registration
                         "WHERE a.id = ' " + ID + " ' " +
                         ";";
                 }
-                else if (UserType == "студент")
+                else
                 {
                      query = @"
                         SELECT a.id, a.name, a.surname, a.patronymic, a.email, a.password, a.phone_number, a.house_number, a.apartment_number, b.group_name, c.city_name, d.street_name " +
@@ -244,7 +240,7 @@ namespace Student_Registration
             {
                 MessageBox.Show("Open connection with database");
             }
-
+            comboBox.Items.Clear();
             try
             {
                 string query = @"SELECT "+ ColumName +" FROM " + TableName + ";";
