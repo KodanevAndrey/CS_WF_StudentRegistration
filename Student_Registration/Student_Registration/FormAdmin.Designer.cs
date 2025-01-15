@@ -55,8 +55,6 @@
             this.dgvViewer = new System.Windows.Forms.DataGridView();
             this.btnReadDB = new System.Windows.Forms.Button();
             this.tabAccountManager = new System.Windows.Forms.TabPage();
-            this.txtNewGroup = new System.Windows.Forms.TextBox();
-            this.btnCreateNewGroup = new System.Windows.Forms.Button();
             this.label18 = new System.Windows.Forms.Label();
             this.cbSelectGroup = new System.Windows.Forms.ComboBox();
             this.label17 = new System.Windows.Forms.Label();
@@ -87,6 +85,7 @@
             this.cbUserType = new System.Windows.Forms.ComboBox();
             this.lbStatusAM = new System.Windows.Forms.Label();
             this.btnResetPassword = new System.Windows.Forms.Button();
+            this.btnAddNewUser = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabCreateDB.SuspendLayout();
             this.tabConnectDB.SuspendLayout();
@@ -364,8 +363,7 @@
             // tabAccountManager
             // 
             this.tabAccountManager.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.tabAccountManager.Controls.Add(this.txtNewGroup);
-            this.tabAccountManager.Controls.Add(this.btnCreateNewGroup);
+            this.tabAccountManager.Controls.Add(this.btnAddNewUser);
             this.tabAccountManager.Controls.Add(this.label18);
             this.tabAccountManager.Controls.Add(this.cbSelectGroup);
             this.tabAccountManager.Controls.Add(this.label17);
@@ -401,23 +399,6 @@
             this.tabAccountManager.Size = new System.Drawing.Size(929, 561);
             this.tabAccountManager.TabIndex = 2;
             this.tabAccountManager.Text = "AccountManager";
-            // 
-            // txtNewGroup
-            // 
-            this.txtNewGroup.Location = new System.Drawing.Point(242, 37);
-            this.txtNewGroup.Name = "txtNewGroup";
-            this.txtNewGroup.Size = new System.Drawing.Size(100, 20);
-            this.txtNewGroup.TabIndex = 35;
-            // 
-            // btnCreateNewGroup
-            // 
-            this.btnCreateNewGroup.Location = new System.Drawing.Point(348, 35);
-            this.btnCreateNewGroup.Name = "btnCreateNewGroup";
-            this.btnCreateNewGroup.Size = new System.Drawing.Size(154, 23);
-            this.btnCreateNewGroup.TabIndex = 34;
-            this.btnCreateNewGroup.Text = "testCreateNewTable";
-            this.btnCreateNewGroup.UseVisualStyleBackColor = true;
-            this.btnCreateNewGroup.Click += new System.EventHandler(this.button1_Click);
             // 
             // label18
             // 
@@ -476,6 +457,7 @@
             this.cbStreet.Name = "cbStreet";
             this.cbStreet.Size = new System.Drawing.Size(199, 21);
             this.cbStreet.TabIndex = 31;
+            this.cbStreet.SelectedIndexChanged += new System.EventHandler(this.cbStreet_SelectedIndexChanged);
             // 
             // cbCity
             // 
@@ -484,6 +466,7 @@
             this.cbCity.Name = "cbCity";
             this.cbCity.Size = new System.Drawing.Size(199, 21);
             this.cbCity.TabIndex = 30;
+            this.cbCity.SelectedIndexChanged += new System.EventHandler(this.cbCity_SelectedIndexChanged);
             // 
             // label15
             // 
@@ -554,11 +537,12 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(28, 186);
+            this.label10.Location = new System.Drawing.Point(32, 186);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(67, 13);
             this.label10.TabIndex = 15;
             this.label10.Text = "дисциплина";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // cbUchebnayaDistsiplina
             // 
@@ -567,6 +551,7 @@
             this.cbUchebnayaDistsiplina.Name = "cbUchebnayaDistsiplina";
             this.cbUchebnayaDistsiplina.Size = new System.Drawing.Size(199, 21);
             this.cbUchebnayaDistsiplina.TabIndex = 14;
+            this.cbUchebnayaDistsiplina.SelectedIndexChanged += new System.EventHandler(this.cbUchebnayaDistsiplina_SelectedIndexChanged);
             // 
             // label9
             // 
@@ -628,7 +613,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(74, 66);
+            this.label6.Location = new System.Drawing.Point(68, 66);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(35, 13);
             this.label6.TabIndex = 6;
@@ -666,12 +651,22 @@
             // 
             // btnResetPassword
             // 
-            this.btnResetPassword.Location = new System.Drawing.Point(666, 10);
+            this.btnResetPassword.Location = new System.Drawing.Point(632, 15);
             this.btnResetPassword.Name = "btnResetPassword";
             this.btnResetPassword.Size = new System.Drawing.Size(209, 23);
             this.btnResetPassword.TabIndex = 0;
             this.btnResetPassword.Text = "Изменить пароль администратора";
             this.btnResetPassword.UseVisualStyleBackColor = true;
+            // 
+            // btnAddNewUser
+            // 
+            this.btnAddNewUser.Location = new System.Drawing.Point(103, 392);
+            this.btnAddNewUser.Name = "btnAddNewUser";
+            this.btnAddNewUser.Size = new System.Drawing.Size(199, 23);
+            this.btnAddNewUser.TabIndex = 34;
+            this.btnAddNewUser.Text = "добавить пользователя";
+            this.btnAddNewUser.UseVisualStyleBackColor = true;
+            this.btnAddNewUser.Click += new System.EventHandler(this.btnAddNewUser_Click);
             // 
             // FormAdmin
             // 
@@ -753,7 +748,6 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.ComboBox cbSelectGroup;
-        private System.Windows.Forms.Button btnCreateNewGroup;
-        private System.Windows.Forms.TextBox txtNewGroup;
+        private System.Windows.Forms.Button btnAddNewUser;
     }
 }

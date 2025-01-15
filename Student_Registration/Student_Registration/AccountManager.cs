@@ -46,8 +46,8 @@ namespace Student_Registration
 
         public void ReadCountTables(Label lbStatusText, ComboBox comboBox)
         {
+            comboBox.Items.Clear();
             bool correct = true;
-            comboBox.Items.Add("добавить группу");
             if (m_dbConn.State != ConnectionState.Open)
             {
                 MessageBox.Show("Open connection with database");
@@ -74,6 +74,7 @@ namespace Student_Registration
                 {
                     using (var reader = command.ExecuteReader())
                     {
+                        comboBox.Items.Add("добавить группу");
                         while (reader.Read())
                         {
                             correct = true;
@@ -93,7 +94,7 @@ namespace Student_Registration
             }
         }
 
-        public void CreateNewTable(Label status, string tableName)
+        public void CreateNewGroup(Label status, string tableName)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -131,8 +132,6 @@ namespace Student_Registration
                 MessageBox.Show("ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
             }       
         }
-
-
 
         public void ReadAllName(Label lbStatusText, ComboBox comboBox, string TableName)
         {
@@ -241,6 +240,14 @@ namespace Student_Registration
                 MessageBox.Show("Open connection with database");
             }
             comboBox.Items.Clear();
+
+            switch (TableName)
+            {
+                case "CityTable": comboBox.Items.Add("добавить город"); break;
+                case "StreetTable": comboBox.Items.Add("добавить улицу"); break;
+                case "GroupsTable": comboBox.Items.Add("добавить группу"); break;
+                case "UchebnayaDistsiplinaTable": comboBox.Items.Add("добавить дисциплину"); break;
+            }
             try
             {
                 string query = @"SELECT "+ ColumName +" FROM " + TableName + ";";
@@ -255,6 +262,25 @@ namespace Student_Registration
                         }
                     }
                 }
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("ERROR:" + ex);
+            }
+        }
+
+        public void AddSecondaryInfo(Label statusText, TextBox textBox, in string TableName, in string ColumnName)
+        {
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+            }
+            try
+            {
+                string query = "INSERT INTO "+ TableName +" ("+ ColumnName +") VALUES ('" + textBox.Text + "');";
+                m_sqlCmd.CommandText = query;
+                m_sqlCmd.ExecuteNonQuery();
+                statusText.Text = "запись добавлена!";
             }
             catch (SQLiteException ex)
             {

@@ -25,16 +25,12 @@ namespace Student_Registration
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.Manual;
-            this.Location = new Point(300, 300);
+            this.Location = new Point(200, 200);
             this.MaximizeBox = false;
             CBColumnType.SelectedItem = "INTEGER";
             EnabledAllTextElementsToAM(false);
             EnabledAllButtonToConnectDB(false);
             cbSelectGroup.Enabled = false;
-            cbSelectUser.Enabled = false;
-
-            txtNewGroup.Enabled = false;
-            btnCreateNewGroup.Enabled = false;
         }
 
         public void Connect()
@@ -51,40 +47,12 @@ namespace Student_Registration
             }
         }
 
-        private void btnConnectDB_Click(object sender, EventArgs e)
-        {
-            Connect();
-        }
-
-        private void btnReadDB_Click(object sender, EventArgs e)
-        {
-            db.ReadDB(lbStatusText, dgvViewer);
-        }
-
-        private void btnAddDB_Click(object sender, EventArgs e)
-        {
-            db.AddDB(lbStatusText, lbCommand, dgvViewer);
-            db.ReadDB(lbStatusText, dgvViewer);
-        }
-
-        private void btnAddImageDB_Click(object sender, EventArgs e)
-        {
-            db.AddImageToDB(lbStatusText, lbCommand, dgvViewer);
-            db.ReadDB(lbStatusText, dgvViewer);
-        }
-
-        private void btnResetDB_Click(object sender, EventArgs e)
-        {
-            db.ResetDB(lbStatusText, lbCommand, dgvViewer);
-            db.ReadDB(lbStatusText, dgvViewer);
-        }
-
-        private void btnDeleteDB_Click(object sender, EventArgs e)
-        {
-            db.DeleteDB(lbStatusText, lbCommand);
-            db.ReadDB(lbStatusText, dgvViewer);
-        }
-
+        private void btnConnectDB_Click(object sender, EventArgs e) => Connect();
+        private void btnReadDB_Click(object sender, EventArgs e) => db.ReadDB(lbStatusText,dgvViewer);
+        private void btnAddDB_Click(object sender, EventArgs e) => db.AddDB(lbStatusText,lbCommand,dgvViewer);
+        private void btnAddImageDB_Click(object sender, EventArgs e) => db.AddImageToDB(lbStatusText, lbCommand, dgvViewer);
+        private void btnResetDB_Click(object sender, EventArgs e) => db.ResetDB(lbStatusText, lbCommand, dgvViewer);
+        private void btnDeleteDB_Click(object sender, EventArgs e) => db.DeleteDB(lbStatusText, lbCommand, dgvViewer);
         private void btnDeleteAllDB_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("вы уверены что хотите удалить ВСЕ данные таблицы?", "Удаление всех данных", MessageBoxButtons.YesNo);
@@ -152,23 +120,23 @@ namespace Student_Registration
             txtapArtmentNumber.Enabled = IsActive;
         }
 
+        private void ClearAllComboBoxElements()
+        {
+            cbUchebnayaDistsiplina.Text = "";
+            cbCity.Text = "";
+            cbStreet.Text = "";
+        }
+
         private void ClearAllTextElements()
         {
-
-            //cbSelectUser.SelectedItem = null;
-            //cbSelectUser.Text = "";
             txtName.Text = "";
             txtSurname.Text = "";
             txtPatronymic.Text = "";
-            cbUchebnayaDistsiplina.SelectedItem = null;
             txtEmail.Text = "";
             txtPassword.Text = "";
             txtPhone.Text = "";
-            cbCity.SelectedItem = null;
-            cbStreet.SelectedItem = null;
             txtHouseNumber.Text = "";
             txtapArtmentNumber.Text = "";
-
         }
 
         private void btnAddColum_Click(object sender, EventArgs e)
@@ -202,6 +170,7 @@ namespace Student_Registration
             if (cbUserType.SelectedItem.ToString() == "перподаватель")
             {
                 ClearAllTextElements();
+                ClearAllComboBoxElements();
                 EnabledAllTextElementsToAM(false);
                 cbSelectGroup.SelectedItem = "";
                 cbSelectGroup.Text = "";
@@ -214,7 +183,6 @@ namespace Student_Registration
 
                 label6.Text = "учитель";
                 label10.Text = "дисциплина";
-                //cbSelectUser.Items.Add("добавить учителя");
                 AM.ConnectDB(lbStatusAM, "TeacherAccounts.sqlite");
                 AM.ReadAllName(lbStatusAM, cbSelectUser, "AccountsTable");
                 AM.LoadAllItemsForComboBox(cbUchebnayaDistsiplina, "UchebnayaDistsiplinaTable", "uchebnaya_distsiplina_name");
@@ -224,15 +192,14 @@ namespace Student_Registration
             else if (cbUserType.SelectedItem.ToString() == "студент")
             {
                 ClearAllTextElements();
+                ClearAllComboBoxElements();
                 EnabledAllTextElementsToAM(false);
                 cbSelectGroup.Enabled = true;
 
                 cbSelectUser.Text = "";
 
-                txtNewGroup.Enabled = true;
                 label6.Text = "студент";
                 label10.Text = "группа";
-                btnCreateNewGroup.Enabled = true;
                 AM.ConnectDB(lbStatusAM, "StudentsAccounts.sqlite");
                 AM.ReadCountTables(lbStatusAM, cbSelectGroup);
                 AM.LoadAllItemsForComboBox(cbUchebnayaDistsiplina, "GroupsTable", "group_name");
@@ -276,19 +243,18 @@ namespace Student_Registration
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            AM.CreateNewTable(lbStatusAM, txtNewGroup.Text);
-        }
 
         private void cbSelectGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
             EnabledAllTextElementsToAM(false);
+            ClearAllComboBoxElements();
             ClearAllTextElements();
+            cbSelectUser.Text = "";
 
             if (cbSelectGroup.SelectedItem.ToString() == "добавить группу")
             {
-
+                FormAddingSecondaryInformation form = new FormAddingSecondaryInformation(lbStatusAM, AM, "GroupsTable", "group_name");
+                form.Show();
             }
             else
             {
@@ -297,6 +263,46 @@ namespace Student_Registration
                 cbSelectUser.Items.Add("добавить");
                 AM.ReadAllName(lbStatusAM,cbSelectUser,cbSelectGroup.SelectedItem.ToString());
             }
+        }
+
+        private void cbUchebnayaDistsiplina_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FormAddingSecondaryInformation form = null;
+            if (cbUchebnayaDistsiplina.SelectedItem.ToString() == "добавить дисциплину")
+            {
+                form = new FormAddingSecondaryInformation(lbStatusAM, AM, "UchebnayaDistsiplinaTable", "uchebnaya_distsiplina_name");
+                form.Show();
+            }
+            else if (cbUchebnayaDistsiplina.SelectedItem.ToString() == "добавить группу")
+            {
+                form = new FormAddingSecondaryInformation(lbStatusAM, AM, "GroupsTable", "group_name");
+                form.Show();
+            }
+        }
+
+        private void cbCity_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FormAddingSecondaryInformation form = null;
+            if (cbCity.SelectedItem.ToString() == "добавить город")
+            {
+            form = new FormAddingSecondaryInformation(lbStatusAM, AM, "CityTable", "city_name");
+            form.Show();
+            }
+        }
+
+        private void cbStreet_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FormAddingSecondaryInformation form = null;
+            if(cbStreet.SelectedItem.ToString() == "добавить улицу")
+            {
+            form = new FormAddingSecondaryInformation(lbStatusAM, AM, "StreetTable", "street_name");
+            form.Show();
+            }
+        }
+
+        private void btnAddNewUser_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

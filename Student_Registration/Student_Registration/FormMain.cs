@@ -15,6 +15,9 @@ namespace Student_Registration
         public FormMain()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.Manual;
+            this.Location = new Point(200,200);
+            this.MaximizeBox = false;
         }
 
         private void btnAdmin_Click(object sender, EventArgs e)

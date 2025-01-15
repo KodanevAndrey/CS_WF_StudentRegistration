@@ -328,7 +328,7 @@ namespace ConnectSQLite_KodanevAndrey
             lbCommand.Text = m_sqlCmd.CommandText;
         }
 
-        public void DeleteDB(Label lbStatusText, Label lbCommandText)
+        public void DeleteDB(Label lbStatusText, Label lbCommandText, DataGridView dgvViewer)
         {
             /*
             DialogResult dialogResult = MessageBox.Show("Sure", "Some Title", MessageBoxButtons.YesNo);
@@ -355,6 +355,7 @@ namespace ConnectSQLite_KodanevAndrey
                 m_sqlCmd.ExecuteNonQuery();
                 lbStatusText.Text = "удаление выполнено! '" + TableSelectColumnName + "' = " + TableSelectCellName.ToString();
                 lbStatusText.ForeColor = Color.Green;
+                ReadDB(lbStatusText, dgvViewer);
             }
             catch (SQLiteException ex)
             {
@@ -401,9 +402,14 @@ namespace ConnectSQLite_KodanevAndrey
                         }
                     }
                     m_sqlCmd.CommandText += " WHERE " + TableSelectColumnName + " = ";
-                    if (TableSelectCellName != "NULL") { m_sqlCmd.CommandText += "'" + TableSelectCellName + "'"; m_sqlCmd.ExecuteNonQuery(); status += "ЗАПИСЬ ВЫПОЛНЕНА!"; }
+                    if (TableSelectCellName != "NULL") 
+                    { 
+                        m_sqlCmd.CommandText += "'" + TableSelectCellName + "'"; 
+                        m_sqlCmd.ExecuteNonQuery(); 
+                        status += "ЗАПИСЬ ВЫПОЛНЕНА!";
+                        ReadDB(lbStatusText, dgvViewer);
+                    }
                     else { status += "выберите ячейту для изменения!"; }
-
                 }
             }
             catch (SQLiteException ex)
@@ -505,6 +511,7 @@ namespace ConnectSQLite_KodanevAndrey
                     else { status = "выберите ячейту для изменения!"; }
                     lbStatusText.Text += "изображение загружено";
                     lbStatusText.ForeColor = Color.Green;
+                    ReadDB(lbStatusText,dgvViewer);
                 }
                 catch (SQLiteException ex)
                 {
