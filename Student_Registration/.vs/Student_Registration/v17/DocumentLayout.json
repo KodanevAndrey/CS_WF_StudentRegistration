@@ -3,20 +3,16 @@
   "WorkspaceRootPath": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\CS_WF_StudentRegistration\\Student_Registration\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\CS_WF_StudentRegistration\\Student_Registration\\student_registration\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\CS_WF_StudentRegistration\\Student_Registration\\student_registration\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|e:\\vs_c#_projects\\windowsformsprojects\\student_registration\\cs_wf_studentregistration\\student_registration\\student_registration\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|e:\\vs_c#_projects\\windowsformsprojects\\student_registration\\cs_wf_studentregistration\\student_registration\\student_registration\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\CS_WF_StudentRegistration\\Student_Registration\\student_registration\\accountmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\accountmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|e:\\vs_c#_projects\\windowsformsprojects\\student_registration\\cs_wf_studentregistration\\student_registration\\student_registration\\formaddingsecondaryinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\formaddingsecondaryinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,11 +22,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "FormAdmin.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\FormAdmin.cs",
               "RelativeDocumentMoniker": "Student_Registration\\FormAdmin.cs",
@@ -42,13 +38,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "FormAdmin.cs",
               "DocumentMoniker": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\FormAdmin.cs",
               "RelativeDocumentMoniker": "Student_Registration\\FormAdmin.cs",
               "ToolTip": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\FormAdmin.cs",
               "RelativeToolTip": "Student_Registration\\FormAdmin.cs",
-              "ViewState": "AgIAABgBAAAAAAAAAAAIwDABAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAFYBAAAAAAAAAAAUwHEBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-02T09:31:46.006Z",
               "EditorCaption": ""
@@ -61,22 +57,9 @@
               "RelativeDocumentMoniker": "Student_Registration\\AccountManager.cs",
               "ToolTip": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\AccountManager.cs",
               "RelativeToolTip": "Student_Registration\\AccountManager.cs",
-              "ViewState": "AgIAAHMAAAAAAAAAAAAWwIYAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAGcAAAAAAAAAAAAWwH0AAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-09T17:48:13.034Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "FormAddingSecondaryInformation.cs",
-              "DocumentMoniker": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\FormAddingSecondaryInformation.cs",
-              "RelativeDocumentMoniker": "Student_Registration\\FormAddingSecondaryInformation.cs",
-              "ToolTip": "E:\\VS_C#_Projects\\WindowsFormsProjects\\Student_Registration\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\FormAddingSecondaryInformation.cs",
-              "RelativeToolTip": "Student_Registration\\FormAddingSecondaryInformation.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-15T16:00:22.47Z",
               "EditorCaption": ""
             }
           ]

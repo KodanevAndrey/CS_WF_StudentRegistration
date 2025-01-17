@@ -55,10 +55,11 @@
             this.dgvViewer = new System.Windows.Forms.DataGridView();
             this.btnReadDB = new System.Windows.Forms.Button();
             this.tabAccountManager = new System.Windows.Forms.TabPage();
+            this.btnAddOrUpdateUser = new System.Windows.Forms.Button();
             this.label18 = new System.Windows.Forms.Label();
             this.cbSelectGroup = new System.Windows.Forms.ComboBox();
             this.label17 = new System.Windows.Forms.Label();
-            this.txtapArtmentNumber = new System.Windows.Forms.TextBox();
+            this.txtApartmentNumber = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.txtHouseNumber = new System.Windows.Forms.TextBox();
             this.cbStreet = new System.Windows.Forms.ComboBox();
@@ -85,7 +86,6 @@
             this.cbUserType = new System.Windows.Forms.ComboBox();
             this.lbStatusAM = new System.Windows.Forms.Label();
             this.btnResetPassword = new System.Windows.Forms.Button();
-            this.btnAddNewUser = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabCreateDB.SuspendLayout();
             this.tabConnectDB.SuspendLayout();
@@ -363,11 +363,11 @@
             // tabAccountManager
             // 
             this.tabAccountManager.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.tabAccountManager.Controls.Add(this.btnAddNewUser);
+            this.tabAccountManager.Controls.Add(this.btnAddOrUpdateUser);
             this.tabAccountManager.Controls.Add(this.label18);
             this.tabAccountManager.Controls.Add(this.cbSelectGroup);
             this.tabAccountManager.Controls.Add(this.label17);
-            this.tabAccountManager.Controls.Add(this.txtapArtmentNumber);
+            this.tabAccountManager.Controls.Add(this.txtApartmentNumber);
             this.tabAccountManager.Controls.Add(this.label16);
             this.tabAccountManager.Controls.Add(this.txtHouseNumber);
             this.tabAccountManager.Controls.Add(this.cbStreet);
@@ -400,6 +400,15 @@
             this.tabAccountManager.TabIndex = 2;
             this.tabAccountManager.Text = "AccountManager";
             // 
+            // btnAddOrUpdateUser
+            // 
+            this.btnAddOrUpdateUser.Location = new System.Drawing.Point(103, 392);
+            this.btnAddOrUpdateUser.Name = "btnAddOrUpdateUser";
+            this.btnAddOrUpdateUser.Size = new System.Drawing.Size(199, 23);
+            this.btnAddOrUpdateUser.TabIndex = 34;
+            this.btnAddOrUpdateUser.Text = "добавить пользователя";
+            this.btnAddOrUpdateUser.UseVisualStyleBackColor = true;
+            // 
             // label18
             // 
             this.label18.AutoSize = true;
@@ -427,12 +436,13 @@
             this.label17.TabIndex = 29;
             this.label17.Text = "номер квартиры";
             // 
-            // txtapArtmentNumber
+            // txtApartmentNumber
             // 
-            this.txtapArtmentNumber.Location = new System.Drawing.Point(103, 366);
-            this.txtapArtmentNumber.Name = "txtapArtmentNumber";
-            this.txtapArtmentNumber.Size = new System.Drawing.Size(199, 20);
-            this.txtapArtmentNumber.TabIndex = 28;
+            this.txtApartmentNumber.Location = new System.Drawing.Point(103, 366);
+            this.txtApartmentNumber.Name = "txtApartmentNumber";
+            this.txtApartmentNumber.Size = new System.Drawing.Size(199, 20);
+            this.txtApartmentNumber.TabIndex = 28;
+            this.txtApartmentNumber.TextChanged += new System.EventHandler(this.txtApartmentNumber_TextChanged);
             // 
             // label16
             // 
@@ -449,6 +459,7 @@
             this.txtHouseNumber.Name = "txtHouseNumber";
             this.txtHouseNumber.Size = new System.Drawing.Size(199, 20);
             this.txtHouseNumber.TabIndex = 26;
+            this.txtHouseNumber.TextChanged += new System.EventHandler(this.txtHouseNumber_TextChanged);
             // 
             // cbStreet
             // 
@@ -492,6 +503,7 @@
             this.txtPhone.Name = "txtPhone";
             this.txtPhone.Size = new System.Drawing.Size(199, 20);
             this.txtPhone.TabIndex = 21;
+            this.txtPhone.TextChanged += new System.EventHandler(this.txtPhone_TextChanged);
             // 
             // label13
             // 
@@ -517,6 +529,7 @@
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(199, 20);
             this.txtPassword.TabIndex = 18;
+            this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
             // 
             // label11
             // 
@@ -533,6 +546,7 @@
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(199, 20);
             this.txtEmail.TabIndex = 16;
+            this.txtEmail.TextChanged += new System.EventHandler(this.txtEmail_TextChanged);
             // 
             // label10
             // 
@@ -568,6 +582,7 @@
             this.txtPatronymic.Name = "txtPatronymic";
             this.txtPatronymic.Size = new System.Drawing.Size(199, 20);
             this.txtPatronymic.TabIndex = 12;
+            this.txtPatronymic.TextChanged += new System.EventHandler(this.txtPatronymic_TextChanged);
             // 
             // label8
             // 
@@ -584,6 +599,7 @@
             this.txtSurname.Name = "txtSurname";
             this.txtSurname.Size = new System.Drawing.Size(199, 20);
             this.txtSurname.TabIndex = 10;
+            this.txtSurname.TextChanged += new System.EventHandler(this.txtSurname_TextChanged);
             // 
             // label7
             // 
@@ -600,6 +616,7 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(199, 20);
             this.txtName.TabIndex = 8;
+            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // cbSelectUser
             // 
@@ -657,16 +674,6 @@
             this.btnResetPassword.TabIndex = 0;
             this.btnResetPassword.Text = "Изменить пароль администратора";
             this.btnResetPassword.UseVisualStyleBackColor = true;
-            // 
-            // btnAddNewUser
-            // 
-            this.btnAddNewUser.Location = new System.Drawing.Point(103, 392);
-            this.btnAddNewUser.Name = "btnAddNewUser";
-            this.btnAddNewUser.Size = new System.Drawing.Size(199, 23);
-            this.btnAddNewUser.TabIndex = 34;
-            this.btnAddNewUser.Text = "добавить пользователя";
-            this.btnAddNewUser.UseVisualStyleBackColor = true;
-            this.btnAddNewUser.Click += new System.EventHandler(this.btnAddNewUser_Click);
             // 
             // FormAdmin
             // 
@@ -744,10 +751,10 @@
         private System.Windows.Forms.ComboBox cbCity;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox txtHouseNumber;
-        private System.Windows.Forms.TextBox txtapArtmentNumber;
+        private System.Windows.Forms.TextBox txtApartmentNumber;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.ComboBox cbSelectGroup;
-        private System.Windows.Forms.Button btnAddNewUser;
+        private System.Windows.Forms.Button btnAddOrUpdateUser;
     }
 }

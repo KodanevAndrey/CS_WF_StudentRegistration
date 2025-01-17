@@ -13,10 +13,13 @@ namespace Student_Registration
 {
     public partial class FormAdmin : Form
     {
+        private AccountManager AM = new AccountManager();
+        private Dictionary<string, string> data = new Dictionary<string, string>();
+        private bool IsDataChanged = false;
+        private Color color = Color.Yellow;
+
         private FormSelectedOpenTable form;
         public DBHelper db = new DBHelper();
-        private AccountManager AM = new AccountManager();
-
         private string DBName = null;
         private string TableName = null;
         private List<string> listColumns = new List<string>();
@@ -31,6 +34,7 @@ namespace Student_Registration
             EnabledAllTextElementsToAM(false);
             EnabledAllButtonToConnectDB(false);
             cbSelectGroup.Enabled = false;
+            btnAddOrUpdateUser.Enabled = false;
         }
 
         public void Connect()
@@ -117,7 +121,57 @@ namespace Student_Registration
             cbCity.Enabled = IsActive;
             cbStreet.Enabled = IsActive;
             txtHouseNumber.Enabled = IsActive;
-            txtapArtmentNumber.Enabled = IsActive;
+            txtApartmentNumber.Enabled = IsActive;
+        }
+
+        private void CheckTextElementClolr()
+        {
+            IsDataChanged = false;
+
+            if (txtName.BackColor == Color.Yellow) IsDataChanged = true;
+            if (txtSurname.BackColor == Color.Yellow) IsDataChanged = true;
+            if (txtPatronymic.BackColor == Color.Yellow) IsDataChanged = true;
+            if (txtEmail.BackColor == Color.Yellow) IsDataChanged = true;
+            if (txtPassword.BackColor == Color.Yellow) IsDataChanged = true;
+            if (txtPhone.BackColor == Color.Yellow) IsDataChanged = true;
+            if (txtHouseNumber.BackColor == Color.Yellow) IsDataChanged = true;
+            if (txtApartmentNumber.BackColor == Color.Yellow) IsDataChanged = true;
+
+            if (cbUchebnayaDistsiplina.BackColor == Color.Yellow) IsDataChanged = true;
+            if (cbCity.BackColor == Color.Yellow) IsDataChanged = true;
+            if (cbStreet.BackColor == Color.Yellow) IsDataChanged = true;
+
+            if (IsDataChanged)
+            {
+                btnAddOrUpdateUser.Enabled = true;
+                btnAddOrUpdateUser.Text = "ИЗМЕНЕНИЕ!";
+            }
+            else
+            {
+                btnAddOrUpdateUser.Enabled = false;
+                btnAddOrUpdateUser.Text = "норм))";
+            }
+        }
+
+        private void ReturnTextElementsSettingsToDefault()
+        {
+            Color localColor = Color.White;
+
+            IsDataChanged = false;
+            btnAddOrUpdateUser.Enabled = false;
+            btnAddOrUpdateUser.Text = "норм))";
+            txtName.BackColor = localColor;
+            txtSurname.BackColor = localColor;
+            txtPatronymic.BackColor = localColor;
+            txtEmail.BackColor = localColor;
+            txtPassword.BackColor = localColor;
+            txtPhone.BackColor = localColor;
+            txtHouseNumber.BackColor = localColor;
+            txtApartmentNumber.BackColor = localColor;
+
+            cbUchebnayaDistsiplina.BackColor = localColor;
+            cbCity.BackColor = localColor;
+            cbStreet.BackColor = localColor;
         }
 
         private void ClearAllComboBoxElements()
@@ -136,7 +190,7 @@ namespace Student_Registration
             txtPassword.Text = "";
             txtPhone.Text = "";
             txtHouseNumber.Text = "";
-            txtapArtmentNumber.Text = "";
+            txtApartmentNumber.Text = "";
         }
 
         private void btnAddColum_Click(object sender, EventArgs e)
@@ -167,6 +221,8 @@ namespace Student_Registration
 
         private void cbUserType_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ReturnTextElementsSettingsToDefault();
+
             if (cbUserType.SelectedItem.ToString() == "перподаватель")
             {
                 ClearAllTextElements();
@@ -180,6 +236,8 @@ namespace Student_Registration
                 cbSelectUser.Enabled = true;
                 cbSelectUser.Items.Clear();
                 cbSelectUser.Items.Add("добавить");
+
+                ReturnTextElementsSettingsToDefault();
 
                 label6.Text = "учитель";
                 label10.Text = "дисциплина";
@@ -197,6 +255,11 @@ namespace Student_Registration
                 cbSelectGroup.Enabled = true;
 
                 cbSelectUser.Text = "";
+                cbSelectUser.Enabled = true;
+                cbSelectUser.Items.Clear();
+                cbSelectUser.Items.Add("добавить");
+
+                ReturnTextElementsSettingsToDefault();
 
                 label6.Text = "студент";
                 label10.Text = "группа";
@@ -214,20 +277,20 @@ namespace Student_Registration
 
             if (cbSelectUser.SelectedItem.ToString() == "добавить")
             {
+                ReturnTextElementsSettingsToDefault();
                 EnabledAllTextElementsToAM(true);
                 ClearAllTextElements();
             }
             else
             {
-                Dictionary<string, string> data = new Dictionary<string, string>();
-
                 if(cbSelectGroup.SelectedItem != null) TableName = cbSelectGroup.SelectedItem.ToString();
                 data = AM.ReadSelectedOnlyRow(lbStatusText, cbSelectUser.SelectedIndex, TableName);
 
+                ReturnTextElementsSettingsToDefault();
                 EnabledAllTextElementsToAM(true);
                 ClearAllTextElements();
 
-                if(cbUserType.SelectedItem.ToString() == "перподаватель") cbUchebnayaDistsiplina.SelectedItem = data["uchebnaya_distsiplina_name"];
+                if (cbUserType.SelectedItem.ToString() == "перподаватель") cbUchebnayaDistsiplina.SelectedItem = data["uchebnaya_distsiplina_name"];
                 else if(cbUserType.SelectedItem.ToString() == "студент") cbUchebnayaDistsiplina.SelectedItem = data["group_name"];
 
                 txtName.Text = data["name"].ToString();
@@ -239,13 +302,14 @@ namespace Student_Registration
                 cbCity.SelectedItem = data["city_name"];
                 cbStreet.SelectedItem = data["street_name"];
                 txtHouseNumber.Text = data["house_number"].ToString();
-                txtapArtmentNumber.Text = data["apartment_number"].ToString();
+                txtApartmentNumber.Text = data["apartment_number"].ToString();
             }
         }
 
 
         private void cbSelectGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ReturnTextElementsSettingsToDefault();
             EnabledAllTextElementsToAM(false);
             ClearAllComboBoxElements();
             ClearAllTextElements();
@@ -253,7 +317,7 @@ namespace Student_Registration
 
             if (cbSelectGroup.SelectedItem.ToString() == "добавить группу")
             {
-                FormAddingSecondaryInformation form = new FormAddingSecondaryInformation(lbStatusAM, AM, "GroupsTable", "group_name");
+                FormAddingSecondaryInformation form = new FormAddingSecondaryInformation(lbStatusAM, AM, "GroupsTable", "group_name", "группу");
                 form.Show();
             }
             else
@@ -267,42 +331,111 @@ namespace Student_Registration
 
         private void cbUchebnayaDistsiplina_SelectedIndexChanged(object sender, EventArgs e)
         {
-            FormAddingSecondaryInformation form = null;
-            if (cbUchebnayaDistsiplina.SelectedItem.ToString() == "добавить дисциплину")
+            if(cbUserType.SelectedItem.ToString() == "перподаватель")
             {
-                form = new FormAddingSecondaryInformation(lbStatusAM, AM, "UchebnayaDistsiplinaTable", "uchebnaya_distsiplina_name");
-                form.Show();
+                if (cbUchebnayaDistsiplina.SelectedItem.ToString() == data["uchebnaya_distsiplina_name"]) cbUchebnayaDistsiplina.BackColor = Color.White;
+                else if (cbUchebnayaDistsiplina.SelectedItem.ToString() == "добавить дисциплину")
+                {
+                    FormAddingSecondaryInformation form = null;
+                    form = new FormAddingSecondaryInformation(lbStatusAM, AM, "UchebnayaDistsiplinaTable", "uchebnaya_distsiplina_name", "дисциплину");
+                    form.Show();
+                }
+                else cbUchebnayaDistsiplina.BackColor = color;
             }
-            else if (cbUchebnayaDistsiplina.SelectedItem.ToString() == "добавить группу")
+            else if (cbUserType.SelectedItem.ToString() == "студент")
             {
-                form = new FormAddingSecondaryInformation(lbStatusAM, AM, "GroupsTable", "group_name");
-                form.Show();
+                if (cbUchebnayaDistsiplina.SelectedItem.ToString() == data["group_name"]) cbUchebnayaDistsiplina.BackColor = Color.White;
+                else if (cbUchebnayaDistsiplina.SelectedItem.ToString() == "добавить группу")
+                {
+                    FormAddingSecondaryInformation form = null;
+                    form = new FormAddingSecondaryInformation(lbStatusAM, AM, "GroupsTable", "group_name", "группу");
+                    form.Show();
+                }
+                else cbUchebnayaDistsiplina.BackColor = color;
             }
+            CheckTextElementClolr();
         }
 
         private void cbCity_SelectedIndexChanged(object sender, EventArgs e)
         {
-            FormAddingSecondaryInformation form = null;
-            if (cbCity.SelectedItem.ToString() == "добавить город")
+            if (cbCity.SelectedItem.ToString() == data["city_name"]) cbCity.BackColor = Color.White;
+            else if (cbCity.SelectedItem.ToString() == "добавить город")
             {
-            form = new FormAddingSecondaryInformation(lbStatusAM, AM, "CityTable", "city_name");
-            form.Show();
+                FormAddingSecondaryInformation form = null;
+                form = new FormAddingSecondaryInformation(lbStatusAM, AM, "CityTable", "city_name", "город");
+                form.Show();
             }
+            else cbCity.BackColor = color;
         }
 
         private void cbStreet_SelectedIndexChanged(object sender, EventArgs e)
         {
-            FormAddingSecondaryInformation form = null;
-            if(cbStreet.SelectedItem.ToString() == "добавить улицу")
+            if (cbStreet.SelectedItem.ToString() == data["street_name"]) cbStreet.BackColor = Color.White;
+            else if (cbStreet.SelectedItem.ToString() == "добавить улицу")
             {
-            form = new FormAddingSecondaryInformation(lbStatusAM, AM, "StreetTable", "street_name");
-            form.Show();
+                FormAddingSecondaryInformation form = null;
+                form = new FormAddingSecondaryInformation(lbStatusAM, AM, "StreetTable", "street_name", "улицу");
+                form.Show();
             }
+            else cbStreet.BackColor = color;
         }
 
-        private void btnAddNewUser_Click(object sender, EventArgs e)
+        private void txtName_TextChanged(object sender, EventArgs e)
         {
+            //if (!string.IsNullOrEmpty(txtName.Text))
 
+            if (txtName.Text != data["name"]) txtName.BackColor = color;
+            else txtName.BackColor = Color.White;
+            CheckTextElementClolr();
+        }
+
+        private void txtSurname_TextChanged(object sender, EventArgs e)
+        {
+            if (txtSurname.Text != data["surname"]) txtSurname.BackColor = color;
+            else txtSurname.BackColor = Color.White;
+            CheckTextElementClolr();
+        }
+
+        private void txtPatronymic_TextChanged(object sender, EventArgs e)
+        {
+            if (txtPatronymic.Text != data["patronymic"]) txtPatronymic.BackColor = color;
+            else txtPatronymic.BackColor = Color.White;
+            CheckTextElementClolr();
+        }
+
+        private void txtEmail_TextChanged(object sender, EventArgs e)
+        {
+            if (txtEmail.Text != data["email"]) txtEmail.BackColor = color;
+            else txtEmail.BackColor = Color.White;
+            CheckTextElementClolr();
+        }
+
+        private void txtPassword_TextChanged(object sender, EventArgs e)
+        {
+            if (txtPassword.Text != data["password"]) txtPassword.BackColor = color;
+            else txtPassword.BackColor = Color.White;
+            CheckTextElementClolr();
+        }
+
+        private void txtPhone_TextChanged(object sender, EventArgs e)
+        {
+            if (txtPhone.Text != data["phone_number"]) txtPhone.BackColor = color;
+            else txtPhone.BackColor = Color.White;
+            CheckTextElementClolr();
+        }
+
+        private void txtHouseNumber_TextChanged(object sender, EventArgs e)
+        {
+            if (txtHouseNumber.Text != data["house_number"]) txtHouseNumber.BackColor = color;
+            else txtHouseNumber.BackColor = Color.White;
+            CheckTextElementClolr();
+        }
+
+        private void txtApartmentNumber_TextChanged(object sender, EventArgs e)
+        {
+            if (txtApartmentNumber.Text != data["apartment_number"]) txtApartmentNumber.BackColor = color;
+            else txtApartmentNumber.BackColor = Color.White;
+            CheckTextElementClolr();
         }
     }
 }

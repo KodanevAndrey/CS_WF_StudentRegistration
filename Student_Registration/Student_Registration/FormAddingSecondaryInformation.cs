@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,7 +18,7 @@ namespace Student_Registration
         private AccountManager AM;
         private Label labelS;
 
-        public FormAddingSecondaryInformation(Label lbSatus, AccountManager accountManager, in string tableName, in string columnName)
+        public FormAddingSecondaryInformation(Label lbSatus, AccountManager accountManager, in string tableName, in string columnName, in string RankAdded)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.Manual;
@@ -27,6 +28,7 @@ namespace Student_Registration
             this.labelS = lbSatus;
             this.TableName = tableName;
             this.ColumnName = columnName;
+            this.btnAdd.Text = "добввить " + RankAdded;
         }
 
         private void button1_Click(object sender, EventArgs e)
