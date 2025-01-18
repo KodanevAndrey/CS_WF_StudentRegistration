@@ -9,7 +9,6 @@ using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
 using System.Data;
-using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 
 namespace Student_Registration
 {
@@ -161,11 +160,9 @@ namespace Student_Registration
                     {
                         while (reader.Read())
                         {
-                            //string userID = reader["id"].ToString();
                             string name = reader["name"].ToString();
                             string userName = reader["surname"].ToString();
                             string patronymic = reader["patronymic"].ToString();
-                            //string password = reader["password"].ToString();
                             comboBox.Items.Add(userName + " " + name[0] + "." + patronymic[0] + ".");
                         }
                     }
@@ -286,6 +283,65 @@ namespace Student_Registration
             {
                 MessageBox.Show("ERROR:" + ex);
             }
+        }
+
+        public void AddNewUserDB(Label status, string TableName, List<string> columns, List<string> data)
+        {
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+                return;
+            }
+            try
+            {
+                string query = @"INSERT INTO " + TableName + " (";
+                for (int i = 0; i < columns.Count; i++)
+                {
+                    query += columns[i];
+                    if (i != columns.Count - 1) m_sqlCmd.CommandText += ", ";
+                }
+                query += ") VALUES (";
+                for (int i = 0; i < data.Count; i++)
+                {
+                    m_sqlCmd.CommandText += data[i];
+                    if (i != data.Count - 1) m_sqlCmd.CommandText += ", ";
+                }
+                query += ");";
+
+                m_sqlCmd.CommandText = query;
+                m_sqlCmd.ExecuteNonQuery();
+                status.Text += "пользователь добавлен!";
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+            }
+        }
+
+        public List<string> GetTableInfo(Label lbStatusText, in string tableNameDB)
+        {
+            lbStatusText.Text = "";
+            List<string> columns = new List<string>();
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+            }
+            try
+            {
+                m_sqlCmd.CommandText = "pragma table_info('" + tableNameDB + "');";
+                SQLiteDataReader sqlite_datareader = m_sqlCmd.ExecuteReader();
+                while (sqlite_datareader.Read())
+                {
+                    if(sqlite_datareader.GetString(0) != "id")
+                        columns.Add(sqlite_datareader.GetString(0));
+                }
+                sqlite_datareader.Close();
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("Error LoadTable: " + ex.Message);
+            }
+            return columns;
         }
     }
 }

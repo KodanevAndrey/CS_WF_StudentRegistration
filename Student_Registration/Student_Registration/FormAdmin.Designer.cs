@@ -408,6 +408,7 @@
             this.btnAddOrUpdateUser.TabIndex = 34;
             this.btnAddOrUpdateUser.Text = "добавить пользователя";
             this.btnAddOrUpdateUser.UseVisualStyleBackColor = true;
+            this.btnAddOrUpdateUser.Click += new System.EventHandler(this.btnAddOrUpdateUser_Click);
             // 
             // label18
             // 

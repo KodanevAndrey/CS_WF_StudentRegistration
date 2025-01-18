@@ -280,6 +280,8 @@ namespace Student_Registration
                 ReturnTextElementsSettingsToDefault();
                 EnabledAllTextElementsToAM(true);
                 ClearAllTextElements();
+                btnAddOrUpdateUser.Enabled = true;
+                btnAddOrUpdateUser.Text = "Add";
             }
             else
             {
@@ -436,6 +438,29 @@ namespace Student_Registration
             if (txtApartmentNumber.Text != data["apartment_number"]) txtApartmentNumber.BackColor = color;
             else txtApartmentNumber.BackColor = Color.White;
             CheckTextElementClolr();
+        }
+
+        private void btnAddOrUpdateUser_Click(object sender, EventArgs e)
+        {
+
+            List<string> _columns = new List<string>();
+            List<string> _data = new List<string>();
+
+            _columns = AM.GetTableInfo(lbStatusAM, "AccountsTable");
+
+            _data.Add(txtName.Text);
+            _data.Add(txtSurname.Text);
+            _data.Add(txtPatronymic.Text);
+            _data.Add(cbUchebnayaDistsiplina.SelectedIndex.ToString());
+            _data.Add(txtEmail.Text);
+            _data.Add(txtPassword.Text);
+            _data.Add(txtPhone.Text);
+            _data.Add(cbCity.SelectedIndex.ToString());
+            _data.Add(cbStreet.SelectedIndex.ToString());
+            _data.Add(txtHouseNumber.Text);
+            _data.Add(txtApartmentNumber.Text);
+
+            AM.AddNewUserDB(lbStatusAM, "AccountsTable", _columns, _data);
         }
     }
 }
