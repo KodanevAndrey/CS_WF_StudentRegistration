@@ -173,7 +173,7 @@ namespace Student_Registration
             }
         }
 
-        public Dictionary<string, string> ReadSelectedOnlyRow(Label lbStatusText, int ID, string tableName)
+        public Dictionary<string, string> ReadSelectedOnlyRow(Label lbStatusText, string Surname, string tableName)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
@@ -194,7 +194,7 @@ namespace Student_Registration
                         "JOIN UchebnayaDistsiplinaTable b ON a.uchebnaya_distsiplina = b.id " +
                         "JOIN CityTable c ON a.city = c.id " +
                         "JOIN StreetTable d ON a.street = d.id " +
-                        "WHERE a.id = ' " + ID + " ' " +
+                        "WHERE a.surname = '" + Surname + "' " +
                         ";";
                 }
                 else
@@ -206,15 +206,14 @@ namespace Student_Registration
                         "JOIN GroupsTable b ON a.group_student = b.id " +
                         "JOIN CityTable c ON a.city = c.id " +
                         "JOIN StreetTable d ON a.street = d.id " +
-                        "WHERE a.id = ' " + ID + " ' " +
+                        "WHERE a.surname = '" + Surname + "'" +
                         ";";
                 }
-
                 using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))
                 {
                     using (SQLiteDataReader reader = command.ExecuteReader())
                     {
-                         reader.Read();
+                        reader.Read();
                         int count = reader.FieldCount;
                         for (int i = 0; i < reader.FieldCount; i++)
                         {
@@ -298,13 +297,13 @@ namespace Student_Registration
                 for (int i = 0; i < columns.Count; i++)
                 {
                     query += columns[i];
-                    if (i != columns.Count - 1) m_sqlCmd.CommandText += ", ";
+                    if (i != columns.Count - 1) query += ", ";
                 }
                 query += ") VALUES (";
                 for (int i = 0; i < data.Count; i++)
                 {
-                    m_sqlCmd.CommandText += data[i];
-                    if (i != data.Count - 1) m_sqlCmd.CommandText += ", ";
+                    query += "'" + data[i] + "'";
+                    if (i != data.Count - 1) query += ", ";
                 }
                 query += ");";
 
@@ -328,20 +327,81 @@ namespace Student_Registration
             }
             try
             {
-                m_sqlCmd.CommandText = "pragma table_info('" + tableNameDB + "');";
+                m_sqlCmd.CommandText = "pragma table_info ('" + tableNameDB + "');";
                 SQLiteDataReader sqlite_datareader = m_sqlCmd.ExecuteReader();
                 while (sqlite_datareader.Read())
                 {
-                    if(sqlite_datareader.GetString(0) != "id")
-                        columns.Add(sqlite_datareader.GetString(0));
+                    if(sqlite_datareader.GetString(1) != "id")
+                        columns.Add(sqlite_datareader.GetString(1));
                 }
                 sqlite_datareader.Close();
             }
             catch (SQLiteException ex)
             {
-                MessageBox.Show("Error LoadTable: " + ex.Message);
+                MessageBox.Show("Error LoadTable: " + ex.Message +"\nCOMMAND: " + m_sqlCmd.CommandText);
             }
             return columns;
+        }
+
+        public bool CheckForValidity(Label statusText, in string EnterText, in string CheckType )
+        {
+            bool IsCorrect = true;
+            if(EnterText == "") { statusText.Text += "\nстока пуста!"; return false; }
+            switch (CheckType)
+            {
+                case "noInt":
+                    foreach(char c in EnterText)
+                    {
+                        for(int i = 48; i <= 57; i++)
+                        {
+                            if (c == i)
+                            {
+                                IsCorrect = false;
+                                statusText.Text = "в строке: " + EnterText + " не должно быть цисел!";
+                            }
+                        }
+                    }
+                    break;
+                case "name":
+                    bool IsCapitalLetter = false;
+                    for (int i = 1040; i <= 1071; i++)
+                    {
+                        if (EnterText[0] == i) IsCapitalLetter = true;
+                    }
+                    if (!IsCapitalLetter)
+                    {
+                        IsCorrect = false;
+                        statusText.Text += "\nв строке: " + EnterText + " должна быть заглавная буква!";
+                    }
+                    foreach (char c in EnterText)
+                    {
+                        for (int i = 48; i <= 57; i++)
+                        {
+                            if (c == i)
+                            {
+                                IsCorrect = false;
+                                statusText.Text += "\nв строке: " + EnterText + " не должно быть цисел!";
+                            }
+                        }
+                    }
+                    break;
+                case "onlyInt":
+                    foreach(char c in EnterText)
+                    {
+                        for (int i = 1040; i <= 1102; i++)
+                        {
+                            if (c == i)
+                            {
+                                IsCorrect = false;
+                                statusText.Text += "\nв строке: " + EnterText + " не должно быть букв!";
+                            }
+                        }
+                    }
+                    break;
+                default: statusText.Text += "\n неопределён тип проверки на валидацию вводимых данных!"; return false;
+            }
+            if(IsCorrect) statusText.Text += "\nстрока: " + EnterText + " валидна!";
+            return IsCorrect;
         }
     }
 }

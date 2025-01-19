@@ -661,7 +661,7 @@
             // lbStatusAM
             // 
             this.lbStatusAM.AutoSize = true;
-            this.lbStatusAM.Location = new System.Drawing.Point(6, 541);
+            this.lbStatusAM.Location = new System.Drawing.Point(371, 71);
             this.lbStatusAM.Name = "lbStatusAM";
             this.lbStatusAM.Size = new System.Drawing.Size(35, 13);
             this.lbStatusAM.TabIndex = 3;

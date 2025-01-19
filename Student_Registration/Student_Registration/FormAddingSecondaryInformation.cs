@@ -17,8 +17,9 @@ namespace Student_Registration
         private string ColumnName;
         private AccountManager AM;
         private Label labelS;
+        private ComboBox comboBox1;
 
-        public FormAddingSecondaryInformation(Label lbSatus, AccountManager accountManager, in string tableName, in string columnName, in string RankAdded)
+        public FormAddingSecondaryInformation(Label lbSatus, ComboBox comboBox, AccountManager accountManager, in string tableName, in string columnName, in string RankAdded)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.Manual;
@@ -26,6 +27,7 @@ namespace Student_Registration
             this.MaximizeBox = false;
             this.AM = accountManager;
             this.labelS = lbSatus;
+            this.comboBox1 = comboBox;
             this.TableName = tableName;
             this.ColumnName = columnName;
             this.btnAdd.Text = "добввить " + RankAdded;
@@ -35,6 +37,9 @@ namespace Student_Registration
         {
             if (TableName == "GroupsTable") AM.CreateNewGroup(labelS, txtEnter.Text);
             else AM.AddSecondaryInfo(labelS, txtEnter, TableName, ColumnName);
+            AM.LoadAllItemsForComboBox(comboBox1, TableName, ColumnName);
+            comboBox1.SelectedItem = txtEnter.Text;
+            comboBox1.Text = txtEnter.Text;
             this.Close();
         }
     }
