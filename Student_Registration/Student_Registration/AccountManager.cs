@@ -9,6 +9,7 @@ using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
 using System.Data;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Student_Registration
 {
@@ -317,6 +318,31 @@ namespace Student_Registration
             }
         }
 
+        public int GetID(in string tableNameDB, in string ColumnName)
+        {
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+            }
+            try
+            {
+                string query = @"SELECT id FROM " + tableNameDB + " WHERE" + ";";
+
+                using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))
+                {
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        reader.Read();
+                        comboBox.Items.Add(reader[ColumName].ToString());
+                    }
+                }
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+            }
+        }
+
         public List<string> GetTableInfo(Label lbStatusText, in string tableNameDB)
         {
             lbStatusText.Text = "";
@@ -346,7 +372,7 @@ namespace Student_Registration
         public bool CheckForValidity(Label statusText, in string EnterText, in string CheckType )
         {
             bool IsCorrect = true;
-            if(EnterText == "") { statusText.Text += "\nстока пуста!"; return false; }
+            if(EnterText == "") { statusText.Text = "\nстока пуста!"; return false; }
             switch (CheckType)
             {
                 case "noInt":
@@ -371,7 +397,7 @@ namespace Student_Registration
                     if (!IsCapitalLetter)
                     {
                         IsCorrect = false;
-                        statusText.Text += "\nв строке: " + EnterText + " должна быть заглавная буква!";
+                        statusText.Text = "\nв строке: " + EnterText + " должна быть заглавная буква!";
                     }
                     foreach (char c in EnterText)
                     {
@@ -380,7 +406,7 @@ namespace Student_Registration
                             if (c == i)
                             {
                                 IsCorrect = false;
-                                statusText.Text += "\nв строке: " + EnterText + " не должно быть цисел!";
+                                statusText.Text = "\nв строке: " + EnterText + " не должно быть цисел!";
                             }
                         }
                     }
@@ -393,14 +419,14 @@ namespace Student_Registration
                             if (c == i)
                             {
                                 IsCorrect = false;
-                                statusText.Text += "\nв строке: " + EnterText + " не должно быть букв!";
+                                statusText.Text = "\nв строке: " + EnterText + " не должно быть букв!";
                             }
                         }
                     }
                     break;
-                default: statusText.Text += "\n неопределён тип проверки на валидацию вводимых данных!"; return false;
+                default: statusText.Text = "\n неопределён тип проверки на валидацию вводимых данных!"; return false;
             }
-            if(IsCorrect) statusText.Text += "\nстрока: " + EnterText + " валидна!";
+            if(IsCorrect) statusText.Text = "\nстрока: " + EnterText + " валидна!";
             return IsCorrect;
         }
     }

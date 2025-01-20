@@ -17,7 +17,9 @@ namespace Student_Registration
         private Dictionary<string, string> data = new Dictionary<string, string>();
         private bool IsDataChanged = false;
         private bool IsAdding = false;
-        private Color color = Color.Yellow;
+        private bool IsNoCorrect = false;
+        private Color colorChanged = Color.Yellow;
+        private Color colorNoCorrect = Color.Orange;
 
         private FormSelectedOpenTable form;
         public DBHelper db = new DBHelper();
@@ -125,32 +127,32 @@ namespace Student_Registration
             txtApartmentNumber.Enabled = IsActive;
         }
 
-        private void CheckTextElementClolr()
+        private void CheckTextElementClolr(Color color, bool changeable)
         {
-            IsDataChanged = false;
+            changeable = false;
 
-            if (txtName.BackColor == Color.Yellow) IsDataChanged = true;
-            if (txtSurname.BackColor == Color.Yellow) IsDataChanged = true;
-            if (txtPatronymic.BackColor == Color.Yellow) IsDataChanged = true;
-            if (txtEmail.BackColor == Color.Yellow) IsDataChanged = true;
-            if (txtPassword.BackColor == Color.Yellow) IsDataChanged = true;
-            if (txtPhone.BackColor == Color.Yellow) IsDataChanged = true;
-            if (txtHouseNumber.BackColor == Color.Yellow) IsDataChanged = true;
-            if (txtApartmentNumber.BackColor == Color.Yellow) IsDataChanged = true;
+            if (txtName.BackColor == color) changeable = true;
+            if (txtSurname.BackColor == color) changeable = true;
+            if (txtPatronymic.BackColor == color) changeable = true;
+            if (txtEmail.BackColor == color) changeable = true;
+            if (txtPassword.BackColor == color) changeable = true;
+            if (txtPhone.BackColor == color) changeable = true;
+            if (txtHouseNumber.BackColor == color) changeable = true;
+            if (txtApartmentNumber.BackColor == color) changeable = true;
 
-            if (cbUchebnayaDistsiplina.BackColor == Color.Yellow) IsDataChanged = true;
-            if (cbCity.BackColor == Color.Yellow) IsDataChanged = true;
-            if (cbStreet.BackColor == Color.Yellow) IsDataChanged = true;
+            if (cbUchebnayaDistsiplina.BackColor == color) changeable = true;
+            if (cbCity.BackColor == color) changeable = true;
+            if (cbStreet.BackColor == color) changeable = true;
 
-            if (IsDataChanged)
+            if (!changeable)
             {
                 btnAddOrUpdateUser.Enabled = true;
-                btnAddOrUpdateUser.Text = "ИЗМЕНЕНИЕ!";
+                btnAddOrUpdateUser.Text = "СВОбодно!";
             }
             else
             {
                 btnAddOrUpdateUser.Enabled = false;
-                btnAddOrUpdateUser.Text = "норм))";
+                btnAddOrUpdateUser.Text = "КАБЛОКИРОВАНО!";
             }
         }
 
@@ -375,14 +377,14 @@ namespace Student_Registration
                 if (cbUserType.SelectedItem.ToString() == "перподаватель")
                 {
                     if (cbUchebnayaDistsiplina.SelectedItem.ToString() == data["uchebnaya_distsiplina_name"]) cbUchebnayaDistsiplina.BackColor = Color.White;
-                    else { cbUchebnayaDistsiplina.BackColor = color; }
+                    else { cbUchebnayaDistsiplina.BackColor = colorChanged; }
                 }
                 else if (cbUserType.SelectedItem.ToString() == "студент")
                 {
                     if (cbUchebnayaDistsiplina.SelectedItem.ToString() == data["group_name"]) cbUchebnayaDistsiplina.BackColor = Color.White;
-                    else { cbUchebnayaDistsiplina.BackColor = color; }
+                    else { cbUchebnayaDistsiplina.BackColor = colorChanged; }
                 }
-                CheckTextElementClolr();
+                CheckTextElementClolr(colorChanged, IsDataChanged);
             }
         }
 
@@ -396,9 +398,16 @@ namespace Student_Registration
             }
             if (!IsAdding)
             {
-                if (cbCity.SelectedItem.ToString() == data["city_name"]) cbCity.BackColor = Color.White;
-                else { cbCity.BackColor = color; }
-                CheckTextElementClolr();
+                if (cbCity.SelectedItem.ToString() == data["city_name"]) 
+                {
+                    cbCity.BackColor = Color.White;
+
+                } 
+                else 
+                { 
+                    cbCity.BackColor = colorChanged; 
+                }
+                CheckTextElementClolr(colorChanged, IsDataChanged);
             }
         }
 
@@ -413,8 +422,8 @@ namespace Student_Registration
             if (!IsAdding)
             {
                 if (cbStreet.SelectedItem.ToString() == data["street_name"]) cbStreet.BackColor = Color.White;
-                else { cbStreet.BackColor = color; }
-                CheckTextElementClolr();
+                else { cbStreet.BackColor = colorChanged; }
+                CheckTextElementClolr(colorChanged, IsDataChanged);
             }
         }
 
@@ -423,9 +432,15 @@ namespace Student_Registration
             //if (!string.IsNullOrEmpty(txtName.Text))
             if (!IsAdding)
             {
-                if (txtName.Text != data["name"]) txtName.BackColor = color;
+                if (txtName.Text != data["name"]) txtName.BackColor = colorChanged;
                 else txtName.BackColor = Color.White;
-                CheckTextElementClolr();
+                CheckTextElementClolr(colorChanged, IsDataChanged);
+            }
+            else
+            {
+                if (AM.CheckForValidity(lbStatusAM, txtName.Text, "name")) txtName.BackColor = Color.White;
+                else txtName.BackColor = colorNoCorrect;
+                CheckTextElementClolr(colorNoCorrect, IsNoCorrect);
             }
         }
 
@@ -433,9 +448,15 @@ namespace Student_Registration
         {
             if (!IsAdding)
             {
-                if (txtSurname.Text != data["surname"]) txtSurname.BackColor = color;
+                if (txtSurname.Text != data["surname"]) txtSurname.BackColor = colorChanged;
                 else txtSurname.BackColor = Color.White;
-                CheckTextElementClolr();
+                CheckTextElementClolr(colorChanged, IsDataChanged);
+            }
+            else
+            {
+                if (AM.CheckForValidity(lbStatusAM, txtSurname.Text, "name")) txtSurname.BackColor = Color.White;
+                else txtSurname.BackColor = colorNoCorrect;
+                CheckTextElementClolr(colorNoCorrect, IsNoCorrect);
             }
         }
 
@@ -443,9 +464,15 @@ namespace Student_Registration
         {
             if (!IsAdding)
             {
-                if (txtPatronymic.Text != data["patronymic"]) txtPatronymic.BackColor = color;
+                if (txtPatronymic.Text != data["patronymic"]) txtPatronymic.BackColor = colorChanged;
                 else txtPatronymic.BackColor = Color.White;
-                CheckTextElementClolr();
+                CheckTextElementClolr(colorChanged, IsDataChanged);
+            }
+            else
+            {
+                if (AM.CheckForValidity(lbStatusAM, txtPatronymic.Text, "name")) txtPatronymic.BackColor = Color.White;
+                else txtPatronymic.BackColor = colorNoCorrect;
+                CheckTextElementClolr(colorNoCorrect, IsNoCorrect);
             }
         }
 
@@ -453,9 +480,15 @@ namespace Student_Registration
         {
             if (!IsAdding)
             {
-                if (txtEmail.Text != data["email"]) txtEmail.BackColor = color;
+                if (txtEmail.Text != data["email"]) txtEmail.BackColor = colorChanged;
                 else txtEmail.BackColor = Color.White;
-                CheckTextElementClolr();
+                CheckTextElementClolr(colorChanged, IsDataChanged);
+            }
+            else
+            {
+                if (AM.CheckForValidity(lbStatusAM, txtEmail.Text, "noInt")) txtEmail.BackColor = Color.White;
+                else txtEmail.BackColor = colorNoCorrect;
+                CheckTextElementClolr(colorNoCorrect, IsNoCorrect);
             }
         }
 
@@ -463,9 +496,15 @@ namespace Student_Registration
         {
             if (!IsAdding)
             {
-                if (txtPassword.Text != data["password"]) txtPassword.BackColor = color;
+                if (txtPassword.Text != data["password"]) txtPassword.BackColor = colorChanged;
                 else txtPassword.BackColor = Color.White;
-                CheckTextElementClolr();
+                CheckTextElementClolr(colorChanged, IsDataChanged);
+            }
+            else
+            {
+                if (AM.CheckForValidity(lbStatusAM, txtPassword.Text, "onlyInt")) txtPassword.BackColor = Color.White;
+                else txtPassword.BackColor = colorNoCorrect;
+                CheckTextElementClolr(colorNoCorrect, IsNoCorrect);
             }
         }
 
@@ -473,9 +512,15 @@ namespace Student_Registration
         {
             if (!IsAdding)
             {
-                if (txtPhone.Text != data["phone_number"]) txtPhone.BackColor = color;
+                if (txtPhone.Text != data["phone_number"]) txtPhone.BackColor = colorChanged;
                 else txtPhone.BackColor = Color.White;
-                CheckTextElementClolr();
+                CheckTextElementClolr(colorChanged, IsDataChanged);
+            }
+            else
+            {
+                if (AM.CheckForValidity(lbStatusAM, txtPhone.Text, "onlyInt")) txtPhone.BackColor = Color.White;
+                else txtPhone.BackColor = colorNoCorrect;
+                CheckTextElementClolr(colorNoCorrect, IsNoCorrect);
             }
         }
 
@@ -483,9 +528,15 @@ namespace Student_Registration
         {
             if (!IsAdding)
             {
-                if (txtHouseNumber.Text != data["house_number"]) txtHouseNumber.BackColor = color;
+                if (txtHouseNumber.Text != data["house_number"]) txtHouseNumber.BackColor = colorChanged;
                 else txtHouseNumber.BackColor = Color.White;
-                CheckTextElementClolr();
+                CheckTextElementClolr(colorChanged, IsDataChanged);
+            }
+            else
+            {
+                if (AM.CheckForValidity(lbStatusAM, txtHouseNumber.Text, "onlyInt")) txtHouseNumber.BackColor = Color.White;
+                else txtHouseNumber.BackColor = colorNoCorrect;
+                CheckTextElementClolr(colorNoCorrect, IsNoCorrect);
             }
         }
 
@@ -493,32 +544,38 @@ namespace Student_Registration
         {
             if (!IsAdding)
             {
-                if (txtApartmentNumber.Text != data["apartment_number"]) txtApartmentNumber.BackColor = color;
+                if (txtApartmentNumber.Text != data["apartment_number"]) txtApartmentNumber.BackColor = colorChanged;
                 else txtApartmentNumber.BackColor = Color.White;
-                CheckTextElementClolr();
+                CheckTextElementClolr(colorChanged, IsDataChanged);
+            }
+            else
+            {
+                if (AM.CheckForValidity(lbStatusAM, txtApartmentNumber.Text, "onlyInt")) txtApartmentNumber.BackColor = Color.White;
+                else txtApartmentNumber.BackColor = colorNoCorrect;
+                CheckTextElementClolr(colorNoCorrect, IsNoCorrect);
             }
         }
 
         private void btnAddOrUpdateUser_Click(object sender, EventArgs e)
         {
-            if (IsAdding)
+            if (IsAdding && IsNoCorrect == false)
             {
                 List<string> _columns = new List<string>();
                 List<string> _data = new List<string>();
 
-                if(AM.CheckForValidity(lbStatusAM, txtName.Text, "name")) _data.Add(txtName.Text);
-                if (AM.CheckForValidity(lbStatusAM, txtSurname.Text, "name")) _data.Add(txtSurname.Text);
-                if (AM.CheckForValidity(lbStatusAM, txtPatronymic.Text, "name")) _data.Add(txtPatronymic.Text);
-                if(AM.CheckForValidity(lbStatusAM, cbUchebnayaDistsiplina.Text, "onlyInt"))_data.Add(cbUchebnayaDistsiplina.SelectedIndex.ToString());
-                if(AM.CheckForValidity(lbStatusAM, txtEmail.Text, "noInt"))_data.Add(txtEmail.Text);
+                _data.Add(txtName.Text);
+                _data.Add(txtSurname.Text);
+                _data.Add(txtPatronymic.Text);
+                _data.Add(cbUchebnayaDistsiplina.SelectedIndex.ToString());
+                _data.Add(txtEmail.Text);
                 _data.Add(txtPassword.Text);
-                if(AM.CheckForValidity(lbStatusAM, txtPhone.Text, "onlyInt"))_data.Add(txtPhone.Text);
-                if(AM.CheckForValidity(lbStatusAM, cbCity.Text, "onlyInt"))_data.Add(cbCity.SelectedIndex.ToString());
-                if(AM.CheckForValidity(lbStatusAM, cbStreet.Text, "onlyInt"))_data.Add(cbStreet.SelectedIndex.ToString());
-                if(AM.CheckForValidity(lbStatusAM, txtHouseNumber.Text, "onlyInt"))_data.Add(txtHouseNumber.Text);
-                if (AM.CheckForValidity(lbStatusAM, txtApartmentNumber.Text, "onlyInt")) _data.Add(txtApartmentNumber.Text);
+                _data.Add(txtPhone.Text);
+                _data.Add(cbCity.SelectedIndex.ToString());
+                _data.Add(cbStreet.SelectedIndex.ToString());
+                _data.Add(txtHouseNumber.Text);
+                _data.Add(txtApartmentNumber.Text);
 
-                /*
+                
                 if (cbUserType.SelectedItem.ToString() == "перподаватель")
                 {
                     _columns = AM.GetTableInfo(lbStatusAM, "AccountsTable");
@@ -529,7 +586,7 @@ namespace Student_Registration
                     _columns = AM.GetTableInfo(lbStatusAM, cbSelectGroup.SelectedItem.ToString());
                     AM.AddNewUserDB(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns, _data);
                 }
-                */
+                
             }
 
         }
