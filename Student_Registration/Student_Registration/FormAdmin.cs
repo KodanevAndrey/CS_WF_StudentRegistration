@@ -161,6 +161,8 @@ namespace Student_Registration
             Color localColor = Color.White;
 
             IsDataChanged = false;
+            IsNoCorrect = false;
+
             btnAddOrUpdateUser.Enabled = false;
             btnAddOrUpdateUser.Text = "норм))";
             txtName.BackColor = localColor;
@@ -281,12 +283,12 @@ namespace Student_Registration
             if (cbSelectUser.SelectedItem.ToString() == "добавить")
             {
                 IsAdding = true;
-                ReturnTextElementsSettingsToDefault();
                 EnabledAllTextElementsToAM(true);
                 ClearAllComboBoxElements();
                 ClearAllTextElements();
                 btnAddOrUpdateUser.Enabled = true;
                 btnAddOrUpdateUser.Text = "Add";
+                ReturnTextElementsSettingsToDefault();
             }
             else
             {
@@ -300,7 +302,6 @@ namespace Student_Registration
                     if (str[i] == ' ') break;
                     surname += str[i];
                 }
-                //MessageBox.Show("фамилия = " + surname);
                 data = AM.ReadSelectedOnlyRow(lbStatusText, surname, TableName);
                 ReturnTextElementsSettingsToDefault();
                 EnabledAllTextElementsToAM(true);
@@ -566,12 +567,13 @@ namespace Student_Registration
                 _data.Add(txtName.Text);
                 _data.Add(txtSurname.Text);
                 _data.Add(txtPatronymic.Text);
-                _data.Add(cbUchebnayaDistsiplina.SelectedIndex.ToString());
+                if(cbUserType.SelectedItem.ToString() == "перподаватель") _data.Add(AM.GetID("UchebnayaDistsiplinaTable", "uchebnaya_distsiplina_name", cbUchebnayaDistsiplina.SelectedItem.ToString()));
+                else if (cbUserType.SelectedItem.ToString() == "студент") _data.Add(AM.GetID("GroupsTable", "group_name", cbUchebnayaDistsiplina.SelectedItem.ToString()));
                 _data.Add(txtEmail.Text);
                 _data.Add(txtPassword.Text);
                 _data.Add(txtPhone.Text);
-                _data.Add(cbCity.SelectedIndex.ToString());
-                _data.Add(cbStreet.SelectedIndex.ToString());
+                _data.Add(AM.GetID("CityTable", "city_name", cbCity.SelectedItem.ToString()));
+                _data.Add(AM.GetID("StreetTable", "street_name", cbStreet.SelectedItem.ToString()));
                 _data.Add(txtHouseNumber.Text);
                 _data.Add(txtApartmentNumber.Text);
 
@@ -580,13 +582,14 @@ namespace Student_Registration
                 {
                     _columns = AM.GetTableInfo(lbStatusAM, "AccountsTable");
                     AM.AddNewUserDB(lbStatusAM, "AccountsTable", _columns, _data);
+                    AM.ReadAllName(lbStatusAM, cbSelectUser, "AccountsTable");
                 }
                 else if(cbUserType.SelectedItem.ToString() == "студент")
                 {
                     _columns = AM.GetTableInfo(lbStatusAM, cbSelectGroup.SelectedItem.ToString());
                     AM.AddNewUserDB(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns, _data);
+                    AM.ReadAllName(lbStatusAM, cbSelectUser, cbSelectGroup.SelectedItem.ToString());
                 }
-                
             }
 
         }

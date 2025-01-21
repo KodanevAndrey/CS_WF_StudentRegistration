@@ -9,7 +9,6 @@ using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
 using System.Data;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Student_Registration
 {
@@ -142,17 +141,6 @@ namespace Student_Registration
             }
             try
             {
-                /*
-                string query = @"
-                        SELECT a.id, a.name, a.surname, a.patronymic, a.email, a.password, a.phone_number, a.house_number, a.apartment_number, b.uchebnaya_distsiplina_name, c.city_name, d.street_name
-                        AS AccountsTable, b.uchebnaya_distsiplina_name, c.city_name, d.street_name
-                        FROM AccountsTable a
-                        JOIN UchebnayaDistsiplinaTable b ON a.uchebnaya_distsiplina = b.id
-                        JOIN CityTable c ON a.city = c.id
-                        JOIN StreetTable d ON a.street = d.id
-                        ;";
-                */
-
                 string query = @" SELECT name, surname, patronymic FROM "+ TableName +" ;";
 
                 using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))
@@ -318,28 +306,29 @@ namespace Student_Registration
             }
         }
 
-        public int GetID(in string tableNameDB, in string ColumnName)
+        public string GetID(in string tableNameDB, in string ColumnName, in string Value)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
                 MessageBox.Show("Open connection with database");
             }
+            string query = @"SELECT id FROM " + tableNameDB + " WHERE "+ ColumnName +" = '" + Value + "';";
             try
             {
-                string query = @"SELECT id FROM " + tableNameDB + " WHERE" + ";";
 
                 using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))
                 {
                     using (SQLiteDataReader reader = command.ExecuteReader())
                     {
                         reader.Read();
-                        comboBox.Items.Add(reader[ColumName].ToString());
+                        return reader["id"].ToString();
                     }
                 }
             }
             catch (SQLiteException ex)
             {
-                MessageBox.Show("ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+                MessageBox.Show("ERROR:" + ex + "\nCOMMAND: " + query);
+                return "NULL";
             }
         }
 
