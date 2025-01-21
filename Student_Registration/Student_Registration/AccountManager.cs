@@ -418,5 +418,43 @@ namespace Student_Registration
             if(IsCorrect) statusText.Text = "\nстрока: " + EnterText + " валидна!";
             return IsCorrect;
         }
+
+        public void DeleteUser(Label statusText, in string tableNameDB, in string columnName, in string Value)
+        {
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+            }
+            try
+            {
+                string query = @"DELETE FROM " + tableNameDB + " WHERE " + columnName + " = '" + Value + "';";
+                m_sqlCmd.CommandText = query;
+                m_sqlCmd.ExecuteNonQuery();
+                statusText.Text = "Запись Удалена!";
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("Error LoadTable: " + ex.Message + "\nCOMMAND: " + m_sqlCmd.CommandText);
+            }
+        }
+
+        public void DeleteTable(Label statusText, in string tableNameDB)
+        {
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+            }
+            try
+            {
+                string query = @"DROP TABLE" + tableNameDB + ";";
+                m_sqlCmd.CommandText = query;
+                m_sqlCmd.ExecuteNonQuery();
+                statusText.Text = "Таблица Удалена!";
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("Error LoadTable: " + ex.Message + "\nCOMMAND: " + m_sqlCmd.CommandText);
+            }
+        }
     }
 }

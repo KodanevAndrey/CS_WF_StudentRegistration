@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Student_Registration
 {
@@ -38,6 +39,7 @@ namespace Student_Registration
             EnabledAllButtonToConnectDB(false);
             cbSelectGroup.Enabled = false;
             btnAddOrUpdateUser.Enabled = false;
+            btnDeleteGroup.Enabled = false;
         }
 
         public void Connect()
@@ -113,6 +115,7 @@ namespace Student_Registration
         private void EnabledAllTextElementsToAM(bool IsActive)
         {
             cbSelectUser.Enabled = IsActive;
+            btnDeleteUser.Enabled = IsActive;
 
             txtName.Enabled = IsActive;
             txtSurname.Enabled = IsActive;
@@ -182,8 +185,11 @@ namespace Student_Registration
         private void ClearAllComboBoxElements()
         {
             cbUchebnayaDistsiplina.Text = "";
+            cbUchebnayaDistsiplina.SelectedItem = "";
             cbCity.Text = "";
+            cbCity.SelectedItem = "";
             cbStreet.Text = "";
+            cbStreet.SelectedItem = "";
         }
 
         private void ClearAllTextElements()
@@ -236,6 +242,7 @@ namespace Student_Registration
                 cbSelectGroup.SelectedItem = "";
                 cbSelectGroup.Text = "";
                 cbSelectGroup.Enabled = false;
+                btnDeleteGroup.Enabled = false;
 
                 cbSelectUser.Text = "";
                 cbSelectUser.Enabled = true;
@@ -258,9 +265,12 @@ namespace Student_Registration
                 ClearAllComboBoxElements();
                 EnabledAllTextElementsToAM(false);
                 cbSelectGroup.Enabled = true;
+                btnDeleteGroup.Enabled = false;
+
+                cbSelectGroup.SelectedItem = "";
+                cbSelectGroup.Text = "";
 
                 cbSelectUser.Text = "";
-                cbSelectUser.Enabled = true;
                 cbSelectUser.Items.Clear();
                 cbSelectUser.Items.Add("добавить");
 
@@ -282,17 +292,23 @@ namespace Student_Registration
 
             if (cbSelectUser.SelectedItem.ToString() == "добавить")
             {
+                if(cbUserType.SelectedItem.ToString() == "студент")
+                {
+                    cbUchebnayaDistsiplina.SelectedItem = cbSelectGroup.SelectedItem;
+                    cbUchebnayaDistsiplina.Text = cbSelectGroup.Text;
+                }
                 IsAdding = true;
                 EnabledAllTextElementsToAM(true);
                 ClearAllComboBoxElements();
                 ClearAllTextElements();
                 btnAddOrUpdateUser.Enabled = true;
                 btnAddOrUpdateUser.Text = "Add";
+                btnDeleteUser.Enabled = false;
                 ReturnTextElementsSettingsToDefault();
             }
             else
             {
-                if(cbSelectGroup.Enabled == true)
+                if (cbSelectGroup.Enabled == true)
                     TableName = cbSelectGroup.SelectedItem.ToString();
 
                 string str = cbSelectUser.Text;
@@ -346,16 +362,19 @@ namespace Student_Registration
 
             if (cbSelectGroup.SelectedItem.ToString() == "добавить группу")
             {
+                btnDeleteGroup.Enabled = false;
                 FormAddingSecondaryInformation form;
                 form = new FormAddingSecondaryInformation(lbStatusAM, cbSelectGroup, AM, "GroupsTable", "group_name", "группу");
                 form.Show();
             }
             else
             {
+                btnDeleteGroup.Enabled = true;
                 cbSelectUser.Enabled = true;
                 cbSelectUser.Items.Clear();
                 cbSelectUser.Items.Add("добавить");
                 AM.ReadAllName(lbStatusAM,cbSelectUser,cbSelectGroup.SelectedItem.ToString());
+                btnDeleteGroup.Enabled = true;
             }
         }
 
@@ -567,8 +586,10 @@ namespace Student_Registration
                 _data.Add(txtName.Text);
                 _data.Add(txtSurname.Text);
                 _data.Add(txtPatronymic.Text);
-                if(cbUserType.SelectedItem.ToString() == "перподаватель") _data.Add(AM.GetID("UchebnayaDistsiplinaTable", "uchebnaya_distsiplina_name", cbUchebnayaDistsiplina.SelectedItem.ToString()));
-                else if (cbUserType.SelectedItem.ToString() == "студент") _data.Add(AM.GetID("GroupsTable", "group_name", cbUchebnayaDistsiplina.SelectedItem.ToString()));
+                if(cbUserType.SelectedItem.ToString() == "перподаватель") 
+                    _data.Add(AM.GetID("UchebnayaDistsiplinaTable", "uchebnaya_distsiplina_name", cbUchebnayaDistsiplina.SelectedItem.ToString()));
+                else if (cbUserType.SelectedItem.ToString() == "студент")
+                    _data.Add(AM.GetID("GroupsTable", "group_name", cbUchebnayaDistsiplina.SelectedItem.ToString()));
                 _data.Add(txtEmail.Text);
                 _data.Add(txtPassword.Text);
                 _data.Add(txtPhone.Text);
@@ -592,6 +613,59 @@ namespace Student_Registration
                 }
             }
 
+        }
+
+        private void btnDeleteGroup_Click(object sender, EventArgs e)
+        {
+            string TableName = cbSelectGroup.SelectedItem.ToString();
+            DialogResult dialogResult = MessageBox.Show("Sure", "Вы уверены что хотите удалить группу " + TableName + "?", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                AM.DeleteTable(lbStatusAM, TableName);
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                //do something else
+            }
+        }
+
+        private void btnDeleteUser_Click(object sender, EventArgs e)
+        {
+            string str = cbSelectUser.Text;
+            string surname = null;
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (str[i] == ' ') break;
+                surname += str[i];
+            }
+            DialogResult dialogResult = MessageBox.Show("Sure", "Вы уверены что хотите удалить ползователя " + surname + "?", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                if (cbUserType.SelectedItem.ToString() == "перподаватель")
+                {
+                    AM.DeleteUser(lbStatusAM, "AccountsTable", "surname", surname);
+                    ClearAllTextElements();
+                    ClearAllComboBoxElements();
+                    EnabledAllTextElementsToAM(false);
+                    cbSelectUser.SelectedItem = "";
+                    cbSelectUser.Text = "";
+                    AM.ReadAllName(lbStatusAM, cbSelectUser, "AccountsTable");
+                }
+                else if (cbUserType.SelectedItem.ToString() == "студент")
+                {
+                    AM.DeleteUser(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), "surname", surname);
+                    ClearAllTextElements();
+                    ClearAllComboBoxElements();
+                    EnabledAllTextElementsToAM(false);
+                    cbSelectUser.SelectedItem = "";
+                    cbSelectUser.Text = "";
+                    AM.ReadAllName(lbStatusAM, cbSelectUser, cbSelectGroup.SelectedItem.ToString());
+                }
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                //do something else
+            }
         }
     }
 }

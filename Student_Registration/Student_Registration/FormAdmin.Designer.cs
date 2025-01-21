@@ -55,6 +55,8 @@
             this.dgvViewer = new System.Windows.Forms.DataGridView();
             this.btnReadDB = new System.Windows.Forms.Button();
             this.tabAccountManager = new System.Windows.Forms.TabPage();
+            this.btnDeleteGroup = new System.Windows.Forms.Button();
+            this.btnDeleteUser = new System.Windows.Forms.Button();
             this.btnAddOrUpdateUser = new System.Windows.Forms.Button();
             this.label18 = new System.Windows.Forms.Label();
             this.cbSelectGroup = new System.Windows.Forms.ComboBox();
@@ -86,8 +88,6 @@
             this.cbUserType = new System.Windows.Forms.ComboBox();
             this.lbStatusAM = new System.Windows.Forms.Label();
             this.btnResetPassword = new System.Windows.Forms.Button();
-            this.btnDeleteUser = new System.Windows.Forms.Button();
-            this.btnDeleteGroup = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabCreateDB.SuspendLayout();
             this.tabConnectDB.SuspendLayout();
@@ -404,6 +404,26 @@
             this.tabAccountManager.TabIndex = 2;
             this.tabAccountManager.Text = "AccountManager";
             // 
+            // btnDeleteGroup
+            // 
+            this.btnDeleteGroup.Location = new System.Drawing.Point(242, 34);
+            this.btnDeleteGroup.Name = "btnDeleteGroup";
+            this.btnDeleteGroup.Size = new System.Drawing.Size(141, 23);
+            this.btnDeleteGroup.TabIndex = 36;
+            this.btnDeleteGroup.Text = "Удалить группу";
+            this.btnDeleteGroup.UseVisualStyleBackColor = true;
+            this.btnDeleteGroup.Click += new System.EventHandler(this.btnDeleteGroup_Click);
+            // 
+            // btnDeleteUser
+            // 
+            this.btnDeleteUser.Location = new System.Drawing.Point(242, 61);
+            this.btnDeleteUser.Name = "btnDeleteUser";
+            this.btnDeleteUser.Size = new System.Drawing.Size(141, 23);
+            this.btnDeleteUser.TabIndex = 35;
+            this.btnDeleteUser.Text = "Удалить пользователя";
+            this.btnDeleteUser.UseVisualStyleBackColor = true;
+            this.btnDeleteUser.Click += new System.EventHandler(this.btnDeleteUser_Click);
+            // 
             // btnAddOrUpdateUser
             // 
             this.btnAddOrUpdateUser.Location = new System.Drawing.Point(103, 392);
@@ -679,24 +699,6 @@
             this.btnResetPassword.TabIndex = 0;
             this.btnResetPassword.Text = "Изменить пароль администратора";
             this.btnResetPassword.UseVisualStyleBackColor = true;
-            // 
-            // btnDeleteUser
-            // 
-            this.btnDeleteUser.Location = new System.Drawing.Point(242, 61);
-            this.btnDeleteUser.Name = "btnDeleteUser";
-            this.btnDeleteUser.Size = new System.Drawing.Size(141, 23);
-            this.btnDeleteUser.TabIndex = 35;
-            this.btnDeleteUser.Text = "Удалить пользователя";
-            this.btnDeleteUser.UseVisualStyleBackColor = true;
-            // 
-            // btnDeleteGroup
-            // 
-            this.btnDeleteGroup.Location = new System.Drawing.Point(242, 34);
-            this.btnDeleteGroup.Name = "btnDeleteGroup";
-            this.btnDeleteGroup.Size = new System.Drawing.Size(141, 23);
-            this.btnDeleteGroup.TabIndex = 36;
-            this.btnDeleteGroup.Text = "Удалить группу";
-            this.btnDeleteGroup.UseVisualStyleBackColor = true;
             // 
             // FormAdmin
             // 
