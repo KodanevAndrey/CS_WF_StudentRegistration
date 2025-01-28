@@ -130,7 +130,36 @@ namespace Student_Registration
             txtApartmentNumber.Enabled = IsActive;
         }
 
-        private void CheckTextElementClolr(Color color, bool changeable)
+        private void CheckIsDataChanged()
+        {
+            if (IsDataChanged)
+            {
+                btnAddOrUpdateUser.Enabled = true;
+                btnAddOrUpdateUser.Text = "Измненение!";
+            }
+            else
+            {
+                btnAddOrUpdateUser.Enabled = false;
+                btnAddOrUpdateUser.Text = "Чтенеие!";
+            }
+        }
+
+        private void CheckIsNoCorrect()
+        {
+            if (IsNoCorrect)
+            {
+                btnAddOrUpdateUser.Enabled = false;
+                btnAddOrUpdateUser.Text = "Некорректный ввод!";
+            }
+            else if (!IsNoCorrect && IsAdding)
+            {
+                btnAddOrUpdateUser.Enabled = true;
+                btnAddOrUpdateUser.Text = "Добавить";
+            }
+            else CheckIsDataChanged();
+        }
+
+        private void CheckTextElementClolr(Color color,out bool changeable)
         {
             changeable = false;
 
@@ -147,16 +176,7 @@ namespace Student_Registration
             if (cbCity.BackColor == color) changeable = true;
             if (cbStreet.BackColor == color) changeable = true;
 
-            if (!changeable)
-            {
-                btnAddOrUpdateUser.Enabled = true;
-                btnAddOrUpdateUser.Text = "СВОбодно!";
-            }
-            else
-            {
-                btnAddOrUpdateUser.Enabled = false;
-                btnAddOrUpdateUser.Text = "КАБЛОКИРОВАНО!";
-            }
+            CheckIsNoCorrect();
         }
 
         private void ReturnTextElementsSettingsToDefault()
@@ -167,7 +187,7 @@ namespace Student_Registration
             IsNoCorrect = false;
 
             btnAddOrUpdateUser.Enabled = false;
-            btnAddOrUpdateUser.Text = "норм))";
+            btnAddOrUpdateUser.Text = "Чтение!";
             txtName.BackColor = localColor;
             txtSurname.BackColor = localColor;
             txtPatronymic.BackColor = localColor;
@@ -180,6 +200,30 @@ namespace Student_Registration
             cbUchebnayaDistsiplina.BackColor = localColor;
             cbCity.BackColor = localColor;
             cbStreet.BackColor = localColor;
+        }
+
+        private bool CheckAllTextElementsToFilled()
+        {
+            bool NoFilled = false;
+
+            if (txtName.Text == "") NoFilled = true;
+            if (txtSurname.Text == "") NoFilled = true;
+            if (txtPatronymic.Text == "") NoFilled = true;
+            if (txtEmail.Text == "") NoFilled = true;
+            if (txtPassword.Text == "") NoFilled = true;
+            if (txtPhone.Text == "") NoFilled = true;
+            if (txtHouseNumber.Text == "") NoFilled = true;
+            if (txtApartmentNumber.Text == "") NoFilled = true;
+
+            if (cbUchebnayaDistsiplina.Text == "") NoFilled = true;
+            if (cbCity.Text == "") NoFilled = true;
+            if (cbStreet.Text == "") NoFilled = true;
+
+            if (NoFilled)
+            {
+                return false;
+            }
+            else return true;
         }
 
         private void ClearAllComboBoxElements()
@@ -244,10 +288,7 @@ namespace Student_Registration
                 cbSelectGroup.Enabled = false;
                 btnDeleteGroup.Enabled = false;
 
-                cbSelectUser.Text = "";
                 cbSelectUser.Enabled = true;
-                cbSelectUser.Items.Clear();
-                cbSelectUser.Items.Add("добавить");
 
                 ReturnTextElementsSettingsToDefault();
 
@@ -271,8 +312,6 @@ namespace Student_Registration
                 cbSelectGroup.Text = "";
 
                 cbSelectUser.Text = "";
-                cbSelectUser.Items.Clear();
-                cbSelectUser.Items.Add("добавить");
 
                 ReturnTextElementsSettingsToDefault();
 
@@ -292,11 +331,6 @@ namespace Student_Registration
 
             if (cbSelectUser.SelectedItem.ToString() == "добавить")
             {
-                if(cbUserType.SelectedItem.ToString() == "студент")
-                {
-                    cbUchebnayaDistsiplina.SelectedItem = cbSelectGroup.SelectedItem;
-                    cbUchebnayaDistsiplina.Text = cbSelectGroup.Text;
-                }
                 IsAdding = true;
                 EnabledAllTextElementsToAM(true);
                 ClearAllComboBoxElements();
@@ -305,6 +339,13 @@ namespace Student_Registration
                 btnAddOrUpdateUser.Text = "Add";
                 btnDeleteUser.Enabled = false;
                 ReturnTextElementsSettingsToDefault();
+
+                if(cbUserType.SelectedItem.ToString() == "студент")
+                {
+                    cbUchebnayaDistsiplina.SelectedItem = cbSelectGroup.SelectedItem;
+                    cbUchebnayaDistsiplina.Text = cbSelectGroup.SelectedItem.ToString();
+                    cbUchebnayaDistsiplina.Enabled = false;
+                }
             }
             else
             {
@@ -366,6 +407,8 @@ namespace Student_Registration
                 FormAddingSecondaryInformation form;
                 form = new FormAddingSecondaryInformation(lbStatusAM, cbSelectGroup, AM, "GroupsTable", "group_name", "группу");
                 form.Show();
+                AM.LoadAllItemsForComboBox(cbUchebnayaDistsiplina, "GroupsTable", "group_name");
+                ReturnTextElementsSettingsToDefault();
             }
             else
             {
@@ -401,10 +444,13 @@ namespace Student_Registration
                 }
                 else if (cbUserType.SelectedItem.ToString() == "студент")
                 {
-                    if (cbUchebnayaDistsiplina.SelectedItem.ToString() == data["group_name"]) cbUchebnayaDistsiplina.BackColor = Color.White;
-                    else { cbUchebnayaDistsiplina.BackColor = colorChanged; }
+                    if(data.Keys.Count > 0)
+                    {
+                        if (cbUchebnayaDistsiplina.SelectedItem.ToString() == data["group_name"]) cbUchebnayaDistsiplina.BackColor = Color.White;
+                        else { cbUchebnayaDistsiplina.BackColor = colorChanged; }
+                    }
                 }
-                CheckTextElementClolr(colorChanged, IsDataChanged);
+                CheckTextElementClolr(colorChanged, out IsDataChanged);
             }
         }
 
@@ -427,7 +473,7 @@ namespace Student_Registration
                 { 
                     cbCity.BackColor = colorChanged; 
                 }
-                CheckTextElementClolr(colorChanged, IsDataChanged);
+                CheckTextElementClolr(colorChanged, out IsDataChanged);
             }
         }
 
@@ -443,142 +489,44 @@ namespace Student_Registration
             {
                 if (cbStreet.SelectedItem.ToString() == data["street_name"]) cbStreet.BackColor = Color.White;
                 else { cbStreet.BackColor = colorChanged; }
-                CheckTextElementClolr(colorChanged, IsDataChanged);
+                CheckTextElementClolr(colorChanged, out IsDataChanged);
             }
         }
 
-        private void txtName_TextChanged(object sender, EventArgs e)
+        private void TextElement(TextBox textBox, string ColumnName, string TypeCheck)
         {
-            //if (!string.IsNullOrEmpty(txtName.Text))
             if (!IsAdding)
             {
-                if (txtName.Text != data["name"]) txtName.BackColor = colorChanged;
-                else txtName.BackColor = Color.White;
-                CheckTextElementClolr(colorChanged, IsDataChanged);
+                if (textBox.Text != data[ColumnName]) 
+                {
+                    textBox.BackColor = colorChanged;
+                    if (AM.CheckForValidity(lbStatusAM, textBox.Text, TypeCheck)) textBox.BackColor = colorChanged;
+                    else textBox.BackColor = colorNoCorrect;
+                    CheckTextElementClolr(colorNoCorrect, out IsNoCorrect);
+                }
+                else textBox.BackColor = Color.White;
+                CheckTextElementClolr(colorChanged, out IsDataChanged);
             }
             else
             {
-                if (AM.CheckForValidity(lbStatusAM, txtName.Text, "name")) txtName.BackColor = Color.White;
-                else txtName.BackColor = colorNoCorrect;
-                CheckTextElementClolr(colorNoCorrect, IsNoCorrect);
+                if (AM.CheckForValidity(lbStatusAM, textBox.Text, TypeCheck)) textBox.BackColor = Color.White;
+                else textBox.BackColor = colorNoCorrect;
+                CheckTextElementClolr(colorNoCorrect, out IsNoCorrect);
             }
         }
 
-        private void txtSurname_TextChanged(object sender, EventArgs e)
-        {
-            if (!IsAdding)
-            {
-                if (txtSurname.Text != data["surname"]) txtSurname.BackColor = colorChanged;
-                else txtSurname.BackColor = Color.White;
-                CheckTextElementClolr(colorChanged, IsDataChanged);
-            }
-            else
-            {
-                if (AM.CheckForValidity(lbStatusAM, txtSurname.Text, "name")) txtSurname.BackColor = Color.White;
-                else txtSurname.BackColor = colorNoCorrect;
-                CheckTextElementClolr(colorNoCorrect, IsNoCorrect);
-            }
-        }
-
-        private void txtPatronymic_TextChanged(object sender, EventArgs e)
-        {
-            if (!IsAdding)
-            {
-                if (txtPatronymic.Text != data["patronymic"]) txtPatronymic.BackColor = colorChanged;
-                else txtPatronymic.BackColor = Color.White;
-                CheckTextElementClolr(colorChanged, IsDataChanged);
-            }
-            else
-            {
-                if (AM.CheckForValidity(lbStatusAM, txtPatronymic.Text, "name")) txtPatronymic.BackColor = Color.White;
-                else txtPatronymic.BackColor = colorNoCorrect;
-                CheckTextElementClolr(colorNoCorrect, IsNoCorrect);
-            }
-        }
-
-        private void txtEmail_TextChanged(object sender, EventArgs e)
-        {
-            if (!IsAdding)
-            {
-                if (txtEmail.Text != data["email"]) txtEmail.BackColor = colorChanged;
-                else txtEmail.BackColor = Color.White;
-                CheckTextElementClolr(colorChanged, IsDataChanged);
-            }
-            else
-            {
-                if (AM.CheckForValidity(lbStatusAM, txtEmail.Text, "noInt")) txtEmail.BackColor = Color.White;
-                else txtEmail.BackColor = colorNoCorrect;
-                CheckTextElementClolr(colorNoCorrect, IsNoCorrect);
-            }
-        }
-
-        private void txtPassword_TextChanged(object sender, EventArgs e)
-        {
-            if (!IsAdding)
-            {
-                if (txtPassword.Text != data["password"]) txtPassword.BackColor = colorChanged;
-                else txtPassword.BackColor = Color.White;
-                CheckTextElementClolr(colorChanged, IsDataChanged);
-            }
-            else
-            {
-                if (AM.CheckForValidity(lbStatusAM, txtPassword.Text, "onlyInt")) txtPassword.BackColor = Color.White;
-                else txtPassword.BackColor = colorNoCorrect;
-                CheckTextElementClolr(colorNoCorrect, IsNoCorrect);
-            }
-        }
-
-        private void txtPhone_TextChanged(object sender, EventArgs e)
-        {
-            if (!IsAdding)
-            {
-                if (txtPhone.Text != data["phone_number"]) txtPhone.BackColor = colorChanged;
-                else txtPhone.BackColor = Color.White;
-                CheckTextElementClolr(colorChanged, IsDataChanged);
-            }
-            else
-            {
-                if (AM.CheckForValidity(lbStatusAM, txtPhone.Text, "onlyInt")) txtPhone.BackColor = Color.White;
-                else txtPhone.BackColor = colorNoCorrect;
-                CheckTextElementClolr(colorNoCorrect, IsNoCorrect);
-            }
-        }
-
-        private void txtHouseNumber_TextChanged(object sender, EventArgs e)
-        {
-            if (!IsAdding)
-            {
-                if (txtHouseNumber.Text != data["house_number"]) txtHouseNumber.BackColor = colorChanged;
-                else txtHouseNumber.BackColor = Color.White;
-                CheckTextElementClolr(colorChanged, IsDataChanged);
-            }
-            else
-            {
-                if (AM.CheckForValidity(lbStatusAM, txtHouseNumber.Text, "onlyInt")) txtHouseNumber.BackColor = Color.White;
-                else txtHouseNumber.BackColor = colorNoCorrect;
-                CheckTextElementClolr(colorNoCorrect, IsNoCorrect);
-            }
-        }
-
-        private void txtApartmentNumber_TextChanged(object sender, EventArgs e)
-        {
-            if (!IsAdding)
-            {
-                if (txtApartmentNumber.Text != data["apartment_number"]) txtApartmentNumber.BackColor = colorChanged;
-                else txtApartmentNumber.BackColor = Color.White;
-                CheckTextElementClolr(colorChanged, IsDataChanged);
-            }
-            else
-            {
-                if (AM.CheckForValidity(lbStatusAM, txtApartmentNumber.Text, "onlyInt")) txtApartmentNumber.BackColor = Color.White;
-                else txtApartmentNumber.BackColor = colorNoCorrect;
-                CheckTextElementClolr(colorNoCorrect, IsNoCorrect);
-            }
-        }
+        private void txtName_TextChanged(object sender, EventArgs e) => TextElement(txtName, "name", "name");
+        private void txtSurname_TextChanged(object sender, EventArgs e) => TextElement(txtSurname, "surname", "name");
+        private void txtPatronymic_TextChanged(object sender, EventArgs e) => TextElement(txtPatronymic, "patronymic", "name");
+        private void txtEmail_TextChanged(object sender, EventArgs e) => TextElement(txtEmail, "email", "noInt");
+        private void txtPassword_TextChanged(object sender, EventArgs e) => TextElement(txtPassword, "password", "onlyInt");
+        private void txtPhone_TextChanged(object sender, EventArgs e) => TextElement(txtPhone, "phone_number", "onlyInt");
+        private void txtHouseNumber_TextChanged(object sender, EventArgs e) => TextElement(txtHouseNumber, "house_number", "onlyInt");
+        private void txtApartmentNumber_TextChanged(object sender, EventArgs e) => TextElement(txtApartmentNumber, "apartment_number", "onlyInt");
 
         private void btnAddOrUpdateUser_Click(object sender, EventArgs e)
         {
-            if (IsAdding && IsNoCorrect == false)
+            if (IsAdding && IsNoCorrect == false && CheckAllTextElementsToFilled())
             {
                 List<string> _columns = new List<string>();
                 List<string> _data = new List<string>();
@@ -612,16 +560,22 @@ namespace Student_Registration
                     AM.ReadAllName(lbStatusAM, cbSelectUser, cbSelectGroup.SelectedItem.ToString());
                 }
             }
-
+            else
+            {
+                lbStatusAM.Text = "ЗАПОЛНИТЕ ВСЕ СТРОКИ!";
+            }
         }
 
         private void btnDeleteGroup_Click(object sender, EventArgs e)
         {
             string TableName = cbSelectGroup.SelectedItem.ToString();
-            DialogResult dialogResult = MessageBox.Show("Sure", "Вы уверены что хотите удалить группу " + TableName + "?", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Вы уверены что хотите удалить группу " + TableName + "?", "Удаление группы", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 AM.DeleteTable(lbStatusAM, TableName);
+                cbSelectGroup.SelectedItem = "";
+                cbSelectGroup.Text = "";
+                AM.ReadCountTables(lbStatusAM, cbSelectGroup);
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -638,7 +592,7 @@ namespace Student_Registration
                 if (str[i] == ' ') break;
                 surname += str[i];
             }
-            DialogResult dialogResult = MessageBox.Show("Sure", "Вы уверены что хотите удалить ползователя " + surname + "?", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Вы уверены что хотите удалить ползователя " + cbSelectUser.Text + "?", "Удаление пользователя", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 if (cbUserType.SelectedItem.ToString() == "перподаватель")
@@ -661,6 +615,7 @@ namespace Student_Registration
                     cbSelectUser.Text = "";
                     AM.ReadAllName(lbStatusAM, cbSelectUser, cbSelectGroup.SelectedItem.ToString());
                 }
+                ReturnTextElementsSettingsToDefault();
             }
             else if (dialogResult == DialogResult.No)
             {

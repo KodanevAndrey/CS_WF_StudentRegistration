@@ -46,6 +46,7 @@ namespace Student_Registration
         public void ReadCountTables(Label lbStatusText, ComboBox comboBox)
         {
             comboBox.Items.Clear();
+            comboBox.Items.Add("добавить группу");
             bool correct = true;
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -139,6 +140,9 @@ namespace Student_Registration
                 MessageBox.Show("Open connection with database");
                 return;
             }
+            comboBox.Items.Clear();
+            comboBox.Text = "";
+            comboBox.Items.Add("добавить");
             try
             {
                 string query = @" SELECT name, surname, patronymic FROM "+ TableName +" ;";
@@ -225,7 +229,6 @@ namespace Student_Registration
                 MessageBox.Show("Open connection with database");
             }
             comboBox.Items.Clear();
-
             switch (TableName)
             {
                 case "CityTable": comboBox.Items.Add("добавить город"); break;
@@ -446,7 +449,8 @@ namespace Student_Registration
             }
             try
             {
-                string query = @"DROP TABLE" + tableNameDB + ";";
+                string query = @"DROP TABLE " + tableNameDB + "; "+
+                    "DELETE FROM GroupsTable WHERE group_name = '" + tableNameDB + "';";
                 m_sqlCmd.CommandText = query;
                 m_sqlCmd.ExecuteNonQuery();
                 statusText.Text = "Таблица Удалена!";
