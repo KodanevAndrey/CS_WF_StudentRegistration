@@ -9,6 +9,7 @@ using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
 using System.Data;
+using System.Text.RegularExpressions;
 
 namespace Student_Registration
 {
@@ -361,66 +362,6 @@ namespace Student_Registration
             return columns;
         }
 
-        public bool CheckForValidity(Label statusText, in string EnterText, in string CheckType )
-        {
-            bool IsCorrect = true;
-            if(EnterText == "") { statusText.Text = "\nстока пуста!"; return false; }
-            switch (CheckType)
-            {
-                case "noInt":
-                    foreach(char c in EnterText)
-                    {
-                        for(int i = 48; i <= 57; i++)
-                        {
-                            if (c == i)
-                            {
-                                IsCorrect = false;
-                                statusText.Text = "в строке: " + EnterText + " не должно быть цисел!";
-                            }
-                        }
-                    }
-                    break;
-                case "name":
-                    bool IsCapitalLetter = false;
-                    for (int i = 1040; i <= 1071; i++)
-                    {
-                        if (EnterText[0] == i) IsCapitalLetter = true;
-                    }
-                    if (!IsCapitalLetter)
-                    {
-                        IsCorrect = false;
-                        statusText.Text = "\nв строке: " + EnterText + " должна быть заглавная буква!";
-                    }
-                    foreach (char c in EnterText)
-                    {
-                        for (int i = 48; i <= 57; i++)
-                        {
-                            if (c == i)
-                            {
-                                IsCorrect = false;
-                                statusText.Text = "\nв строке: " + EnterText + " не должно быть цисел!";
-                            }
-                        }
-                    }
-                    break;
-                case "onlyInt":
-                    foreach(char c in EnterText)
-                    {
-                        for (int i = 1040; i <= 1102; i++)
-                        {
-                            if (c == i)
-                            {
-                                IsCorrect = false;
-                                statusText.Text = "\nв строке: " + EnterText + " не должно быть букв!";
-                            }
-                        }
-                    }
-                    break;
-                default: statusText.Text = "\n неопределён тип проверки на валидацию вводимых данных!"; return false;
-            }
-            if(IsCorrect) statusText.Text = "\nстрока: " + EnterText + " валидна!";
-            return IsCorrect;
-        }
 
         public void DeleteUser(Label statusText, in string tableNameDB, in string columnName, in string Value)
         {
@@ -459,6 +400,97 @@ namespace Student_Registration
             {
                 MessageBox.Show("Error LoadTable: " + ex.Message + "\nCOMMAND: " + m_sqlCmd.CommandText);
             }
+        }
+
+        public void Reset(Label status, string TableName, string column, string value, string id)
+        {
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+                return;
+            }
+            try
+            {
+                string query = @"UPDATE " + TableName + " SET " + column + " = '"+ value +"' WHERE id = '"+ id +"';";
+
+                m_sqlCmd.CommandText = query;
+                m_sqlCmd.ExecuteNonQuery();
+                status.Text = "Данные пользовантеля обновлены!";
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+            }
+        }
+        public bool CheckForValidity(Label statusText, in string EnterText, in string CheckType )
+        {
+            bool IsCorrect = true;
+            string pattern;
+            if (EnterText == "") { statusText.Text = "\nстока пуста!"; return false; }
+            switch (CheckType)
+            {
+                case "email":
+                    // Проверяем, что строка не пустая
+                    if (string.IsNullOrEmpty(EnterText))
+                    {
+                        return false;
+                    }
+
+                    // Проверяем, что первый символ не '@'
+                    if (EnterText[0] == '@')
+                    {
+                        return false;
+                    }
+
+                    // Регулярное выражение для проверки строки
+                    // ^ - начало строки
+                    // [a-zA-Z]+ - одна или более латинских букв
+                    // (?=.*@) - обязательно наличие символа '@'
+                    // (?=.*\.) - обязательно наличие символа '.'
+                    // [a-zA-Z@.]* - остальные символы могут быть латинскими буквами, '@' или '.'
+                    // $ - конец строки
+                    pattern = @"^[a-zA-Z]+(?=.*@)(?=.*\.)[a-zA-Z@.]*$";
+
+                    // Проверяем соответствие строки регулярному выражению
+                    IsCorrect = Regex.IsMatch(EnterText, pattern);
+                    break;
+                case "name":
+                    // Проверяем, что строка не пустая
+                    if (string.IsNullOrEmpty(EnterText))
+                    {
+                        return false;
+                    }
+
+                    // Регулярное выражение для проверки строки
+                    // ^ - начало строки
+                    // [А-ЯЁ] - первая буква должна быть заглавной русской буквой
+                    // [а-яёА-ЯЁ]* - остальные символы могут быть строчными или заглавными русскими буквами
+                    // $ - конец строки
+                    pattern = @"^[А-ЯЁ][а-яё]*$";
+
+                    // Проверяем соответствие строки регулярному выражению
+                    IsCorrect = Regex.IsMatch(EnterText, pattern);
+                    break;
+                case "onlyInt":
+                    // Проверяем, что строка не пустая
+                    if (string.IsNullOrEmpty(EnterText))
+                    {
+                        return false;
+                    }
+
+                    // Регулярное выражение для проверки строки
+                    // ^ - начало строки
+                    // \d+ - одна или более цифр
+                    // $ - конец строки
+                    pattern = @"^\d+$";
+
+                    // Проверяем соответствие строки регулярному выражению
+                    IsCorrect = Regex.IsMatch(EnterText, pattern);
+                    break;
+                default: statusText.Text = "\n неопределён тип проверки на валидацию вводимых данных!"; return false;
+            }
+            if(IsCorrect) statusText.Text = "\nстрока: " + EnterText + " валидна!";
+            return IsCorrect;
         }
     }
 }

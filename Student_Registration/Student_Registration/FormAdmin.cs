@@ -135,12 +135,12 @@ namespace Student_Registration
             if (IsDataChanged)
             {
                 btnAddOrUpdateUser.Enabled = true;
-                btnAddOrUpdateUser.Text = "Измненение!";
+                btnAddOrUpdateUser.Text = "Измненить";
             }
             else
             {
                 btnAddOrUpdateUser.Enabled = false;
-                btnAddOrUpdateUser.Text = "Чтенеие!";
+                btnAddOrUpdateUser.Text = "Чтенеие";
             }
         }
 
@@ -518,7 +518,7 @@ namespace Student_Registration
         private void txtName_TextChanged(object sender, EventArgs e) => TextElement(txtName, "name", "name");
         private void txtSurname_TextChanged(object sender, EventArgs e) => TextElement(txtSurname, "surname", "name");
         private void txtPatronymic_TextChanged(object sender, EventArgs e) => TextElement(txtPatronymic, "patronymic", "name");
-        private void txtEmail_TextChanged(object sender, EventArgs e) => TextElement(txtEmail, "email", "noInt");
+        private void txtEmail_TextChanged(object sender, EventArgs e) => TextElement(txtEmail, "email", "email");
         private void txtPassword_TextChanged(object sender, EventArgs e) => TextElement(txtPassword, "password", "onlyInt");
         private void txtPhone_TextChanged(object sender, EventArgs e) => TextElement(txtPhone, "phone_number", "onlyInt");
         private void txtHouseNumber_TextChanged(object sender, EventArgs e) => TextElement(txtHouseNumber, "house_number", "onlyInt");
@@ -526,7 +526,7 @@ namespace Student_Registration
 
         private void btnAddOrUpdateUser_Click(object sender, EventArgs e)
         {
-            if (IsAdding && IsNoCorrect == false && CheckAllTextElementsToFilled())
+            if (IsNoCorrect == false && CheckAllTextElementsToFilled())
             {
                 List<string> _columns = new List<string>();
                 List<string> _data = new List<string>();
@@ -546,18 +546,46 @@ namespace Student_Registration
                 _data.Add(txtHouseNumber.Text);
                 _data.Add(txtApartmentNumber.Text);
 
-                
-                if (cbUserType.SelectedItem.ToString() == "перподаватель")
+                if (IsAdding && !IsDataChanged)
                 {
-                    _columns = AM.GetTableInfo(lbStatusAM, "AccountsTable");
-                    AM.AddNewUserDB(lbStatusAM, "AccountsTable", _columns, _data);
-                    AM.ReadAllName(lbStatusAM, cbSelectUser, "AccountsTable");
+                    if (cbUserType.SelectedItem.ToString() == "перподаватель")
+                    {
+                        _columns = AM.GetTableInfo(lbStatusAM, "AccountsTable");
+                        AM.AddNewUserDB(lbStatusAM, "AccountsTable", _columns, _data);
+                        AM.ReadAllName(lbStatusAM, cbSelectUser, "AccountsTable");
+                    }
+                    else if (cbUserType.SelectedItem.ToString() == "студент")
+                    {
+                        _columns = AM.GetTableInfo(lbStatusAM, cbSelectGroup.SelectedItem.ToString());
+                        AM.AddNewUserDB(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns, _data);
+                        AM.ReadAllName(lbStatusAM, cbSelectUser, cbSelectGroup.SelectedItem.ToString());
+                    }
                 }
-                else if(cbUserType.SelectedItem.ToString() == "студент")
+                else if(!IsAdding && IsDataChanged)
                 {
-                    _columns = AM.GetTableInfo(lbStatusAM, cbSelectGroup.SelectedItem.ToString());
-                    AM.AddNewUserDB(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns, _data);
-                    AM.ReadAllName(lbStatusAM, cbSelectUser, cbSelectGroup.SelectedItem.ToString());
+                    string str = cbSelectUser.Text;
+                    string surname = null;
+                    for (int i = 0; i < str.Length; i++)
+                    {
+                        if (str[i] == ' ') break;
+                        surname += str[i];
+                    }
+
+                    if (cbUserType.SelectedItem.ToString() == "перподаватель") _columns = AM.GetTableInfo(lbStatusAM, "AccountsTable");
+                    else if (cbUserType.SelectedItem.ToString() == "студент") _columns = AM.GetTableInfo(lbStatusAM, cbSelectGroup.SelectedItem.ToString());
+
+                    if (_columns.Count == _data.Count)
+                        for (int i = 0;i < _columns.Count; i++)
+                        {
+                            if (cbUserType.SelectedItem.ToString() == "перподаватель")
+                            {
+                                AM.Reset(lbStatusAM, "AccountsTable", _columns[i], _data[i], AM.GetID("AccountsTable", "surname", surname));
+                            }
+                            else if (cbUserType.SelectedItem.ToString() == "студент")
+                            {
+                                AM.Reset(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns[i], _data[i], AM.GetID(cbSelectGroup.SelectedItem.ToString(), "surname", surname));
+                            }
+                        }
                 }
             }
             else
@@ -576,10 +604,6 @@ namespace Student_Registration
                 cbSelectGroup.SelectedItem = "";
                 cbSelectGroup.Text = "";
                 AM.ReadCountTables(lbStatusAM, cbSelectGroup);
-            }
-            else if (dialogResult == DialogResult.No)
-            {
-                //do something else
             }
         }
 
@@ -616,10 +640,6 @@ namespace Student_Registration
                     AM.ReadAllName(lbStatusAM, cbSelectUser, cbSelectGroup.SelectedItem.ToString());
                 }
                 ReturnTextElementsSettingsToDefault();
-            }
-            else if (dialogResult == DialogResult.No)
-            {
-                //do something else
             }
         }
     }

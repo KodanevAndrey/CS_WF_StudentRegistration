@@ -185,7 +185,7 @@
             "BLOB"});
             this.CBColumnType.Location = new System.Drawing.Point(97, 88);
             this.CBColumnType.Name = "CBColumnType";
-            this.CBColumnType.Size = new System.Drawing.Size(192, 21);
+            this.CBColumnType.Size = new System.Drawing.Size(117, 21);
             this.CBColumnType.TabIndex = 15;
             // 
             // label4
@@ -685,7 +685,7 @@
             // lbStatusAM
             // 
             this.lbStatusAM.AutoSize = true;
-            this.lbStatusAM.Location = new System.Drawing.Point(8, 481);
+            this.lbStatusAM.Location = new System.Drawing.Point(8, 423);
             this.lbStatusAM.Name = "lbStatusAM";
             this.lbStatusAM.Size = new System.Drawing.Size(35, 13);
             this.lbStatusAM.TabIndex = 3;
@@ -693,7 +693,7 @@
             // 
             // btnResetPassword
             // 
-            this.btnResetPassword.Location = new System.Drawing.Point(632, 15);
+            this.btnResetPassword.Location = new System.Drawing.Point(6, 528);
             this.btnResetPassword.Name = "btnResetPassword";
             this.btnResetPassword.Size = new System.Drawing.Size(209, 23);
             this.btnResetPassword.TabIndex = 0;
