@@ -10,7 +10,6 @@ using System.Drawing;
 using System.IO;
 using System.Data;
 using System.Text.RegularExpressions;
-
 namespace Student_Registration
 {
     public class AccountManager
@@ -491,6 +490,32 @@ namespace Student_Registration
             }
             if(IsCorrect) statusText.Text = "\nстрока: " + EnterText + " валидна!";
             return IsCorrect;
+        }
+
+        public string ReadPassword(Label lbStatus, string tableName, string column, string whereColumn, string value)
+        {
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+            }
+            try
+            {
+                string query = @"SELECT " + column + " FROM " + tableName + " WHERE " + whereColumn + " = '"+ value + "';";
+
+                using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))
+                {
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        reader.Read();
+                        return reader[column].ToString();
+                    }
+                }
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+                return "ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText;
+            }
         }
     }
 }

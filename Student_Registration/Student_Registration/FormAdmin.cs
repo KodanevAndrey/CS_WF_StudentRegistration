@@ -467,7 +467,6 @@ namespace Student_Registration
                 if (cbCity.SelectedItem.ToString() == data["city_name"]) 
                 {
                     cbCity.BackColor = Color.White;
-
                 } 
                 else 
                 { 
