@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\formmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\student_registration\\accountmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\accountmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|c:\\kodanevandreyproject\\cs_wf_studentregistration\\student_registration\\student_registration\\formmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\formmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|c:\\kodanevandreyproject\\cs_wf_studentregistration\\student_registration\\student_registration\\accountmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\accountmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,14 +26,14 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "FormMain.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\FormMain.cs",
               "RelativeDocumentMoniker": "Student_Registration\\FormMain.cs",
               "ToolTip": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\FormMain.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "RelativeToolTip": "Student_Registration\\FormMain.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T12:02:47.85Z",
+              "WhenOpened": "2025-01-30T11:19:26.39Z",
               "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
             },
             {
@@ -44,22 +44,22 @@
               "RelativeDocumentMoniker": "Student_Registration\\FormMain.cs",
               "ToolTip": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\FormMain.cs",
               "RelativeToolTip": "Student_Registration\\FormMain.cs",
-              "ViewState": "AgIAAFMAAAAAAAAAAAAIwGUAAAA+AAAAAAAAAA==",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAuwEoAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T12:03:00.407Z",
+              "WhenOpened": "2025-01-30T11:19:29.818Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "AccountManager.cs",
               "DocumentMoniker": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\AccountManager.cs",
               "RelativeDocumentMoniker": "Student_Registration\\AccountManager.cs",
               "ToolTip": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\AccountManager.cs",
               "RelativeToolTip": "Student_Registration\\AccountManager.cs",
-              "ViewState": "AgIAAOABAAAAAAAAAAD4v/YBAABzAAAAAAAAAA==",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-28T10:24:20.888Z",
+              "WhenOpened": "2025-01-30T11:20:14.722Z",
               "EditorCaption": ""
             }
           ]

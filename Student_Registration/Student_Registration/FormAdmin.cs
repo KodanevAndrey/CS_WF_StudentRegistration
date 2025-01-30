@@ -46,7 +46,6 @@ namespace Student_Registration
         {
             if (db.ConnectDB(lbStatusText))
             {
-                //db.LoadCountTables(lbStatusText);
                 form = new FormSelectedOpenTable(db);
                 form.ShowDialog();
                 db.GetTableInfo(lbStatusText);
@@ -122,6 +121,7 @@ namespace Student_Registration
             txtPatronymic.Enabled = IsActive;
             cbUchebnayaDistsiplina.Enabled = IsActive;
             txtEmail.Enabled = IsActive;
+            txtLogin.Enabled = IsActive;
             txtPassword.Enabled = IsActive;
             txtPhone.Enabled = IsActive;
             cbCity.Enabled = IsActive;
@@ -167,6 +167,7 @@ namespace Student_Registration
             if (txtSurname.BackColor == color) changeable = true;
             if (txtPatronymic.BackColor == color) changeable = true;
             if (txtEmail.BackColor == color) changeable = true;
+            if (txtLogin.BackColor == color) changeable = true;
             if (txtPassword.BackColor == color) changeable = true;
             if (txtPhone.BackColor == color) changeable = true;
             if (txtHouseNumber.BackColor == color) changeable = true;
@@ -192,6 +193,7 @@ namespace Student_Registration
             txtSurname.BackColor = localColor;
             txtPatronymic.BackColor = localColor;
             txtEmail.BackColor = localColor;
+            txtLogin.BackColor = localColor;
             txtPassword.BackColor = localColor;
             txtPhone.BackColor = localColor;
             txtHouseNumber.BackColor = localColor;
@@ -210,6 +212,7 @@ namespace Student_Registration
             if (txtSurname.Text == "") NoFilled = true;
             if (txtPatronymic.Text == "") NoFilled = true;
             if (txtEmail.Text == "") NoFilled = true;
+            if (txtLogin.Text == "") NoFilled = true;
             if (txtPassword.Text == "") NoFilled = true;
             if (txtPhone.Text == "") NoFilled = true;
             if (txtHouseNumber.Text == "") NoFilled = true;
@@ -242,6 +245,7 @@ namespace Student_Registration
             txtSurname.Text = "";
             txtPatronymic.Text = "";
             txtEmail.Text = "";
+            txtLogin.Text = "";
             txtPassword.Text = "";
             txtPhone.Text = "";
             txtHouseNumber.Text = "";
@@ -272,6 +276,45 @@ namespace Student_Registration
             }
             if (IsError) MessageBox.Show("выберите пункт в списке чтобы удалить столбец!");
             else listStringColums.Items.Remove(listStringColums.SelectedItem);
+        }
+
+        private void ReloadAllUserDataElements()
+        {
+            string str = cbSelectUser.Text;
+            string surname = null;
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (str[i] == ' ') break;
+                surname += str[i];
+            }
+            //data = AM.ReadSelectedOnlyRow(lbStatusText, surname, );
+            if (cbUserType.SelectedItem.ToString() == "перподаватель")
+            {
+                data = AM.ReadSelectedOnlyRow(lbStatusText, surname, "NULL");
+                cbUchebnayaDistsiplina.SelectedItem = data["uchebnaya_distsiplina_name"];
+                cbUchebnayaDistsiplina.Text = data["uchebnaya_distsiplina_name"];
+            }
+            else if (cbUserType.SelectedItem.ToString() == "студент")
+            {
+                data = AM.ReadSelectedOnlyRow(lbStatusText, surname, cbSelectGroup.SelectedItem.ToString());
+                cbUchebnayaDistsiplina.SelectedItem = data["group_name"];
+                cbUchebnayaDistsiplina.Text = data["group_name"];
+            }
+
+            txtName.Text = data["name"].ToString();
+            txtSurname.Text = data["surname"].ToString();
+            txtPatronymic.Text = data["patronymic"].ToString();
+            txtEmail.Text = data["email"].ToString();
+            txtLogin.Text = data["login"].ToString();
+            txtPassword.Text = data["password"].ToString();
+            txtPhone.Text = data["phone_number"].ToString();
+            cbCity.SelectedItem = data["city_name"];
+            cbCity.Text = data["city_name"];
+            cbStreet.SelectedItem = data["street_name"];
+            cbStreet.Text = data["street_name"];
+            txtHouseNumber.Text = data["house_number"].ToString();
+            txtApartmentNumber.Text = data["apartment_number"].ToString();
+            IsAdding = false;
         }
 
         private void cbUserType_SelectedIndexChanged(object sender, EventArgs e)
@@ -352,43 +395,12 @@ namespace Student_Registration
                 if (cbSelectGroup.Enabled == true)
                     TableName = cbSelectGroup.SelectedItem.ToString();
 
-                string str = cbSelectUser.Text;
-                string surname = null;
-                for (int i = 0; i < str.Length; i++)
-                {
-                    if (str[i] == ' ') break;
-                    surname += str[i];
-                }
-                data = AM.ReadSelectedOnlyRow(lbStatusText, surname, TableName);
                 ReturnTextElementsSettingsToDefault();
                 EnabledAllTextElementsToAM(true);
                 ClearAllComboBoxElements();
                 ClearAllTextElements();
 
-                if (cbUserType.SelectedItem.ToString() == "перподаватель")
-                {
-                    cbUchebnayaDistsiplina.SelectedItem = data["uchebnaya_distsiplina_name"];
-                    cbUchebnayaDistsiplina.Text = data["uchebnaya_distsiplina_name"];
-                }
-                else if (cbUserType.SelectedItem.ToString() == "студент") 
-                {
-                    cbUchebnayaDistsiplina.SelectedItem = data["group_name"];
-                    cbUchebnayaDistsiplina.Text = data["group_name"];
-                }
-
-                txtName.Text = data["name"].ToString();
-                txtSurname.Text = data["surname"].ToString();
-                txtPatronymic.Text = data["patronymic"].ToString();
-                txtEmail.Text = data["email"].ToString();
-                txtPassword.Text = data["password"].ToString();
-                txtPhone.Text = data["phone_number"].ToString();
-                cbCity.SelectedItem = data["city_name"];
-                cbCity.Text = data["city_name"];
-                cbStreet.SelectedItem = data["street_name"];
-                cbStreet.Text = data["street_name"];
-                txtHouseNumber.Text = data["house_number"].ToString();
-                txtApartmentNumber.Text = data["apartment_number"].ToString();
-                IsAdding = false;
+                ReloadAllUserDataElements();
             }
         }
 
@@ -518,6 +530,7 @@ namespace Student_Registration
         private void txtSurname_TextChanged(object sender, EventArgs e) => TextElement(txtSurname, "surname", "name");
         private void txtPatronymic_TextChanged(object sender, EventArgs e) => TextElement(txtPatronymic, "patronymic", "name");
         private void txtEmail_TextChanged(object sender, EventArgs e) => TextElement(txtEmail, "email", "email");
+        private void txtLogin_TextChanged(object sender, EventArgs e) => TextElement(txtLogin, "login", "name");
         private void txtPassword_TextChanged(object sender, EventArgs e) => TextElement(txtPassword, "password", "onlyInt");
         private void txtPhone_TextChanged(object sender, EventArgs e) => TextElement(txtPhone, "phone_number", "onlyInt");
         private void txtHouseNumber_TextChanged(object sender, EventArgs e) => TextElement(txtHouseNumber, "house_number", "onlyInt");
@@ -538,6 +551,7 @@ namespace Student_Registration
                 else if (cbUserType.SelectedItem.ToString() == "студент")
                     _data.Add(AM.GetID("GroupsTable", "group_name", cbUchebnayaDistsiplina.SelectedItem.ToString()));
                 _data.Add(txtEmail.Text);
+                _data.Add(txtLogin.Text);
                 _data.Add(txtPassword.Text);
                 _data.Add(txtPhone.Text);
                 _data.Add(AM.GetID("CityTable", "city_name", cbCity.SelectedItem.ToString()));
@@ -585,6 +599,9 @@ namespace Student_Registration
                                 AM.Reset(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns[i], _data[i], AM.GetID(cbSelectGroup.SelectedItem.ToString(), "surname", surname));
                             }
                         }
+                    ReturnTextElementsSettingsToDefault();
+                    ReloadAllUserDataElements();
+
                 }
             }
             else
@@ -641,5 +658,6 @@ namespace Student_Registration
                 ReturnTextElementsSettingsToDefault();
             }
         }
+
     }
 }

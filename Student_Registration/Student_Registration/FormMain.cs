@@ -23,6 +23,7 @@ namespace Student_Registration
             this.Location = new Point(750,350);
             this.MaximizeBox = false;
         }
+
         /*
         private void btnAdmin_Click(object sender, EventArgs e)
         {
@@ -31,109 +32,54 @@ namespace Student_Registration
         }
         */
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void cbUserType_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            if (cbUserType.SelectedItem.ToString() == "перподаватель")
+            if (cbUserType.SelectedItem.ToString() == "преподаватель")
             {
-
-                cbSelectGroup.SelectedItem = "";
-                cbSelectGroup.Text = "";
-                cbSelectGroup.Enabled = false;
-
-                cbSelectUser.Enabled = true;
-
                 AM.ConnectDB(lbStatus, "TeacherAccounts.sqlite");
-                AM.ReadAllName(lbStatus, cbSelectUser, "AccountsTable");
             }
             else if (cbUserType.SelectedItem.ToString() == "студент")
             {
-                cbSelectGroup.Enabled = true;
-
-                cbSelectGroup.SelectedItem = "";
-                cbSelectGroup.Text = "";
-
-                cbSelectUser.Text = "";
 
                 AM.ConnectDB(lbStatus, "StudentsAccounts.sqlite");
-                AM.ReadCountTables(lbStatus, cbSelectGroup);
             }
             else if (cbUserType.SelectedItem.ToString() == "администратор")
             {
-                cbSelectGroup.SelectedItem = "";
-                cbSelectGroup.Text = "";
-                cbSelectGroup.Enabled = false;
-
-                cbSelectGroup.SelectedItem = "";
-                cbSelectGroup.Text = "";
-
-                cbSelectUser.Text = "";
-
                 AM.ConnectDB(lbStatus, "Admin.sqlite");
             }
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void btnSimgIn_Click(object sender, EventArgs e)
         {
             //AM.ConnectDB(lbStatus,"Admin.sqlite");
-
-            string str = cbSelectUser.Text;
-            string surname = null;
-            for (int i = 0; i < str.Length; i++)
-            {
-                if (str[i] == ' ') break;
-                surname += str[i];
-            }
-
-            string password;
+            string login = "";
+            string password = "";
             switch (cbUserType.SelectedItem.ToString())
             {
                 case "администратор":
                     //AM.ConnectDB(lbStatus, "Admin.sqlite"); 
-                    password = AM.ReadPassword(lbStatus, "AdminTable", "password", "login", "Admin");
-                    txtPassword.Text = AM.ReadPassword(lbStatus,"AdminTable","password", "login", "Admin"); 
+                    login = AM.ReadOneValue(lbStatus, "AdminTable", "login", "login", "Admin");
+                    password = AM.ReadOneValue(lbStatus, "AdminTable", "password", "login", "Admin");
+                    //txtPassword.Text = AM.ReadOneValue(lbStatus,"AdminTable","password", "login", "Admin");
+                    if(login == txtLogin.Text && password == txtPassword.Text)
+                    {
+                        FormAdmin formAdmin = new FormAdmin();
+                        formAdmin.Show();
+                    }
                     break;
-                case "препадователь":
+                case "преподаватель":
                     //AM.ConnectDB(lbStatus, "TeacherAccounts.sqlite"); 
-                    password = AM.ReadPassword(lbStatus, "AccountsTable", "password", "surname", surname);
-                    txtPassword.Text = AM.ReadPassword(lbStatus, "AccountsTable", "password", "surname", surname); 
+                    login = AM.ReadOneValue(lbStatus, "AccountsTable", "login", "surname", txtLogin.Text);
+                    password = AM.ReadOneValue(lbStatus, "AccountsTable", "password", "surname", txtLogin.Text);
+                    //txtPassword.Text = AM.ReadOneValue(lbStatus, "AccountsTable", "password", "surname", txtLogin.Text); 
                     break;
                 case "студент": 
                     //AM.ConnectDB(lbStatus, "StudentsAccounts.sqlite");
-                    password = AM.ReadPassword(lbStatus, "AdminTable", "password");
-                    txtPassword.Text = AM.ReadPassword(lbStatus, "AdminTable", "password");
+                    //password = AM.ReadOneValue(lbStatus, cbSelectGroup.SelectedItem.ToString(), "password", "surname", txtLogin.Text);
+                    //txtPassword.Text = AM.ReadOneValue(lbStatus, cbSelectGroup.SelectedItem.ToString(), "password", "surname", txtLogin.Text);
                     break;
                 default: lbStatus.Text = "Неопределён тип ползователя!"; break;
-            }
-
-        }
-
-        private void cbSelectGroup_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            cbSelectUser.Text = "";
-
-            if (cbSelectGroup.SelectedItem.ToString() == "добавить группу")
-            {
-                FormAddingSecondaryInformation form;
-                form = new FormAddingSecondaryInformation(lbStatus, cbSelectGroup, AM, "GroupsTable", "group_name", "группу");
-                form.Show();
-            }
-            else
-            {
-                cbSelectUser.Enabled = true;
-                cbSelectUser.Items.Clear();
-                cbSelectUser.Items.Add("добавить");
-                AM.ReadAllName(lbStatus, cbSelectUser, cbSelectGroup.SelectedItem.ToString());
             }
         }
     }
