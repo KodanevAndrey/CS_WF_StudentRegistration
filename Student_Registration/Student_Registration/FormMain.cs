@@ -16,6 +16,8 @@ namespace Student_Registration
     public partial class FormMain : Form
     {
         AccountManager AM = new AccountManager();
+        private string Login;
+        private string Password;
         public FormMain()
         {
             InitializeComponent();
@@ -24,63 +26,55 @@ namespace Student_Registration
             this.MaximizeBox = false;
         }
 
-        /*
-        private void btnAdmin_Click(object sender, EventArgs e)
-        {
-            FormAdmin formAdmin = new FormAdmin();
-            formAdmin.Show();
-        }
-        */
-
         private void cbUserType_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            txtLogin.Enabled = true;
+            txtLogin.Text = "";
+            txtPassword.Text = "";
             if (cbUserType.SelectedItem.ToString() == "преподаватель")
             {
                 AM.ConnectDB(lbStatus, "TeacherAccounts.sqlite");
+                Login = AM.ReadOneValue(lbStatus, "AccountsTable", "login", "surname", txtLogin.Text);
+                Password = AM.ReadOneValue(lbStatus, "AccountsTable", "password", "surname", txtLogin.Text);
             }
             else if (cbUserType.SelectedItem.ToString() == "студент")
             {
-
                 AM.ConnectDB(lbStatus, "StudentsAccounts.sqlite");
             }
             else if (cbUserType.SelectedItem.ToString() == "администратор")
             {
                 AM.ConnectDB(lbStatus, "Admin.sqlite");
+                Login = AM.ReadOneValue(lbStatus, "AdminTable", "login", "login", "Admin");
+                Password = AM.ReadOneValue(lbStatus, "AdminTable", "password", "login", "Admin");
+                txtLogin.Text = AM.ReadOneValue(lbStatus, "AdminTable", "login", "login", "Admin");
+                txtLogin.Enabled = false;
             }
         }
 
         private void btnSimgIn_Click(object sender, EventArgs e)
         {
             //AM.ConnectDB(lbStatus,"Admin.sqlite");
-            string login = "";
-            string password = "";
-            switch (cbUserType.SelectedItem.ToString())
-            {
-                case "администратор":
-                    //AM.ConnectDB(lbStatus, "Admin.sqlite"); 
-                    login = AM.ReadOneValue(lbStatus, "AdminTable", "login", "login", "Admin");
-                    password = AM.ReadOneValue(lbStatus, "AdminTable", "password", "login", "Admin");
-                    //txtPassword.Text = AM.ReadOneValue(lbStatus,"AdminTable","password", "login", "Admin");
-                    if(login == txtLogin.Text && password == txtPassword.Text)
-                    {
-                        FormAdmin formAdmin = new FormAdmin();
-                        formAdmin.Show();
-                    }
-                    break;
-                case "преподаватель":
-                    //AM.ConnectDB(lbStatus, "TeacherAccounts.sqlite"); 
-                    login = AM.ReadOneValue(lbStatus, "AccountsTable", "login", "surname", txtLogin.Text);
-                    password = AM.ReadOneValue(lbStatus, "AccountsTable", "password", "surname", txtLogin.Text);
-                    //txtPassword.Text = AM.ReadOneValue(lbStatus, "AccountsTable", "password", "surname", txtLogin.Text); 
-                    break;
-                case "студент": 
-                    //AM.ConnectDB(lbStatus, "StudentsAccounts.sqlite");
-                    //password = AM.ReadOneValue(lbStatus, cbSelectGroup.SelectedItem.ToString(), "password", "surname", txtLogin.Text);
-                    //txtPassword.Text = AM.ReadOneValue(lbStatus, cbSelectGroup.SelectedItem.ToString(), "password", "surname", txtLogin.Text);
-                    break;
-                default: lbStatus.Text = "Неопределён тип ползователя!"; break;
-            }
+
+             if (Login == txtLogin.Text && Password == txtPassword.Text)
+                switch (cbUserType.SelectedItem.ToString())
+                {
+                    case "администратор": OpenForm(new FormAdmin()); break;
+                    case "преподаватель":
+                        break;
+                    case "студент":
+                        //AM.ConnectDB(lbStatus, "StudentsAccounts.sqlite");
+                        //Login = AM.ReadOneValue(lbStatus, cbSelectGroup.SelectedItem.ToString(), "password", "surname", txtLogin.Text);
+                        //Password = AM.ReadOneValue(lbStatus, cbSelectGroup.SelectedItem.ToString(), "password", "surname", txtLogin.Text);
+                        //txtPassword.Text = AM.ReadOneValue(lbStatus, cbSelectGroup.SelectedItem.ToString(), "password", "surname", txtLogin.Text);
+                        break;
+                    default: lbStatus.Text = "Неопределён тип ползователя!"; break;
+                }
+        }
+
+        private void OpenForm(Form form)
+        {
+            form.Show();
+            //btnSimgIn.Enabled = false;
         }
     }
 }

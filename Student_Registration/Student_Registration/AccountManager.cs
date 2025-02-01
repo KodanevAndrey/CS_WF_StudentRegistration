@@ -81,17 +81,14 @@ namespace Student_Registration
             }
         }
 
-        public void ReadCountTables(Label lbStatusText, ComboBox comboBox)
+        public List<string> GetNameAllGroups(Label lbStatusText)
         {
-            comboBox.Items.Clear();
-            comboBox.Items.Add("добавить группу");
+            List<string> _namesOfAllGroups = new List<string>();
             bool correct = true;
             if (m_dbConn.State != ConnectionState.Open)
             {
                 MessageBox.Show("Open connection with database");
-                return;
             }
-            comboBox.Items.Clear();
             List<string> DontReadTables = new List<string>();
             DontReadTables.Add("sqlite_sequence");
             DontReadTables.Add("GroupsTable");
@@ -112,7 +109,6 @@ namespace Student_Registration
                 {
                     using (var reader = command.ExecuteReader())
                     {
-                        comboBox.Items.Add("добавить группу");
                         while (reader.Read())
                         {
                             correct = true;
@@ -121,7 +117,7 @@ namespace Student_Registration
                                  correct = false;
                             }
                             if(correct == true)
-                                comboBox.Items.Add(reader["name"].ToString());
+                                _namesOfAllGroups.Add(reader["name"].ToString());
                         }
                     }
                 }
@@ -130,6 +126,7 @@ namespace Student_Registration
             {
                 MessageBox.Show("ReadCountTables ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
             }
+            return _namesOfAllGroups;
         }
 
         public void CreateNewGroup(Label status, string tableName)
@@ -205,7 +202,7 @@ namespace Student_Registration
             }
         }
 
-        public Dictionary<string, string> ReadSelectedOnlyRow(Label lbStatusText, string Surname, string tableName)
+        public Dictionary<string, string> ReadSelectedOnlyRow(Label lbStatusText, string surname, string tableName)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
@@ -226,7 +223,7 @@ namespace Student_Registration
                         "JOIN UchebnayaDistsiplinaTable b ON a.uchebnaya_distsiplina = b.id " +
                         "JOIN CityTable c ON a.city = c.id " +
                         "JOIN StreetTable d ON a.street = d.id " +
-                        "WHERE a.surname = '" + Surname + "' " +
+                        "WHERE a.surname = '" + surname + "' " +
                         ";";
                 }
                 else
@@ -238,7 +235,7 @@ namespace Student_Registration
                         "JOIN GroupsTable b ON a.group_student = b.id " +
                         "JOIN CityTable c ON a.city = c.id " +
                         "JOIN StreetTable d ON a.street = d.id " +
-                        "WHERE a.surname = '" + Surname + "'" +
+                        "WHERE a.surname = '" + surname + "'" +
                         ";";
                 }
                 using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))
@@ -554,6 +551,11 @@ namespace Student_Registration
                 MessageBox.Show("ReadOneValue ERROR:" + ex + "\nCOMMAND: " + query);
                 return "ReadOneValue ERROR:" + ex + "\nCOMMAND: " + query;
             }
+        }
+
+        public void ReadAllGroups()
+        {
+            
         }
     }
 }
