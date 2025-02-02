@@ -542,7 +542,9 @@ namespace Student_Registration
                     using (SQLiteDataReader reader = command.ExecuteReader())
                     {
                         reader.Read();
-                        return reader[column].ToString();
+
+                        if(reader.HasRows == true) return reader[column].ToString();
+                        else return null;
                     }
                 }
             }
@@ -553,9 +555,40 @@ namespace Student_Registration
             }
         }
 
-        public void ReadAllGroups()
+        public string ReadAllGroups(Label status, string column, string whereColumn, string value)
         {
-            
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+            }
+            string result = "";
+            string query = "";
+            try
+            {
+                List<string> groups = GetNameAllGroups(status);
+                for (int i = 0; i < groups.Count; i++)
+                {
+                    query = @"SELECT " + column + " FROM " + groups[i] + " WHERE " + whereColumn + " = '" + value + "';";
+
+                    using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))
+                    {
+                        using (SQLiteDataReader reader = command.ExecuteReader())
+                        {
+                            reader.Read();
+                            if (reader.HasRows == true)
+                            {
+                                result = reader[column].ToString();
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("ReadOneValue ERROR:" + ex + "\nCOMMAND: " + query);
+            }
+            return result;
         }
     }
 }

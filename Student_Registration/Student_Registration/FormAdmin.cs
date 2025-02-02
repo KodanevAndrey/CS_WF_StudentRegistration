@@ -642,7 +642,7 @@ namespace Student_Registration
                 cbSelectUser.Items.Clear();
                 cbSelectUser.Enabled = false;
                 ReturnTextElementsSettingsToDefault();
-                EnabledAllTextElementsToAM(true);
+                EnabledAllTextElementsToAM(false);
                 ClearAllComboBoxElements();
                 ClearAllTextElements();
             }
@@ -676,6 +676,7 @@ namespace Student_Registration
                 ClearAllComboBoxElements();
                 EnabledAllTextElementsToAM(false);
                 ReturnTextElementsSettingsToDefault();
+                cbSelectUser.Enabled = true;
             }
         }
 

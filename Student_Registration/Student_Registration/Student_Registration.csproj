@@ -91,6 +91,18 @@
     <Compile Include="FormSelectedOpenTable.Designer.cs">
       <DependentUpon>FormSelectedOpenTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormStudent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormStudent.Designer.cs">
+      <DependentUpon>FormStudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTeacher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTeacher.Designer.cs">
+      <DependentUpon>FormTeacher.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormAddingSecondaryInformation.resx">
@@ -104,6 +116,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormSelectedOpenTable.resx">
       <DependentUpon>FormSelectedOpenTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormStudent.resx">
+      <DependentUpon>FormStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTeacher.resx">
+      <DependentUpon>FormTeacher.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
