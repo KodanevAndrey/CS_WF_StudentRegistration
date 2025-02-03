@@ -202,7 +202,7 @@ namespace Student_Registration
             }
         }
 
-        public Dictionary<string, string> ReadSelectedOnlyRow(Label lbStatusText, string surname, string tableName)
+        public Dictionary<string, string> ReadSelectedOnlyRow(Label lbStatusText, string tableName, string surname)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
