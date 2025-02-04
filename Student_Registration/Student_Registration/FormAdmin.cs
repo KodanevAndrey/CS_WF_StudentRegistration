@@ -294,13 +294,13 @@ namespace Student_Registration
             //data = AM.ReadSelectedOnlyRow(lbStatusText, surname, );
             if (cbUserType.SelectedItem.ToString() == "перподаватель")
             {
-                UserData = AM.ReadSelectedOnlyRow(lbStatusText,surname, "NULL");
+                UserData = AM.ReadSelectedOnlyRow(lbStatusText, "NULL", surname);
                 cbUchebnayaDistsiplina.SelectedItem = UserData["uchebnaya_distsiplina_name"];
                 cbUchebnayaDistsiplina.Text = UserData["uchebnaya_distsiplina_name"];
             }
             else if (cbUserType.SelectedItem.ToString() == "студент")
             {
-                UserData = AM.ReadSelectedOnlyRow(lbStatusText, surname, cbSelectGroup.SelectedItem.ToString());
+                UserData = AM.ReadSelectedOnlyRow(lbStatusText,cbSelectGroup.SelectedItem.ToString(), surname);
                 cbUchebnayaDistsiplina.SelectedItem = UserData["group_name"];
                 cbUchebnayaDistsiplina.Text = UserData["group_name"];
             }
@@ -330,6 +330,24 @@ namespace Student_Registration
             foreach (string item in AM.GetNameAllGroups(lbStatusAM)) cbSelectGroup.Items.Add(item);
         }
 
+        private void ReloadCBSelectUser()
+        {
+            cbSelectUser.Text = "";
+            cbSelectUser.SelectedItem = "";
+            cbSelectUser.Items.Clear();
+            if (cbUserType.SelectedItem.ToString() == "перподаватель")
+            {
+                cbSelectUser.Items.Add("добавить учителя");
+                foreach (string item in AM.GetAllUsersSNP("AccountsTable", "forUser")) cbSelectUser.Items.Add(item);
+            }
+
+            else if (cbUserType.SelectedItem.ToString() == "студент")
+            {
+                cbSelectUser.Items.Add("добавить студента");
+                foreach (string item in AM.GetAllUsersSNP(cbSelectGroup.SelectedItem.ToString(), "forUser")) cbSelectUser.Items.Add(item);
+            }
+        }
+
         private void cbUserType_SelectedIndexChanged(object sender, EventArgs e)
         {
             ReturnTextElementsSettingsToDefault();
@@ -351,7 +369,8 @@ namespace Student_Registration
                 label6.Text = "учитель";
                 label10.Text = "дисциплина";
                 AM.ConnectDB(lbStatusAM, "TeacherAccounts.sqlite");
-                AM.ReadAllName(lbStatusAM, cbSelectUser, "AccountsTable");
+                ReloadCBSelectUser();
+                //AM.ReadAllName(lbStatusAM, cbSelectUser, "AccountsTable");
                 AM.LoadAllItemsForComboBox(cbUchebnayaDistsiplina, "UchebnayaDistsiplinaTable", "uchebnaya_distsiplina_name");
                 AM.LoadAllItemsForComboBox(cbCity, "CityTable", "city_name");
                 AM.LoadAllItemsForComboBox(cbStreet, "StreetTable", "street_name");
@@ -440,7 +459,7 @@ namespace Student_Registration
                 cbSelectUser.Enabled = true;
                 cbSelectUser.Items.Clear();
                 cbSelectUser.Items.Add("добавить");
-                AM.ReadAllName(lbStatusAM,cbSelectUser,cbSelectGroup.SelectedItem.ToString());
+                ReloadCBSelectUser();
                 btnDeleteGroup.Enabled = true;
             }
         }
@@ -577,14 +596,13 @@ namespace Student_Registration
                     {
                         _columns = AM.GetTableInfo(lbStatusAM, "AccountsTable");
                         AM.AddNewUserDB(lbStatusAM, "AccountsTable", _columns, _data);
-                        AM.ReadAllName(lbStatusAM, cbSelectUser, "AccountsTable");
                     }
                     else if (cbUserType.SelectedItem.ToString() == "студент")
                     {
                         _columns = AM.GetTableInfo(lbStatusAM, cbSelectGroup.SelectedItem.ToString());
                         AM.AddNewUserDB(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns, _data);
-                        AM.ReadAllName(lbStatusAM, cbSelectUser, cbSelectGroup.SelectedItem.ToString());
                     }
+                    ReloadCBSelectUser();
                 }
                 else if(!IsAdding && IsDataChanged)
                 {
@@ -607,16 +625,15 @@ namespace Student_Registration
                                 //AM.Reset(lbStatusAM, "AccountsTable", _columns[i], _data[i], AM.GetID("AccountsTable", "surname", surname));
                                 AM.Reset(lbStatusAM, "AccountsTable", _columns[i], _data[i], AM.GetID("AccountsTable", "id", UserData["id"]));
                                 cbSelectUser.Items.Clear();
-                                AM.ReadAllName(lbStatusAM, cbSelectUser, "AccountsTable");
                             }
                             else if (cbUserType.SelectedItem.ToString() == "студент")
                             {
                                 //AM.Reset(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns[i], _data[i], AM.GetID(cbSelectGroup.SelectedItem.ToString(), "surname", surname));
                                 AM.Reset(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns[i], _data[i], AM.GetID(cbSelectGroup.SelectedItem.ToString(), "id", UserData["id"]));
                                 cbSelectUser.Items.Clear();
-                                AM.ReadAllName(lbStatusAM, cbSelectUser, cbSelectGroup.SelectedItem.ToString());
                             }
                         }
+                    ReloadCBSelectUser();
                     ReturnTextElementsSettingsToDefault();
                     ReloadAllUserDataElements(txtSurname.Text);
                 }
@@ -663,15 +680,15 @@ namespace Student_Registration
                 if (cbUserType.SelectedItem.ToString() == "перподаватель")
                 {
                     AM.DeleteUser(lbStatusAM, "AccountsTable", "surname", surname);
-                    AM.ReadAllName(lbStatusAM, cbSelectUser, "AccountsTable");
                 }
                 else if (cbUserType.SelectedItem.ToString() == "студент")
                 {
                     AM.DeleteUser(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), "surname", surname);
-                    AM.ReadAllName(lbStatusAM, cbSelectUser, cbSelectGroup.SelectedItem.ToString());
                 }
+
                 cbSelectUser.SelectedItem = "";
                 cbSelectUser.Text = "";
+                ReloadCBSelectUser();
                 ClearAllTextElements();
                 ClearAllComboBoxElements();
                 EnabledAllTextElementsToAM(false);

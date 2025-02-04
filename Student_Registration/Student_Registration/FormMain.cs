@@ -64,7 +64,11 @@ namespace Student_Registration
                 AM.ConnectDB(lbStatus, "Admin.sqlite");
                 txtLogin.Text = AM.ReadOneValue(lbStatus, "AdminTable", "login", "login", "Admin");
             }
-
+            else if(cbUserType.SelectedItem.ToString() == "преподаватель")
+            {
+                txtLogin.Text = "Иваныч";
+                txtPassword.Text = "777";
+            }
         }
 
         private void btnSimgIn_Click(object sender, EventArgs e)

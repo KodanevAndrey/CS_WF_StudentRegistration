@@ -22,6 +22,7 @@ namespace Student_Registration
         public FormAddingSecondaryInformation(Label lbSatus, ComboBox comboBox, AccountManager accountManager, in string tableName, in string columnName, in string RankAdded)
         {
             InitializeComponent();
+            txtEnglName.Enabled = false;
             this.StartPosition = FormStartPosition.Manual;
             this.Location = new Point(400, 350);
             this.MaximizeBox = false;
@@ -35,12 +36,28 @@ namespace Student_Registration
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (TableName == "GroupsTable") AM.CreateNewGroup(labelS, txtEnter.Text);
-            else AM.AddSecondaryInfo(labelS, txtEnter, TableName, ColumnName);
-            AM.LoadAllItemsForComboBox(comboBox1, TableName, ColumnName);
-            comboBox1.SelectedItem = txtEnter.Text;
-            comboBox1.Text = txtEnter.Text;
-            this.Close();
+            if(txtEnter.Text != "")
+            {
+                if (TableName == "GroupsTable")
+                {
+                    AM.CreateNewGroup(labelS, txtEnter.Text);
+
+                }
+                else if (TableName == "UchebnayaDistsiplinaTable")
+                {
+                    txtEnglName.Enabled = true;
+                    if(AM.CheckForValidity(lbStatus, txtEnglName.Text, "onlyEngl")) AM.AddUchebnayaDistsiplina(lbStatus,txtEnter.Text,txtEnglName.Text);
+                }
+                else
+                {
+                    AM.AddSecondaryInfo(labelS, txtEnter, TableName, ColumnName);
+
+                }
+                AM.LoadAllItemsForComboBox(comboBox1, TableName, ColumnName);
+                comboBox1.SelectedItem = txtEnter.Text;
+                comboBox1.Text = txtEnter.Text;
+                this.Close();
+            }
         }
     }
 }

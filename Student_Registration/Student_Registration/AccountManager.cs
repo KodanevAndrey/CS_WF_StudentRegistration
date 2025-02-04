@@ -15,32 +15,28 @@ namespace Student_Registration
     public class AccountManager
     {
         private string dbFileName;
-        private string TableNameDB;
         private SQLiteConnection m_dbConn = new SQLiteConnection();
         private SQLiteCommand m_sqlCmd = new SQLiteCommand();
-        private SQLiteDataAdapter adapter;
-        private string fileLocation = string.Empty;
 
         public void ConnectDB(Label lbStatusText ,string fileName)
         {
             dbFileName = fileName;
             if (!File.Exists(dbFileName))
                 MessageBox.Show("База данных: "+ dbFileName +" отсутствует!");
-            else
-                try
-                {
-                    m_dbConn = new SQLiteConnection("Data Source=" + dbFileName + ";Version=3;");
-                    m_dbConn.Open();
-                    m_sqlCmd.Connection = m_dbConn;
-                    lbStatusText.Text = "Connected: " + dbFileName;
-                    lbStatusText.ForeColor = Color.Green;
-                }
-                catch (SQLiteException ex)
-                {
-                    lbStatusText.Text = "Disconnected";
-                    lbStatusText.ForeColor = Color.Red;
-                    MessageBox.Show("ConnectDB ERROR:" + ex + "\nCOMMAND: " + m_dbConn);
-                }
+            try
+            {
+                m_dbConn = new SQLiteConnection("Data Source=" + dbFileName + ";Version=3;");
+                m_dbConn.Open();
+                m_sqlCmd.Connection = m_dbConn;
+                lbStatusText.Text = "Connected: " + dbFileName;
+                lbStatusText.ForeColor = Color.Green;
+            }
+            catch (SQLiteException ex)
+            {
+                lbStatusText.Text = "Disconnected";
+                lbStatusText.ForeColor = Color.Red;
+                MessageBox.Show("ConnectDB ERROR:" + ex + "\nCOMMAND: " + m_dbConn);
+            }
         }
 
         public void CreateAccountsTable(Label status)
@@ -169,16 +165,13 @@ namespace Student_Registration
             }
         }
 
-        public void ReadAllName(Label lbStatusText, ComboBox comboBox, string TableName)
+        public List<string> GetAllUsersSNP(string TableName, string ResultType)
         {
+            List<string> result = new List<string>();
             if (m_dbConn.State != ConnectionState.Open)
             {
                 MessageBox.Show("Open connection with database");
-                return;
             }
-            comboBox.Items.Clear();
-            comboBox.Text = "";
-            comboBox.Items.Add("добавить");
             try
             {
                 string query = @" SELECT name, surname, patronymic FROM "+ TableName +" ;";
@@ -192,14 +185,17 @@ namespace Student_Registration
                             string name = reader["name"].ToString();
                             string userName = reader["surname"].ToString();
                             string patronymic = reader["patronymic"].ToString();
-                            comboBox.Items.Add(userName + " " + name[0] + "." + patronymic[0] + ".");
+                            if (ResultType == "forUser") result.Add(userName + " " + name[0] + "." + patronymic[0] + ".");
+                            else if (ResultType == "forDB") result.Add(userName + name[0] + patronymic[0]);
                         }
                     }
                 }
             }
-            catch (SQLiteException ex) {
+            catch (SQLiteException ex) 
+            {
                 MessageBox.Show("ReadAllName ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
             }
+            return result;
         }
 
         public Dictionary<string, string> ReadSelectedOnlyRow(Label lbStatusText, string tableName, string surname)
@@ -309,6 +305,25 @@ namespace Student_Registration
             catch (SQLiteException ex)
             {
                 MessageBox.Show("AddSecondaryInfo ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+            }
+        }
+
+        public void AddUchebnayaDistsiplina(Label statusText, string distsiplinaName, string AltName)
+        {
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+            }
+            try
+            {
+                string query = "INSERT INTO UchebnayaDistsiplinaTable ( uchebnaya_distsiplina_name, AltName ) VALUES ('"+ distsiplinaName +"','"+ AltName +"');";
+                m_sqlCmd.CommandText = query;
+                m_sqlCmd.ExecuteNonQuery();
+                statusText.Text = "Дисциплина добавлена!";
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("AddUchebnayaDistsiplina ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
             }
         }
 
@@ -518,6 +533,22 @@ namespace Student_Registration
                     // \d+ - одна или более цифр
                     // $ - конец строки
                     pattern = @"^\d+$";
+
+                    // Проверяем соответствие строки регулярному выражению
+                    IsCorrect = Regex.IsMatch(EnterText, pattern);
+                    break;
+                case "onlyEngl":
+                    // Проверяем, что строка не пустая
+                    if (string.IsNullOrEmpty(EnterText))
+                    {
+                        return false;
+                    }
+
+                    // Регулярное выражение для проверки строки
+                    // ^ - начало строки
+                    // [a-zA-Z]+ - одна или более латинских букв
+                    // $ - конец строки
+                    pattern = @"^[a-zA-Z]+$";
 
                     // Проверяем соответствие строки регулярному выражению
                     IsCorrect = Regex.IsMatch(EnterText, pattern);
