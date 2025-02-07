@@ -40,8 +40,8 @@ namespace Student_Registration
             {
                 if (TableName == "GroupsTable")
                 {
-                    AM.CreateNewGroup(labelS, txtEnter.Text);
-
+                    AM.CreateNewGroup(lbStatus, txtEnter.Text);
+                    CreateMagazine();
                 }
                 else if (TableName == "UchebnayaDistsiplinaTable")
                 {
@@ -58,6 +58,16 @@ namespace Student_Registration
                 comboBox1.Text = txtEnter.Text;
                 this.Close();
             }
+        }
+
+        private void CreateMagazine()
+        {
+            Dictionary<string, string> itemUserData = new Dictionary<string, string>();
+            //itemUserData = AM.ReadSelectedOnlyRow(lbStatus,TableName,);
+            //AM.GetAllUsersSNP(TableName,"forUser");
+
+            AM.CreateNewMagazine(lbStatus, txtEnter.Text, "BaseInfo");
+            //Доделать!
         }
     }
 }

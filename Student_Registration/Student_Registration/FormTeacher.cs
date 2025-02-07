@@ -26,6 +26,7 @@ namespace Student_Registration
             this.AM = manager;
             LoadProfile();
             LoadGroupNames();
+            txtDistsiplina.Enabled = false;
         }
 
         private void LoadProfile()
@@ -37,6 +38,7 @@ namespace Student_Registration
             {
                 richTextBox1.Text += key + " | " + TeacherProfile[key] + "\n";
             }
+            txtDistsiplina.Text = TeacherProfile["uchebnaya_distsiplina_name"];
         }
 
         private void LoadGroupNames()

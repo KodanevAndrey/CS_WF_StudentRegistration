@@ -33,10 +33,12 @@
             this.lbSatusProfile = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.Diarist = new System.Windows.Forms.TabPage();
-            this.cbSelectGroup = new System.Windows.Forms.ComboBox();
-            this.lbStatusDiarist = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.btnCreateNewMagazine = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lbStatusDiarist = new System.Windows.Forms.Label();
+            this.cbSelectGroup = new System.Windows.Forms.ComboBox();
+            this.txtDistsiplina = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.Profile.SuspendLayout();
             this.Diarist.SuspendLayout();
@@ -84,6 +86,8 @@
             // Diarist
             // 
             this.Diarist.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.Diarist.Controls.Add(this.label2);
+            this.Diarist.Controls.Add(this.txtDistsiplina);
             this.Diarist.Controls.Add(this.btnCreateNewMagazine);
             this.Diarist.Controls.Add(this.label1);
             this.Diarist.Controls.Add(this.lbStatusDiarist);
@@ -95,13 +99,24 @@
             this.Diarist.TabIndex = 1;
             this.Diarist.Text = "Diarist";
             // 
-            // cbSelectGroup
+            // btnCreateNewMagazine
             // 
-            this.cbSelectGroup.FormattingEnabled = true;
-            this.cbSelectGroup.Location = new System.Drawing.Point(54, 10);
-            this.cbSelectGroup.Name = "cbSelectGroup";
-            this.cbSelectGroup.Size = new System.Drawing.Size(121, 21);
-            this.cbSelectGroup.TabIndex = 0;
+            this.btnCreateNewMagazine.Location = new System.Drawing.Point(76, 59);
+            this.btnCreateNewMagazine.Name = "btnCreateNewMagazine";
+            this.btnCreateNewMagazine.Size = new System.Drawing.Size(121, 23);
+            this.btnCreateNewMagazine.TabIndex = 3;
+            this.btnCreateNewMagazine.Text = "Создать журнал";
+            this.btnCreateNewMagazine.UseVisualStyleBackColor = true;
+            this.btnCreateNewMagazine.Click += new System.EventHandler(this.btnCreateNewMagazine_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(32, 7);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(42, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Группа";
             // 
             // lbStatusDiarist
             // 
@@ -112,24 +127,29 @@
             this.lbStatusDiarist.TabIndex = 1;
             this.lbStatusDiarist.Text = "label1";
             // 
-            // label1
+            // cbSelectGroup
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(42, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Группа";
+            this.cbSelectGroup.FormattingEnabled = true;
+            this.cbSelectGroup.Location = new System.Drawing.Point(76, 3);
+            this.cbSelectGroup.Name = "cbSelectGroup";
+            this.cbSelectGroup.Size = new System.Drawing.Size(121, 21);
+            this.cbSelectGroup.TabIndex = 0;
             // 
-            // btnCreateNewMagazine
+            // txtDistsiplina
             // 
-            this.btnCreateNewMagazine.Location = new System.Drawing.Point(54, 65);
-            this.btnCreateNewMagazine.Name = "btnCreateNewMagazine";
-            this.btnCreateNewMagazine.Size = new System.Drawing.Size(121, 23);
-            this.btnCreateNewMagazine.TabIndex = 3;
-            this.btnCreateNewMagazine.Text = "Создать журнал";
-            this.btnCreateNewMagazine.UseVisualStyleBackColor = true;
-            this.btnCreateNewMagazine.Click += new System.EventHandler(this.btnCreateNewMagazine_Click);
+            this.txtDistsiplina.Location = new System.Drawing.Point(76, 33);
+            this.txtDistsiplina.Name = "txtDistsiplina";
+            this.txtDistsiplina.Size = new System.Drawing.Size(121, 20);
+            this.txtDistsiplina.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 36);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(67, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "дисциплина";
             // 
             // FormTeacher
             // 
@@ -160,5 +180,7 @@
         private System.Windows.Forms.Label lbStatusDiarist;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnCreateNewMagazine;
+        private System.Windows.Forms.TextBox txtDistsiplina;
+        private System.Windows.Forms.Label label2;
     }
 }

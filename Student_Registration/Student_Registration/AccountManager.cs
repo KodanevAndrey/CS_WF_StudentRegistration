@@ -621,5 +621,64 @@ namespace Student_Registration
             }
             return result;
         }
+
+        public void CreateNewMagazine(Label lbStatusText, string MagazineName, string TableName)
+        {
+            if (MagazineName != "")
+            {
+                SQLiteConnection.CreateFile(MagazineName + ".sqlite");
+                try
+                {
+                    dbFileName = " Magazine_" + MagazineName + ".sqlite";
+                    m_dbConn = new SQLiteConnection("Data Source=" + dbFileName + ";Version=3;");
+                    m_dbConn.Open();
+                    m_sqlCmd.Connection = m_dbConn;
+                    m_sqlCmd.CommandText = "CREATE TABLE IF NOT EXISTS " + TableName + " ( " +
+                        "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                        "name TEXT NOT NULL, " +
+                        "surname TEXT NOT NULL, " +
+                        "patronymic TEXT NOT NULL, " +
+                        "; ";
+
+                    lbStatusText.Text = m_sqlCmd.CommandText;
+                    m_sqlCmd.ExecuteNonQuery();
+                    lbStatusText.Text = "журнал создан!";
+                }
+                catch (SQLiteException ex)
+                {
+                    MessageBox.Show("CreateNewMagazine ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+                }
+            }
+            else lbStatusText.Text = "введите имя для новой базы данных!";
+        }
+
+        private void FillOutNewMagazine(Label lbStatusText, string MagazineName, string TableName, Dictionary<string, string> StudentData)
+        {
+            ConnectDB(lbStatusText, MagazineName);
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+            }
+            try
+            {
+                    for(int i = 0; i <= StudentData.Count; i++)
+                    {
+                        m_sqlCmd.CommandText = "INSERT INTO GroupsTable (name, surname, patronymic) " +
+                            "VALUES (" +
+                            "'"+ StudentData["name"] +"', " +
+                            "'"+ StudentData["surname"] + "', " +
+                            "'"+ StudentData["patronymic"] + "'" +
+                            ");";
+                    }
+                    lbStatusText.Text = m_sqlCmd.CommandText;
+                    m_sqlCmd.ExecuteNonQuery();
+                    lbStatusText.Text += " + база журнала заполнена!";
+
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("fillOutNewMagazine ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+            }
+        }
     }
 }

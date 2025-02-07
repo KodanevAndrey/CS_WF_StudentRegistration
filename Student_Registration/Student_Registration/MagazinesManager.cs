@@ -76,6 +76,7 @@ namespace Student_Registration
             }
             else lbStatusText.Text = "введите имя для новой базы данных!";
         }
+
         public string GetDistsiplinaAltName(string DistsiplinaName)
         {
             if (m_dbConn.State != ConnectionState.Open)
