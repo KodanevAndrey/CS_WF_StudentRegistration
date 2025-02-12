@@ -62,12 +62,8 @@ namespace Student_Registration
 
         private void CreateMagazine()
         {
-            Dictionary<string, string> itemUserData = new Dictionary<string, string>();
-            //itemUserData = AM.ReadSelectedOnlyRow(lbStatus,TableName,);
-            //AM.GetAllUsersSNP(TableName,"forUser");
-
             AM.CreateNewMagazine(lbStatus, txtEnter.Text, "BaseInfo");
-            //Доделать!
+            AM.FillOutNewMagazineNSP(lbStatus, "Magazine_" + txtEnter, "BaseInfo", "StudentsAccounts.sqlite", txtEnter.Text);
         }
     }
 }

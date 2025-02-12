@@ -77,6 +77,29 @@ namespace Student_Registration
             }
         }
 
+        public int GetCountRowsInTable(Label lbStatusText, string tableName)
+        {
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+            }
+            try
+            {
+                string query = "SELECT count(*) FROM "+ tableName +";";
+                using (var command = new SQLiteCommand(query, m_dbConn))
+                {
+                    int tableCount = Convert.ToInt32(command.ExecuteScalar());
+                    lbStatusText.Text = "Количество таблиц в базе данных: " + tableCount;
+                    return tableCount;
+                }
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("GetCountRowsInTable ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+                return 0;
+            }
+        }
+
         public List<string> GetNameAllGroups(Label lbStatusText)
         {
             List<string> _namesOfAllGroups = new List<string>();
@@ -629,7 +652,7 @@ namespace Student_Registration
                 SQLiteConnection.CreateFile(MagazineName + ".sqlite");
                 try
                 {
-                    dbFileName = " Magazine_" + MagazineName + ".sqlite";
+                    dbFileName = "Magazine_" + MagazineName + ".sqlite";
                     m_dbConn = new SQLiteConnection("Data Source=" + dbFileName + ";Version=3;");
                     m_dbConn.Open();
                     m_sqlCmd.Connection = m_dbConn;
@@ -652,7 +675,7 @@ namespace Student_Registration
             else lbStatusText.Text = "введите имя для новой базы данных!";
         }
 
-        private void FillOutNewMagazine(Label lbStatusText, string MagazineName, string TableName, Dictionary<string, string> StudentData)
+        public void FillOutNewMagazineNSP(Label lbStatusText, string MagazineName, string BaseTableName , string TwoDBName, string TwoTableName)
         {
             ConnectDB(lbStatusText, MagazineName);
             if (m_dbConn.State != ConnectionState.Open)
@@ -661,15 +684,11 @@ namespace Student_Registration
             }
             try
             {
-                    for(int i = 0; i <= StudentData.Count; i++)
-                    {
-                        m_sqlCmd.CommandText = "INSERT INTO GroupsTable (name, surname, patronymic) " +
-                            "VALUES (" +
-                            "'"+ StudentData["name"] +"', " +
-                            "'"+ StudentData["surname"] + "', " +
-                            "'"+ StudentData["patronymic"] + "'" +
-                            ");";
-                    }
+                m_sqlCmd.CommandText = "ATTACH DATABASE "+ TwoDBName + " AS db2;" +
+                "INSERT INTO db2."+ TwoTableName + " (name, surname, patronymic)" +
+                "SELECT name, surname, patronymic" +
+                "FROM "+ BaseTableName +";" +
+                "DETACH DATABASE db2;";
                     lbStatusText.Text = m_sqlCmd.CommandText;
                     m_sqlCmd.ExecuteNonQuery();
                     lbStatusText.Text += " + база журнала заполнена!";
@@ -677,7 +696,7 @@ namespace Student_Registration
             }
             catch (SQLiteException ex)
             {
-                MessageBox.Show("fillOutNewMagazine ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+                MessageBox.Show("FillOutNewMagazineNSP ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
             }
         }
     }
