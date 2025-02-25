@@ -53,6 +53,7 @@ namespace Student_Registration
                     AM.AddSecondaryInfo(labelS, txtEnter, TableName, ColumnName);
 
                 }
+                AM.ConnectDB(lbStatus, "StudentsAccounts.sqlite");
                 AM.LoadAllItemsForComboBox(comboBox1, TableName, ColumnName);
                 comboBox1.SelectedItem = txtEnter.Text;
                 comboBox1.Text = txtEnter.Text;
@@ -63,7 +64,7 @@ namespace Student_Registration
         private void CreateMagazine()
         {
             AM.CreateNewMagazine(lbStatus, txtEnter.Text, "BaseInfo");
-            AM.FillOutNewMagazineNSP(lbStatus, "Magazine_" + txtEnter, "BaseInfo", "StudentsAccounts.sqlite", txtEnter.Text);
+            //AM.FillOutNewMagazineNSP(lbStatus, "Magazine_" + txtEnter.Text + ".sqlite", "BaseInfo", "StudentsAccounts.sqlite", txtEnter.Text);
         }
     }
 }

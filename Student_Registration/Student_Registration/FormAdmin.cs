@@ -402,14 +402,13 @@ namespace Student_Registration
         {
             string TableName = "NULL";
 
-            if (cbSelectUser.SelectedItem.ToString() == "добавить")
+            if (cbSelectUser.SelectedIndex == 0)
             {
                 IsAdding = true;
                 EnabledAllTextElementsToAM(true);
                 ClearAllComboBoxElements();
                 ClearAllTextElements();
                 btnAddOrUpdateUser.Enabled = true;
-                //btnAddOrUpdateUser.Text = "Add";
                 btnDeleteUser.Enabled = false;
                 ReturnTextElementsSettingsToDefault();
 
@@ -601,6 +600,7 @@ namespace Student_Registration
                     {
                         _columns = AM.GetTableInfo(lbStatusAM, cbSelectGroup.SelectedItem.ToString());
                         AM.AddNewUserDB(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns, _data);
+                        AM.FillOutNewMagazineNSP(lbStatusAM, "Magazine_" + cbSelectGroup.SelectedItem.ToString(), "BaseInfo", "StudentsAccounts.sqlite", cbSelectGroup.SelectedItem.ToString());
                     }
                     ReloadCBSelectUser();
                 }

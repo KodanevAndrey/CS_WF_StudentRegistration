@@ -216,7 +216,7 @@ namespace Student_Registration
             }
             catch (SQLiteException ex) 
             {
-                MessageBox.Show("ReadAllName ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+                MessageBox.Show("GetAllUsersSNP ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
             }
             return result;
         }
@@ -649,7 +649,6 @@ namespace Student_Registration
         {
             if (MagazineName != "")
             {
-                SQLiteConnection.CreateFile(MagazineName + ".sqlite");
                 try
                 {
                     dbFileName = "Magazine_" + MagazineName + ".sqlite";
@@ -660,8 +659,7 @@ namespace Student_Registration
                         "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                         "name TEXT NOT NULL, " +
                         "surname TEXT NOT NULL, " +
-                        "patronymic TEXT NOT NULL, " +
-                        "; ";
+                        "patronymic TEXT NOT NULL);";
 
                     lbStatusText.Text = m_sqlCmd.CommandText;
                     m_sqlCmd.ExecuteNonQuery();
@@ -677,7 +675,7 @@ namespace Student_Registration
 
         public void FillOutNewMagazineNSP(Label lbStatusText, string MagazineName, string BaseTableName , string TwoDBName, string TwoTableName)
         {
-            ConnectDB(lbStatusText, MagazineName);
+            ConnectDB(lbStatusText, MagazineName + ".sqlite");
             if (m_dbConn.State != ConnectionState.Open)
             {
                 MessageBox.Show("Open connection with database");
@@ -685,10 +683,10 @@ namespace Student_Registration
             try
             {
                 m_sqlCmd.CommandText = "ATTACH DATABASE "+ TwoDBName + " AS db2;" +
-                "INSERT INTO db2."+ TwoTableName + " (name, surname, patronymic)" +
-                "SELECT name, surname, patronymic" +
-                "FROM "+ BaseTableName +";" +
-                "DETACH DATABASE db2;";
+                " INSERT INTO db2."+ TwoTableName + " (name, surname, patronymic)" +
+                " SELECT name, surname, patronymic" +
+                " FROM "+ BaseTableName +";" +
+                " DETACH DATABASE db2;";
                     lbStatusText.Text = m_sqlCmd.CommandText;
                     m_sqlCmd.ExecuteNonQuery();
                     lbStatusText.Text += " + база журнала заполнена!";
