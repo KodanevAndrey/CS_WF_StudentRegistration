@@ -64,7 +64,6 @@ namespace Student_Registration
         private void CreateMagazine()
         {
             AM.CreateNewMagazine(lbStatus, txtEnter.Text, "BaseInfo");
-            //AM.FillOutNewMagazineNSP(lbStatus, "Magazine_" + txtEnter.Text + ".sqlite", "BaseInfo", "StudentsAccounts.sqlite", txtEnter.Text);
         }
     }
 }

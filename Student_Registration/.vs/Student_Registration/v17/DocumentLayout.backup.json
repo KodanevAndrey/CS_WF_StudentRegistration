@@ -3,15 +3,19 @@
   "WorkspaceRootPath": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\student_registration\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|c:\\kodanevandreyproject\\cs_wf_studentregistration\\student_registration\\student_registration\\magazinesmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\magazinesmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|c:\\kodanevandreyproject\\cs_wf_studentregistration\\student_registration\\student_registration\\formaddingsecondaryinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\formaddingsecondaryinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|c:\\kodanevandreyproject\\cs_wf_studentregistration\\student_registration\\student_registration\\formteacher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\formteacher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\student_registration\\accountmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|c:\\kodanevandreyproject\\cs_wf_studentregistration\\student_registration\\student_registration\\formteacher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\formteacher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|c:\\kodanevandreyproject\\cs_wf_studentregistration\\student_registration\\student_registration\\accountmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6167C617-44AB-4FF4-9E30-4C930C2B7B22}|Student_Registration\\Student_Registration.csproj|solutionrelative:student_registration\\accountmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -22,45 +26,57 @@
       "DocumentGroups": [
         {
           "DockedWidth": 202,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "FormAdmin.cs",
-              "DocumentMoniker": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\FormAdmin.cs",
-              "RelativeDocumentMoniker": "Student_Registration\\FormAdmin.cs",
-              "ToolTip": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\FormAdmin.cs",
-              "RelativeToolTip": "Student_Registration\\FormAdmin.cs",
-              "ViewState": "AgIAAEUCAAAAAAAAAAAtwFYCAABNAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-12T08:28:06.331Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "FormAddingSecondaryInformation.cs",
-              "DocumentMoniker": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\FormAddingSecondaryInformation.cs",
-              "RelativeDocumentMoniker": "Student_Registration\\FormAddingSecondaryInformation.cs",
-              "ToolTip": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\FormAddingSecondaryInformation.cs",
-              "RelativeToolTip": "Student_Registration\\FormAddingSecondaryInformation.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAAowEEAAABGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-07T15:02:39.29Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "AccountManager.cs",
               "DocumentMoniker": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\AccountManager.cs",
               "RelativeDocumentMoniker": "Student_Registration\\AccountManager.cs",
               "ToolTip": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\AccountManager.cs",
               "RelativeToolTip": "Student_Registration\\AccountManager.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAkAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAACIAAAAAAAAAAAAgwDAAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-04T17:35:01.248Z",
+              "WhenOpened": "2025-02-27T09:04:28.299Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FormTeacher.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\FormTeacher.cs",
+              "RelativeDocumentMoniker": "Student_Registration\\FormTeacher.cs",
+              "ToolTip": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\FormTeacher.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "Student_Registration\\FormTeacher.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-27T08:28:47.374Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FormTeacher.cs",
+              "DocumentMoniker": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\FormTeacher.cs",
+              "RelativeDocumentMoniker": "Student_Registration\\FormTeacher.cs",
+              "ToolTip": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\FormTeacher.cs",
+              "RelativeToolTip": "Student_Registration\\FormTeacher.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAYwDgAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-27T08:29:47.492Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MagazinesManager.cs",
+              "DocumentMoniker": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\MagazinesManager.cs",
+              "RelativeDocumentMoniker": "Student_Registration\\MagazinesManager.cs",
+              "ToolTip": "C:\\KodanevAndreyProject\\CS_WF_StudentRegistration\\Student_Registration\\Student_Registration\\MagazinesManager.cs",
+              "RelativeToolTip": "Student_Registration\\MagazinesManager.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAswEIAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-27T08:29:54.949Z",
               "EditorCaption": ""
             }
           ]

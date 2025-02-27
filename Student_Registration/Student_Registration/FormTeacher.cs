@@ -58,7 +58,7 @@ namespace Student_Registration
                 List<string> StudentsSNP = AM.GetAllUsersSNP(cbSelectGroup.SelectedItem.ToString(), "forDB");
                 MM.ConnectDB(lbStatusDiarist,"TeacherAccounts.sqlite");
                 string altNameDistsiplina = MM.GetDistsiplinaAltName(TeacherProfile["uchebnaya_distsiplina_name"]);
-                MM.CreateNewMagazine(lbStatusDiarist, MagazineName, altNameDistsiplina , StudentsSNP);
+                MM.CreateNewTableInMagazine(lbStatusDiarist, MagazineName, altNameDistsiplina , StudentsSNP);
             }
             else
             {

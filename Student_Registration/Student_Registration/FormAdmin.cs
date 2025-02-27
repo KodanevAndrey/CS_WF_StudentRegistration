@@ -600,7 +600,18 @@ namespace Student_Registration
                     {
                         _columns = AM.GetTableInfo(lbStatusAM, cbSelectGroup.SelectedItem.ToString());
                         AM.AddNewUserDB(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns, _data);
-                        AM.FillOutNewMagazineNSP(lbStatusAM, "Magazine_" + cbSelectGroup.SelectedItem.ToString(), "BaseInfo", "StudentsAccounts.sqlite", cbSelectGroup.SelectedItem.ToString());
+                        //AM.FillOutNewMagazineNSP(lbStatusAM, "Magazine_" + cbSelectGroup.SelectedItem.ToString(), "BaseInfo", "StudentsAccounts.sqlite", cbSelectGroup.SelectedItem.ToString());
+                        AM.ConnectDB(lbStatusAM, "Magazine_" + cbSelectGroup.SelectedItem.ToString() + ".sqlite");
+                        _columns.Clear();
+                        _columns = AM.GetTableInfo(lbStatusAM, "BaseInfo");
+
+                        _data.Clear();
+                        _data.Add(txtName.Text);
+                        _data.Add(txtSurname.Text);
+                        _data.Add(txtPatronymic.Text);
+                        AM.AddNewUserDB(lbStatusAM, "BaseInfo", _columns, _data);
+
+                        AM.ConnectDB(lbStatusAM, "StudentsAccounts.sqlite");
                     }
                     ReloadCBSelectUser();
                 }

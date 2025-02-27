@@ -40,7 +40,7 @@ namespace Student_Registration
             }
         }
 
-        public void CreateNewMagazine(Label lbStatusText, string MagazineName, string TableName, List<string> Students)
+        public void CreateNewTableInMagazine(Label lbStatusText, string MagazineName, string TableName, List<string> Students)
         {
             CreateNewDB(lbStatusText,MagazineName,TableName,Students);
         }
@@ -56,7 +56,7 @@ namespace Student_Registration
                     m_dbConn = new SQLiteConnection("Data Source=" + dbFileName + ";Version=3;");
                     m_dbConn.Open();
                     m_sqlCmd.Connection = m_dbConn;
-                    m_sqlCmd.CommandText = "CREATE TABLE IF NOT EXISTS " + TableName + " (";
+                    m_sqlCmd.CommandText = @"CREATE TABLE " + TableName + " (";
                     for (int i = 0; i < listColumns.Count; i++)
                     {
                         m_sqlCmd.CommandText += listColumns[i];

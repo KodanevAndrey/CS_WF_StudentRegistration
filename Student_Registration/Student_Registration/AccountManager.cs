@@ -672,30 +672,5 @@ namespace Student_Registration
             }
             else lbStatusText.Text = "введите имя для новой базы данных!";
         }
-
-        public void FillOutNewMagazineNSP(Label lbStatusText, string MagazineName, string BaseTableName , string TwoDBName, string TwoTableName)
-        {
-            ConnectDB(lbStatusText, MagazineName + ".sqlite");
-            if (m_dbConn.State != ConnectionState.Open)
-            {
-                MessageBox.Show("Open connection with database");
-            }
-            try
-            {
-                m_sqlCmd.CommandText = "ATTACH DATABASE "+ TwoDBName + " AS db2;" +
-                " INSERT INTO db2."+ TwoTableName + " (name, surname, patronymic)" +
-                " SELECT name, surname, patronymic" +
-                " FROM "+ BaseTableName +";" +
-                " DETACH DATABASE db2;";
-                    lbStatusText.Text = m_sqlCmd.CommandText;
-                    m_sqlCmd.ExecuteNonQuery();
-                    lbStatusText.Text += " + база журнала заполнена!";
-
-            }
-            catch (SQLiteException ex)
-            {
-                MessageBox.Show("FillOutNewMagazineNSP ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
-            }
-        }
     }
 }
