@@ -614,6 +614,8 @@ namespace Student_Registration
                         AM.ConnectDB(lbStatusAM, "StudentsAccounts.sqlite");
                     }
                     ReloadCBSelectUser();
+                    btnAddOrUpdateUser.Enabled = false;
+                    btnAddOrUpdateUser.Text = "Чтенеие";
                 }
                 else if(!IsAdding && IsDataChanged)
                 {

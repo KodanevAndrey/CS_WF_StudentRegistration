@@ -27,6 +27,7 @@ namespace Student_Registration
             LoadProfile();
             LoadGroupNames();
             txtDistsiplina.Enabled = false;
+            btnCreateNewMagazine.Enabled = false;
         }
 
         private void LoadProfile()
@@ -52,17 +53,28 @@ namespace Student_Registration
 
         private void btnCreateNewMagazine_Click(object sender, EventArgs e)
         {
-            if(cbSelectGroup.SelectedItem != null)
+            string MagazineName = "Magazine_" + cbSelectGroup.SelectedItem;
+            List<string> StudentsSNP = AM.GetAllUsersSNP(cbSelectGroup.SelectedItem.ToString(), "forDB");
+            MM.ConnectDB(lbStatusDiarist, "TeacherAccounts.sqlite");
+            string altNameDistsiplina = MM.GetDistsiplinaAltName(TeacherProfile["uchebnaya_distsiplina_name"]);
+            MM.CreateNewTableInMagazine(lbStatusDiarist, MagazineName, altNameDistsiplina, StudentsSNP);
+            btnCreateNewMagazine.Enabled = false;
+        }
+
+        private void cbSelectGroup_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            MM.ConnectDB(lbSatusProfile, "TeacherAccounts.sqlite");
+            string altNameDistsiplina = MM.GetDistsiplinaAltName(TeacherProfile["uchebnaya_distsiplina_name"]);
+
+            MM.ConnectDB(lbSatusProfile, "Magazine_" + cbSelectGroup.SelectedItem.ToString() + ".sqlite");
+            if(MM.CheckTableExistence(lbStatusDiarist, altNameDistsiplina))
             {
-                string MagazineName = "Magazine_" + cbSelectGroup.SelectedItem;
-                List<string> StudentsSNP = AM.GetAllUsersSNP(cbSelectGroup.SelectedItem.ToString(), "forDB");
-                MM.ConnectDB(lbStatusDiarist,"TeacherAccounts.sqlite");
-                string altNameDistsiplina = MM.GetDistsiplinaAltName(TeacherProfile["uchebnaya_distsiplina_name"]);
-                MM.CreateNewTableInMagazine(lbStatusDiarist, MagazineName, altNameDistsiplina , StudentsSNP);
+                btnCreateNewMagazine.Enabled = false;
+
             }
             else
             {
-                lbStatusDiarist.Text = "Выберите группу для которой будет создан журнал!";
+                btnCreateNewMagazine.Enabled = true;
             }
         }
     }

@@ -33,12 +33,12 @@
             this.lbSatusProfile = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.Diarist = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtDistsiplina = new System.Windows.Forms.TextBox();
             this.btnCreateNewMagazine = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.lbStatusDiarist = new System.Windows.Forms.Label();
             this.cbSelectGroup = new System.Windows.Forms.ComboBox();
-            this.txtDistsiplina = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.Profile.SuspendLayout();
             this.Diarist.SuspendLayout();
@@ -79,7 +79,7 @@
             // 
             this.richTextBox1.Location = new System.Drawing.Point(3, 6);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(514, 351);
+            this.richTextBox1.Size = new System.Drawing.Size(313, 266);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -99,24 +99,40 @@
             this.Diarist.TabIndex = 1;
             this.Diarist.Text = "Diarist";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(25, 34);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(67, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "дисциплина";
+            // 
+            // txtDistsiplina
+            // 
+            this.txtDistsiplina.Location = new System.Drawing.Point(98, 31);
+            this.txtDistsiplina.Name = "txtDistsiplina";
+            this.txtDistsiplina.Size = new System.Drawing.Size(121, 20);
+            this.txtDistsiplina.TabIndex = 4;
+            // 
             // btnCreateNewMagazine
             // 
-            this.btnCreateNewMagazine.Location = new System.Drawing.Point(76, 59);
+            this.btnCreateNewMagazine.Location = new System.Drawing.Point(98, 57);
             this.btnCreateNewMagazine.Name = "btnCreateNewMagazine";
             this.btnCreateNewMagazine.Size = new System.Drawing.Size(121, 23);
             this.btnCreateNewMagazine.TabIndex = 3;
-            this.btnCreateNewMagazine.Text = "Создать журнал";
+            this.btnCreateNewMagazine.Text = "Вписать дисциплину";
             this.btnCreateNewMagazine.UseVisualStyleBackColor = true;
             this.btnCreateNewMagazine.Click += new System.EventHandler(this.btnCreateNewMagazine_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(32, 7);
+            this.label1.Location = new System.Drawing.Point(9, 7);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(42, 13);
+            this.label1.Size = new System.Drawing.Size(86, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Группа";
+            this.label1.Text = "Журнал группы";
             // 
             // lbStatusDiarist
             // 
@@ -130,26 +146,11 @@
             // cbSelectGroup
             // 
             this.cbSelectGroup.FormattingEnabled = true;
-            this.cbSelectGroup.Location = new System.Drawing.Point(76, 3);
+            this.cbSelectGroup.Location = new System.Drawing.Point(98, 4);
             this.cbSelectGroup.Name = "cbSelectGroup";
             this.cbSelectGroup.Size = new System.Drawing.Size(121, 21);
             this.cbSelectGroup.TabIndex = 0;
-            // 
-            // txtDistsiplina
-            // 
-            this.txtDistsiplina.Location = new System.Drawing.Point(76, 33);
-            this.txtDistsiplina.Name = "txtDistsiplina";
-            this.txtDistsiplina.Size = new System.Drawing.Size(121, 20);
-            this.txtDistsiplina.TabIndex = 4;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 36);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "дисциплина";
+            this.cbSelectGroup.SelectedIndexChanged += new System.EventHandler(this.cbSelectGroup_SelectedIndexChanged);
             // 
             // FormTeacher
             // 

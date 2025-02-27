@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SQLite;
 using System.IO;
 using System.Data;
-using System.Data.Common;
 
 namespace Student_Registration
 {
@@ -49,7 +43,6 @@ namespace Student_Registration
         {
             if (DBName != "")
             {
-                SQLiteConnection.CreateFile(DBName + ".sqlite");
                 try
                 {
                     dbFileName = DBName + ".sqlite";
@@ -57,9 +50,12 @@ namespace Student_Registration
                     m_dbConn.Open();
                     m_sqlCmd.Connection = m_dbConn;
                     m_sqlCmd.CommandText = @"CREATE TABLE " + TableName + " (";
+                    m_sqlCmd.CommandText += "exerciseNumber INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,";
+                    m_sqlCmd.CommandText += "description TEXT NOT NULL,";
                     for (int i = 0; i < listColumns.Count; i++)
                     {
                         m_sqlCmd.CommandText += listColumns[i];
+                        m_sqlCmd.CommandText += " INTEGER NOT NULL";
                         if (i != listColumns.Count - 1) m_sqlCmd.CommandText += ", ";
                     }
                     m_sqlCmd.CommandText += ")";
@@ -97,8 +93,35 @@ namespace Student_Registration
             }
             catch (SQLiteException ex)
             {
-                MessageBox.Show("ReadOneValue ERROR:" + ex + "\nCOMMAND: " + query);
-                return "ReadOneValue ERROR:" + ex + "\nCOMMAND: " + query;
+                MessageBox.Show("GetDistsiplinaAltName ERROR:" + ex + "\nCOMMAND: " + query);
+                return "GetDistsiplinaAltName ERROR:" + ex + "\nCOMMAND: " + query;
+            }
+        }
+
+        public bool CheckTableExistence(Label lbStatusText, string TableName)
+        {
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+            }
+
+            string query = "SELECT name FROM sqlite_master WHERE type='table' AND name='"+ TableName + "'";
+            try
+            {
+                using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))
+                {
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        reader.Read();
+                        return reader.HasRows;
+                    }
+                }
+
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("CheckTableExistence ERROR:" + ex + "\nCOMMAND: " + query);
+                return false;
             }
         }
     }
