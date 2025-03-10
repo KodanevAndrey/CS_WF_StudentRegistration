@@ -536,6 +536,29 @@ namespace Student_Registration
 
         private void TextElement(TextBox textBox, string ColumnName, string TypeCheck)
         {
+            
+            if (ColumnName == "login" && cbUserType.SelectedItem.ToString() == "перподаватель")
+            {
+                if (AM.ReadOneValue(lbStatus, "AccountsTable", "login", "login", textBox.Text) == "NOT FOUND!")
+                {
+                    lbStatusAM.Text = "такой логин уже сущесвует!";
+                    textBox.BackColor = colorNoCorrect;
+                    CheckTextElementClolr(colorNoCorrect, out IsNoCorrect);
+                }
+                else textBox.BackColor = colorChanged;
+            }
+            else if (ColumnName == "login" && cbUserType.SelectedItem.ToString() == "студент")
+            {
+                if (AM.ReadAllGroups(lbStatus, "login", "login", textBox.Text) == "NOT FOUND!")
+                {
+                    lbStatusAM.Text = "такой логин уже сущесвует!";
+                    textBox.BackColor = colorNoCorrect;
+                    CheckTextElementClolr(colorNoCorrect, out IsNoCorrect);
+                }
+                else textBox.BackColor = colorChanged;
+            }
+            
+
             if (!IsAdding)
             {
                 if (textBox.Text != UserData[ColumnName]) 
@@ -543,10 +566,9 @@ namespace Student_Registration
                     textBox.BackColor = colorChanged;
                     if (AM.CheckForValidity(lbStatusAM, textBox.Text, TypeCheck)) textBox.BackColor = colorChanged;
                     else textBox.BackColor = colorNoCorrect;
-                    CheckTextElementClolr(colorNoCorrect, out IsNoCorrect);
+                    CheckTextElementClolr(colorChanged, out IsDataChanged);
                 }
                 else textBox.BackColor = Color.White;
-                CheckTextElementClolr(colorChanged, out IsDataChanged);
             }
             else
             {
@@ -560,7 +582,7 @@ namespace Student_Registration
         private void txtSurname_TextChanged(object sender, EventArgs e) => TextElement(txtSurname, "surname", "name");
         private void txtPatronymic_TextChanged(object sender, EventArgs e) => TextElement(txtPatronymic, "patronymic", "name");
         private void txtEmail_TextChanged(object sender, EventArgs e) => TextElement(txtEmail, "email", "email");
-        private void txtLogin_TextChanged(object sender, EventArgs e) => TextElement(txtLogin, "login", "name");
+        private void txtLogin_TextChanged(object sender, EventArgs e) => TextElement(txtLogin, "login", "login");
         private void txtPassword_TextChanged(object sender, EventArgs e) => TextElement(txtPassword, "password", "onlyInt");
         private void txtPhone_TextChanged(object sender, EventArgs e) => TextElement(txtPhone, "phone_number", "onlyInt");
         private void txtHouseNumber_TextChanged(object sender, EventArgs e) => TextElement(txtHouseNumber, "house_number", "onlyInt");

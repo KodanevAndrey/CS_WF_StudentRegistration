@@ -66,7 +66,7 @@ namespace Student_Registration
             }
             else if(cbUserType.SelectedItem.ToString() == "преподаватель")
             {
-                txtLogin.Text = "Иваныч";
+                txtLogin.Text = "Ivanich";
                 txtPassword.Text = "777";
             }
         }

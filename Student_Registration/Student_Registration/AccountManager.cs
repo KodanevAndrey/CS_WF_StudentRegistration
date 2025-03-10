@@ -10,6 +10,7 @@ using System.Drawing;
 using System.IO;
 using System.Data;
 using System.Text.RegularExpressions;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 namespace Student_Registration
 {
     public class AccountManager
@@ -502,79 +503,80 @@ namespace Student_Registration
             if (EnterText == "") { statusText.Text = "\nстока пуста!"; return false; }
             switch (CheckType)
             {
+                case "login":
+                    pattern = @"^[a-zA-Z0-9]+$";
+                    if (!Regex.IsMatch(EnterText, pattern))
+                    {
+                        statusText.Text = "логин должен содержать только латинские буквы без посторонних символов!";
+                        return false;
+                    }
+                    break;
+
                 case "email":
-                    // Проверяем, что строка не пустая
-                    if (string.IsNullOrEmpty(EnterText))
-                    {
-                        return false;
-                    }
-
-                    // Проверяем, что первый символ не '@'
-                    if (EnterText[0] == '@')
-                    {
-                        return false;
-                    }
-
-                    // Регулярное выражение для проверки строки
                     // ^ - начало строки
                     // [a-zA-Z]+ - одна или более латинских букв
                     // (?=.*@) - обязательно наличие символа '@'
                     // (?=.*\.) - обязательно наличие символа '.'
                     // [a-zA-Z@.]* - остальные символы могут быть латинскими буквами, '@' или '.'
                     // $ - конец строки
-                    pattern = @"^[a-zA-Z]+(?=.*@)(?=.*\.)[a-zA-Z@.]*$";
-
-                    // Проверяем соответствие строки регулярному выражению
-                    IsCorrect = Regex.IsMatch(EnterText, pattern);
-                    break;
-                case "name":
-                    // Проверяем, что строка не пустая
-                    if (string.IsNullOrEmpty(EnterText))
+                    pattern = @"^[a-zA-Z]";
+                    if (!Regex.IsMatch(EnterText, pattern))
                     {
+                        statusText.Text = "начало строки дожно содержать одну или более латинских букв!";
                         return false;
                     }
-
+                    pattern = @"\@mail.ru|\@gmail.com";
+                    if (!Regex.IsMatch(EnterText, pattern))
+                    {
+                        statusText.Text = "обязательно наличие слова '@mail.ru' или @gmail.com'!";
+                        return false;
+                    }
+                    break;
+                case "name":
                     // Регулярное выражение для проверки строки
                     // ^ - начало строки
                     // [А-ЯЁ] - первая буква должна быть заглавной русской буквой
                     // [а-яёА-ЯЁ]* - остальные символы могут быть строчными или заглавными русскими буквами
                     // $ - конец строки
-                    pattern = @"^[А-ЯЁ][а-яё]*$";
-
-                    // Проверяем соответствие строки регулярному выражению
-                    IsCorrect = Regex.IsMatch(EnterText, pattern);
-                    break;
-                case "onlyInt":
-                    // Проверяем, что строка не пустая
-                    if (string.IsNullOrEmpty(EnterText))
+                    /*
+                    pattern = @"^[А-ЯЁ]";
+                    if (!Regex.IsMatch(EnterText, pattern))
                     {
+                        statusText.Text = "первая буква должна быть заглавной русской буквой!";
                         return false;
                     }
-
+                    */
+                    pattern = @"^[А-ЯЁ][а-яё]*$";
+                    if (!Regex.IsMatch(EnterText, pattern))
+                    {
+                        statusText.Text = "символы кроме первой русской заглавной буквы должны быть русскими буквами без пробелов!";
+                        return false;
+                    }
+                    break;
+                case "onlyInt":
                     // Регулярное выражение для проверки строки
                     // ^ - начало строки
                     // \d+ - одна или более цифр
                     // $ - конец строки
                     pattern = @"^\d+$";
 
-                    // Проверяем соответствие строки регулярному выражению
-                    IsCorrect = Regex.IsMatch(EnterText, pattern);
-                    break;
-                case "onlyEngl":
-                    // Проверяем, что строка не пустая
-                    if (string.IsNullOrEmpty(EnterText))
+                    if (!Regex.IsMatch(EnterText, pattern))
                     {
+                        statusText.Text = "в поле должны быть только цифры!";
                         return false;
                     }
-
+                    break;
+                case "onlyEngl":
                     // Регулярное выражение для проверки строки
                     // ^ - начало строки
                     // [a-zA-Z]+ - одна или более латинских букв
                     // $ - конец строки
                     pattern = @"^[a-zA-Z]+$";
-
-                    // Проверяем соответствие строки регулярному выражению
-                    IsCorrect = Regex.IsMatch(EnterText, pattern);
+                    if (!Regex.IsMatch(EnterText, pattern))
+                    {
+                        statusText.Text = "в поле должны быть только латинские буквы!";
+                        return false;
+                    }
                     break;
                 default: statusText.Text = "\n неопределён тип проверки на валидацию вводимых данных!"; return false;
             }
@@ -598,7 +600,7 @@ namespace Student_Registration
                         reader.Read();
 
                         if(reader.HasRows == true) return reader[column].ToString();
-                        else return null;
+                        else return "NOT FOUND!";
                     }
                 }
             }
@@ -615,6 +617,7 @@ namespace Student_Registration
             {
                 MessageBox.Show("Open connection with database");
             }
+            bool isFound = false;
             string result = "";
             string query = "";
             try
@@ -632,6 +635,7 @@ namespace Student_Registration
                             if (reader.HasRows == true)
                             {
                                 result = reader[column].ToString();
+                                isFound = true;
                                 break;
                             }
                         }
@@ -642,7 +646,8 @@ namespace Student_Registration
             {
                 MessageBox.Show("ReadOneValue ERROR:" + ex + "\nCOMMAND: " + query);
             }
-            return result;
+            if(isFound) return result;
+            else return "NOT FOUND!";
         }
 
         public void CreateNewMagazine(Label lbStatusText, string MagazineName, string TableName)
@@ -671,6 +676,15 @@ namespace Student_Registration
                 }
             }
             else lbStatusText.Text = "введите имя для новой базы данных!";
+        }
+
+        public void ExistenceCheckLoginTeacher()
+        {
+
+        }
+        public void ExistenceCheckLoginStudent()
+        {
+
         }
     }
 }
