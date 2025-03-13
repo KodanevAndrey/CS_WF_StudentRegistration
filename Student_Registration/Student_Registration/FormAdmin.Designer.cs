@@ -55,6 +55,8 @@
             this.dgvViewer = new System.Windows.Forms.DataGridView();
             this.btnReadDB = new System.Windows.Forms.Button();
             this.tabAccountManager = new System.Windows.Forms.TabPage();
+            this.label19 = new System.Windows.Forms.Label();
+            this.txtLogin = new System.Windows.Forms.TextBox();
             this.btnDeleteGroup = new System.Windows.Forms.Button();
             this.btnDeleteUser = new System.Windows.Forms.Button();
             this.btnAddOrUpdateUser = new System.Windows.Forms.Button();
@@ -88,8 +90,6 @@
             this.cbUserType = new System.Windows.Forms.ComboBox();
             this.lbStatusAM = new System.Windows.Forms.Label();
             this.btnResetPassword = new System.Windows.Forms.Button();
-            this.txtLogin = new System.Windows.Forms.TextBox();
-            this.label19 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabCreateDB.SuspendLayout();
             this.tabConnectDB.SuspendLayout();
@@ -408,6 +408,23 @@
             this.tabAccountManager.TabIndex = 2;
             this.tabAccountManager.Text = "AccountManager";
             // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(66, 240);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(29, 13);
+            this.label19.TabIndex = 38;
+            this.label19.Text = "login";
+            // 
+            // txtLogin
+            // 
+            this.txtLogin.Location = new System.Drawing.Point(103, 237);
+            this.txtLogin.Name = "txtLogin";
+            this.txtLogin.Size = new System.Drawing.Size(199, 20);
+            this.txtLogin.TabIndex = 37;
+            this.txtLogin.TextChanged += new System.EventHandler(this.txtLogin_TextChanged);
+            // 
             // btnDeleteGroup
             // 
             this.btnDeleteGroup.Location = new System.Drawing.Point(242, 34);
@@ -703,23 +720,6 @@
             this.btnResetPassword.TabIndex = 0;
             this.btnResetPassword.Text = "Изменить пароль администратора";
             this.btnResetPassword.UseVisualStyleBackColor = true;
-            // 
-            // txtLogin
-            // 
-            this.txtLogin.Location = new System.Drawing.Point(103, 237);
-            this.txtLogin.Name = "txtLogin";
-            this.txtLogin.Size = new System.Drawing.Size(199, 20);
-            this.txtLogin.TabIndex = 37;
-            this.txtLogin.TextChanged += new System.EventHandler(this.txtLogin_TextChanged);
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(66, 240);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(29, 13);
-            this.label19.TabIndex = 38;
-            this.label19.Text = "login";
             // 
             // FormAdmin
             // 

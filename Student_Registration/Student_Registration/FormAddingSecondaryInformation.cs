@@ -32,6 +32,7 @@ namespace Student_Registration
             this.TableName = tableName;
             this.ColumnName = columnName;
             this.btnAdd.Text = "добввить " + RankAdded;
+            if (TableName == "UchebnayaDistsiplinaTable") txtEnglName.Enabled = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -45,8 +46,7 @@ namespace Student_Registration
                 }
                 else if (TableName == "UchebnayaDistsiplinaTable")
                 {
-                    txtEnglName.Enabled = true;
-                    if(AM.CheckForValidity(lbStatus, txtEnglName.Text, "onlyEngl")) AM.AddUchebnayaDistsiplina(lbStatus,txtEnter.Text,txtEnglName.Text);
+                    if (AM.CheckForValidity(lbStatus, txtEnglName.Text, "onlyEngl")) AM.AddUchebnayaDistsiplina(lbStatus,txtEnter.Text,txtEnglName.Text);
                 }
                 else
                 {

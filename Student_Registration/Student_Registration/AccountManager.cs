@@ -1,16 +1,11 @@
-﻿using ConnectSQLite_KodanevAndrey;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
 using System.Data;
 using System.Text.RegularExpressions;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 namespace Student_Registration
 {
     public class AccountManager

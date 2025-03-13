@@ -1,16 +1,8 @@
 ﻿using ConnectSQLite_KodanevAndrey;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
-
 namespace Student_Registration
 {
     public partial class FormAdmin : Form
@@ -133,12 +125,12 @@ namespace Student_Registration
 
         private void CheckIsDataChanged()
         {
-            if (IsDataChanged)
+            if (IsDataChanged && !IsAdding)
             {
                 btnAddOrUpdateUser.Enabled = true;
                 btnAddOrUpdateUser.Text = "Измненить";
             }
-            else
+            else if (!IsDataChanged && !IsAdding)
             {
                 btnAddOrUpdateUser.Enabled = false;
                 btnAddOrUpdateUser.Text = "Чтенеие";
@@ -157,10 +149,9 @@ namespace Student_Registration
                 btnAddOrUpdateUser.Enabled = true;
                 btnAddOrUpdateUser.Text = "Добавить";
             }
-            else CheckIsDataChanged();
         }
 
-        private void CheckTextElementClolr(Color color,out bool changeable)
+        private void CheckTextElementClolr(Color color,ref bool changeable)
         {
             changeable = false;
 
@@ -174,11 +165,14 @@ namespace Student_Registration
             if (txtHouseNumber.BackColor == color) changeable = true;
             if (txtApartmentNumber.BackColor == color) changeable = true;
 
-            if (cbUchebnayaDistsiplina.BackColor == color) changeable = true;
-            if (cbCity.BackColor == color) changeable = true;
-            if (cbStreet.BackColor == color) changeable = true;
-
-            CheckIsNoCorrect();
+            if (color == colorChanged)
+            {
+                if (cbUchebnayaDistsiplina.BackColor == color) changeable = true;
+                if (cbCity.BackColor == color) changeable = true;
+                if (cbStreet.BackColor == color) changeable = true;
+                CheckIsDataChanged();
+            }
+            if(color == colorNoCorrect) CheckIsNoCorrect();
         }
 
         private void ReturnTextElementsSettingsToDefault()
@@ -291,7 +285,6 @@ namespace Student_Registration
                     surname += str[i];
                 }
             }
-            //data = AM.ReadSelectedOnlyRow(lbStatusText, surname, );
             if (cbUserType.SelectedItem.ToString() == "перподаватель")
             {
                 UserData = AM.ReadSelectedOnlyRow(lbStatusText, "NULL", surname);
@@ -370,7 +363,6 @@ namespace Student_Registration
                 label10.Text = "дисциплина";
                 AM.ConnectDB(lbStatusAM, "TeacherAccounts.sqlite");
                 ReloadCBSelectUser();
-                //AM.ReadAllName(lbStatusAM, cbSelectUser, "AccountsTable");
                 AM.LoadAllItemsForComboBox(cbUchebnayaDistsiplina, "UchebnayaDistsiplinaTable", "uchebnaya_distsiplina_name");
                 AM.LoadAllItemsForComboBox(cbCity, "CityTable", "city_name");
                 AM.LoadAllItemsForComboBox(cbStreet, "StreetTable", "street_name");
@@ -410,7 +402,6 @@ namespace Student_Registration
                 ClearAllTextElements();
                 btnAddOrUpdateUser.Enabled = true;
                 btnDeleteUser.Enabled = false;
-                ReturnTextElementsSettingsToDefault();
 
                 if(cbUserType.SelectedItem.ToString() == "студент")
                 {
@@ -424,13 +415,13 @@ namespace Student_Registration
                 if (cbSelectGroup.Enabled == true)
                     TableName = cbSelectGroup.SelectedItem.ToString();
 
-                ReturnTextElementsSettingsToDefault();
                 EnabledAllTextElementsToAM(true);
                 ClearAllComboBoxElements();
                 ClearAllTextElements();
 
                 ReloadAllUserDataElements("NULL");
             }
+            ReturnTextElementsSettingsToDefault();
         }
 
 
@@ -492,7 +483,7 @@ namespace Student_Registration
                         else { cbUchebnayaDistsiplina.BackColor = colorChanged; }
                     }
                 }
-                CheckTextElementClolr(colorChanged, out IsDataChanged);
+                CheckTextElementClolr(colorChanged, ref IsDataChanged);
             }
         }
 
@@ -506,15 +497,9 @@ namespace Student_Registration
             }
             if (!IsAdding)
             {
-                if (cbCity.SelectedItem.ToString() == UserData["city_name"]) 
-                {
-                    cbCity.BackColor = Color.White;
-                } 
-                else 
-                { 
-                    cbCity.BackColor = colorChanged; 
-                }
-                CheckTextElementClolr(colorChanged, out IsDataChanged);
+                if (cbCity.SelectedItem.ToString() == UserData["city_name"]) cbCity.BackColor = Color.White;
+                else cbCity.BackColor = colorChanged; 
+                CheckTextElementClolr(colorChanged, ref IsDataChanged);
             }
         }
 
@@ -530,43 +515,19 @@ namespace Student_Registration
             {
                 if (cbStreet.SelectedItem.ToString() == UserData["street_name"]) cbStreet.BackColor = Color.White;
                 else { cbStreet.BackColor = colorChanged; }
-                CheckTextElementClolr(colorChanged, out IsDataChanged);
+                CheckTextElementClolr(colorChanged, ref IsDataChanged);
             }
         }
 
         private void TextElement(TextBox textBox, string ColumnName, string TypeCheck)
         {
-            
-            if (ColumnName == "login" && cbUserType.SelectedItem.ToString() == "перподаватель")
-            {
-                if (AM.ReadOneValue(lbStatus, "AccountsTable", "login", "login", textBox.Text) == "NOT FOUND!")
-                {
-                    lbStatusAM.Text = "такой логин уже сущесвует!";
-                    textBox.BackColor = colorNoCorrect;
-                    CheckTextElementClolr(colorNoCorrect, out IsNoCorrect);
-                }
-                else textBox.BackColor = colorChanged;
-            }
-            else if (ColumnName == "login" && cbUserType.SelectedItem.ToString() == "студент")
-            {
-                if (AM.ReadAllGroups(lbStatus, "login", "login", textBox.Text) == "NOT FOUND!")
-                {
-                    lbStatusAM.Text = "такой логин уже сущесвует!";
-                    textBox.BackColor = colorNoCorrect;
-                    CheckTextElementClolr(colorNoCorrect, out IsNoCorrect);
-                }
-                else textBox.BackColor = colorChanged;
-            }
-            
-
             if (!IsAdding)
             {
-                if (textBox.Text != UserData[ColumnName]) 
+                if (textBox.Text != UserData[ColumnName])
                 {
                     textBox.BackColor = colorChanged;
                     if (AM.CheckForValidity(lbStatusAM, textBox.Text, TypeCheck)) textBox.BackColor = colorChanged;
                     else textBox.BackColor = colorNoCorrect;
-                    CheckTextElementClolr(colorChanged, out IsDataChanged);
                 }
                 else textBox.BackColor = Color.White;
             }
@@ -574,15 +535,38 @@ namespace Student_Registration
             {
                 if (AM.CheckForValidity(lbStatusAM, textBox.Text, TypeCheck)) textBox.BackColor = Color.White;
                 else textBox.BackColor = colorNoCorrect;
-                CheckTextElementClolr(colorNoCorrect, out IsNoCorrect);
             }
+            CheckTextElementClolr(colorNoCorrect, ref IsNoCorrect);
+            CheckTextElementClolr(colorChanged, ref IsDataChanged);
+        }
+
+        private void LoginTextElement(TextBox textBox, string ColumnName, string TypeCheck)
+        {
+            if (cbUserType.SelectedItem.ToString() == "перподаватель" && AM.ReadOneValue(lbStatus, "AccountsTable", "login", "login", textBox.Text) != "NOT FOUND!")
+            {
+                textBox.BackColor = colorNoCorrect;
+                lbStatusAM.Text = "Такой логин уже существует!";
+            }
+            else if (cbUserType.SelectedItem.ToString() == "студент" && AM.ReadAllGroups(lbStatus, "login", "login", textBox.Text) != "NOT FOUND!")
+            {
+                textBox.BackColor = colorNoCorrect;
+                lbStatusAM.Text = "Такой логин уже существует!";
+            }
+            else
+            {
+                textBox.BackColor = Color.White;               
+                TextElement(textBox, ColumnName, TypeCheck);
+            }
+
+            CheckTextElementClolr(colorNoCorrect, ref IsNoCorrect);
+            CheckTextElementClolr(colorChanged, ref IsDataChanged);
         }
 
         private void txtName_TextChanged(object sender, EventArgs e) => TextElement(txtName, "name", "name");
         private void txtSurname_TextChanged(object sender, EventArgs e) => TextElement(txtSurname, "surname", "name");
         private void txtPatronymic_TextChanged(object sender, EventArgs e) => TextElement(txtPatronymic, "patronymic", "name");
         private void txtEmail_TextChanged(object sender, EventArgs e) => TextElement(txtEmail, "email", "email");
-        private void txtLogin_TextChanged(object sender, EventArgs e) => TextElement(txtLogin, "login", "login");
+        private void txtLogin_TextChanged(object sender, EventArgs e) => LoginTextElement(txtLogin, "login", "login");
         private void txtPassword_TextChanged(object sender, EventArgs e) => TextElement(txtPassword, "password", "onlyInt");
         private void txtPhone_TextChanged(object sender, EventArgs e) => TextElement(txtPhone, "phone_number", "onlyInt");
         private void txtHouseNumber_TextChanged(object sender, EventArgs e) => TextElement(txtHouseNumber, "house_number", "onlyInt");
@@ -622,7 +606,6 @@ namespace Student_Registration
                     {
                         _columns = AM.GetTableInfo(lbStatusAM, cbSelectGroup.SelectedItem.ToString());
                         AM.AddNewUserDB(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns, _data);
-                        //AM.FillOutNewMagazineNSP(lbStatusAM, "Magazine_" + cbSelectGroup.SelectedItem.ToString(), "BaseInfo", "StudentsAccounts.sqlite", cbSelectGroup.SelectedItem.ToString());
                         AM.ConnectDB(lbStatusAM, "Magazine_" + cbSelectGroup.SelectedItem.ToString() + ".sqlite");
                         _columns.Clear();
                         _columns = AM.GetTableInfo(lbStatusAM, "BaseInfo");
@@ -657,13 +640,11 @@ namespace Student_Registration
                         {
                             if (cbUserType.SelectedItem.ToString() == "перподаватель")
                             {
-                                //AM.Reset(lbStatusAM, "AccountsTable", _columns[i], _data[i], AM.GetID("AccountsTable", "surname", surname));
                                 AM.Reset(lbStatusAM, "AccountsTable", _columns[i], _data[i], AM.GetID("AccountsTable", "id", UserData["id"]));
                                 cbSelectUser.Items.Clear();
                             }
                             else if (cbUserType.SelectedItem.ToString() == "студент")
                             {
-                                //AM.Reset(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns[i], _data[i], AM.GetID(cbSelectGroup.SelectedItem.ToString(), "surname", surname));
                                 AM.Reset(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns[i], _data[i], AM.GetID(cbSelectGroup.SelectedItem.ToString(), "id", UserData["id"]));
                                 cbSelectUser.Items.Clear();
                             }
@@ -731,6 +712,5 @@ namespace Student_Registration
                 cbSelectUser.Enabled = true;
             }
         }
-
     }
 }
