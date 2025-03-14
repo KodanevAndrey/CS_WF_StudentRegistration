@@ -39,9 +39,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lbStatusDiarist = new System.Windows.Forms.Label();
             this.cbSelectGroup = new System.Windows.Forms.ComboBox();
+            this.dgvViewer = new System.Windows.Forms.DataGridView();
             this.tabControl1.SuspendLayout();
             this.Profile.SuspendLayout();
             this.Diarist.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvViewer)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -86,6 +88,7 @@
             // Diarist
             // 
             this.Diarist.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.Diarist.Controls.Add(this.dgvViewer);
             this.Diarist.Controls.Add(this.label2);
             this.Diarist.Controls.Add(this.txtDistsiplina);
             this.Diarist.Controls.Add(this.btnCreateNewMagazine);
@@ -152,6 +155,14 @@
             this.cbSelectGroup.TabIndex = 0;
             this.cbSelectGroup.SelectedIndexChanged += new System.EventHandler(this.cbSelectGroup_SelectedIndexChanged);
             // 
+            // dgvViewer
+            // 
+            this.dgvViewer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvViewer.Location = new System.Drawing.Point(6, 86);
+            this.dgvViewer.Name = "dgvViewer";
+            this.dgvViewer.Size = new System.Drawing.Size(893, 459);
+            this.dgvViewer.TabIndex = 6;
+            // 
             // FormTeacher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -166,6 +177,7 @@
             this.Profile.PerformLayout();
             this.Diarist.ResumeLayout(false);
             this.Diarist.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvViewer)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -183,5 +195,6 @@
         private System.Windows.Forms.Button btnCreateNewMagazine;
         private System.Windows.Forms.TextBox txtDistsiplina;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataGridView dgvViewer;
     }
 }

@@ -4,16 +4,18 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using System.Data;
+using System;
+using ConnectSQLite_KodanevAndrey;
 
 namespace Student_Registration
 {
-    internal class MagazinesManager
+    internal class MagazinesManager : DBHelper
     {
         private string dbFileName;
         private SQLiteConnection m_dbConn = new SQLiteConnection();
         private SQLiteCommand m_sqlCmd = new SQLiteCommand();
 
-        public void ConnectDB(Label lbStatusText, string fileName)
+        public bool ConnectDB(Label lbStatusText, string fileName)
         {
             dbFileName = fileName;
             if (!File.Exists(dbFileName))
@@ -25,12 +27,14 @@ namespace Student_Registration
                 m_sqlCmd.Connection = m_dbConn;
                 lbStatusText.Text = "Connected: " + dbFileName;
                 lbStatusText.ForeColor = Color.Green;
+                return true;
             }
             catch (SQLiteException ex)
             {
                 lbStatusText.Text = "Disconnected";
                 lbStatusText.ForeColor = Color.Red;
                 MessageBox.Show("ConnectDB ERROR:" + ex + "\nCOMMAND: " + m_dbConn);
+                return false;
             }
         }
 
@@ -123,6 +127,12 @@ namespace Student_Registration
                 MessageBox.Show("CheckTableExistence ERROR:" + ex + "\nCOMMAND: " + query);
                 return false;
             }
+        }
+
+        public void LoadTableInfo(Label lbStatusText, DataGridView dgvViewer, string TableName)
+        {
+            TableNameDB = TableName;
+            LoadTableInfo(lbStatusText, dgvViewer);
         }
     }
 }

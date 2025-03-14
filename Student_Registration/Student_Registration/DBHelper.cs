@@ -19,22 +19,22 @@ namespace ConnectSQLite_KodanevAndrey
 {
     public class DBHelper
     {
-        private string dbFileName;
-        private string TableNameDB;
-        private SQLiteConnection m_dbConn = new SQLiteConnection();
-        private SQLiteCommand m_sqlCmd = new SQLiteCommand();
-        private SQLiteDataAdapter adapter;
-        private string fileLocation = string.Empty;
-        private string TableSelectColumnName;
-        private string TableSelectCellName;
-        private int TableSelectRowIndex;
-        private int TableSelectColumnIndex;
-        private List<int> DBTableColumnsTypeBlob = new List<int>();
-        private List<int> DBTableColumnsTypeText = new List<int>();
-        private List<int> DBTableColumnsTypeInt = new List<int>();
-        private List<int> DBTableColumnsTypeNotBlob = new List<int>();
+        protected string dbFileName;
+        protected string TableNameDB;
+        protected SQLiteConnection m_dbConn = new SQLiteConnection();
+        protected SQLiteCommand m_sqlCmd = new SQLiteCommand();
+        protected SQLiteDataAdapter adapter;
+        protected string fileLocation = string.Empty;
+        protected string TableSelectColumnName;
+        protected string TableSelectCellName;
+        protected int TableSelectRowIndex;
+        protected int TableSelectColumnIndex;
+        protected List<int> DBTableColumnsTypeBlob = new List<int>();
+        protected List<int> DBTableColumnsTypeText = new List<int>();
+        protected List<int> DBTableColumnsTypeInt = new List<int>();
+        protected List<int> DBTableColumnsTypeNotBlob = new List<int>();
 
-        public void CreateNewDB(Label lbStatusText, string DBName, string TableName, List<string> listColumns)
+        public virtual void CreateNewDB(Label lbStatusText, string DBName, string TableName, List<string> listColumns)
         {
             if (DBName != "")
             {
@@ -68,7 +68,7 @@ namespace ConnectSQLite_KodanevAndrey
             else lbStatusText.Text = "введите имя для новой базы данных!";
         }
 
-        public bool ConnectDB(Label lbStatusText)
+        public virtual bool ConnectDB(Label lbStatusText)
         {
             DBTableColumnsTypeInt.Clear();
             DBTableColumnsTypeText.Clear();
@@ -106,7 +106,7 @@ namespace ConnectSQLite_KodanevAndrey
             return Conected;
         }
 
-        public void ReadCountTables(Label lbStatusText, ListBox listBox)
+        public virtual void ReadCountTables(Label lbStatusText, ListBox listBox)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -142,7 +142,7 @@ namespace ConnectSQLite_KodanevAndrey
             }
         }
 
-        public void SelectedTable(ListBox listBox)
+        public virtual void SelectedTable(ListBox listBox)
         {
             TableNameDB = listBox.SelectedItem.ToString();
             DataTable dTable = new DataTable();
@@ -151,7 +151,7 @@ namespace ConnectSQLite_KodanevAndrey
             adapter.Fill(dTable);
         }
 
-        public void GetTableInfo(Label lbStatusText)
+        public virtual void GetTableInfo(Label lbStatusText)
         {
             lbStatusText.Text = "";
             if (m_dbConn.State != ConnectionState.Open)
@@ -180,7 +180,7 @@ namespace ConnectSQLite_KodanevAndrey
             }
         }
 
-        public void LoadTableInfo(Label lbStatusText, DataGridView dgvViewer)
+        public virtual void LoadTableInfo(Label lbStatusText, DataGridView dgvViewer)
         {
             if (dgvViewer.Columns.Count != 0) { dgvViewer.Columns.Clear(); }
             DataTable dTable = new DataTable();
@@ -208,7 +208,7 @@ namespace ConnectSQLite_KodanevAndrey
             }
         }
 
-        public void SelectCellToTable(Label lbStatusText, DataGridView dgvViewer)
+        public virtual void SelectCellToTable(Label lbStatusText, DataGridView dgvViewer)
         {
             int selectedRowCount = dgvViewer.GetCellCount(DataGridViewElementStates.Selected);
             if (selectedRowCount > 0)
@@ -231,7 +231,7 @@ namespace ConnectSQLite_KodanevAndrey
             }
         }
 
-        public void ReadDB(Label lbStatusText, DataGridView dgvViewer)
+        public virtual void ReadDB(Label lbStatusText, DataGridView dgvViewer)
         {
             DataTable dTable = new DataTable();
             String sqlQuery;
@@ -261,7 +261,7 @@ namespace ConnectSQLite_KodanevAndrey
             }
         }
 
-        public void AddDB(Label lbStatusText, Label lbCommand, DataGridView dgvViewer)
+        public virtual void AddDB(Label lbStatusText, Label lbCommand, DataGridView dgvViewer)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -328,7 +328,7 @@ namespace ConnectSQLite_KodanevAndrey
             lbCommand.Text = m_sqlCmd.CommandText;
         }
 
-        public void DeleteDB(Label lbStatusText, Label lbCommandText, DataGridView dgvViewer)
+        public virtual void DeleteDB(Label lbStatusText, Label lbCommandText, DataGridView dgvViewer)
         {
             /*
             DialogResult dialogResult = MessageBox.Show("Sure", "Some Title", MessageBoxButtons.YesNo);
@@ -364,7 +364,7 @@ namespace ConnectSQLite_KodanevAndrey
             lbCommandText.Text = m_sqlCmd.CommandText;
         }
 
-        public void ResetDB(Label lbStatusText, Label lbCommand, DataGridView dgvViewer)
+        public virtual void ResetDB(Label lbStatusText, Label lbCommand, DataGridView dgvViewer)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -420,7 +420,7 @@ namespace ConnectSQLite_KodanevAndrey
             lbCommand.Text = m_sqlCmd.CommandText;
         }
 
-        public void DeleteAllDB(Label lbStatusText)
+        public virtual void DeleteAllDB(Label lbStatusText)
         {
 
             if (m_dbConn.State != ConnectionState.Open)
@@ -473,7 +473,7 @@ namespace ConnectSQLite_KodanevAndrey
             return image;
         }
 
-        public void AddImageToDB(Label lbStatusText, Label lbCommand, DataGridView dgvViewer)
+        public virtual void AddImageToDB(Label lbStatusText, Label lbCommand, DataGridView dgvViewer)
         {
             lbStatusText.Text = "";
             string status = "";
@@ -547,7 +547,7 @@ namespace ConnectSQLite_KodanevAndrey
             }
         }
         */
-        public bool CheckToInt(in object cell)
+        public virtual bool CheckToInt(in object cell)
         {
             int CountTypeInt = 0;
             string Value = cell.ToString();

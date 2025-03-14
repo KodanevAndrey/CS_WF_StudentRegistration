@@ -66,16 +66,23 @@ namespace Student_Registration
             MM.ConnectDB(lbSatusProfile, "TeacherAccounts.sqlite");
             string altNameDistsiplina = MM.GetDistsiplinaAltName(TeacherProfile["uchebnaya_distsiplina_name"]);
 
-            MM.ConnectDB(lbSatusProfile, "Magazine_" + cbSelectGroup.SelectedItem.ToString() + ".sqlite");
-            if(MM.CheckTableExistence(lbStatusDiarist, altNameDistsiplina))
+        
+            if (MM.ConnectDB(lbSatusProfile, "Magazine_" + cbSelectGroup.SelectedItem.ToString() + ".sqlite"))
             {
-                btnCreateNewMagazine.Enabled = false;
-
-            }
-            else
-            {
-                btnCreateNewMagazine.Enabled = true;
+                if (MM.CheckTableExistence(lbStatusDiarist, altNameDistsiplina))
+                {
+                    btnCreateNewMagazine.Enabled = false;
+                    //MM.GetTableInfo(lbStatusText);
+                    MM.LoadTableInfo(lbStatusDiarist, dgvViewer, altNameDistsiplina);
+                    MM.ReadDB(lbStatusDiarist, dgvViewer);
+                    //EnabledAllButtonToConnectDB(true);
+                }
+                else
+                {
+                    btnCreateNewMagazine.Enabled = true;
+                }
             }
         }
+    
     }
 }
