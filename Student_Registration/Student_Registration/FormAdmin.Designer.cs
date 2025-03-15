@@ -43,6 +43,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtDBName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+
             this.tabConnectDB = new System.Windows.Forms.TabPage();
             this.lbStatusText = new System.Windows.Forms.Label();
             this.lbCommand = new System.Windows.Forms.Label();
@@ -54,6 +55,7 @@
             this.btnConnectDB = new System.Windows.Forms.Button();
             this.dgvViewer = new System.Windows.Forms.DataGridView();
             this.btnReadDB = new System.Windows.Forms.Button();
+
             this.tabAccountManager = new System.Windows.Forms.TabPage();
             this.label19 = new System.Windows.Forms.Label();
             this.txtLogin = new System.Windows.Forms.TextBox();

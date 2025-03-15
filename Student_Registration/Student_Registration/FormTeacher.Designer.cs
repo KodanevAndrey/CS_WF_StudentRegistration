@@ -33,13 +33,20 @@
             this.lbSatusProfile = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.Diarist = new System.Windows.Forms.TabPage();
+            this.dgvViewer = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
             this.txtDistsiplina = new System.Windows.Forms.TextBox();
             this.btnCreateNewMagazine = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.lbStatusDiarist = new System.Windows.Forms.Label();
             this.cbSelectGroup = new System.Windows.Forms.ComboBox();
-            this.dgvViewer = new System.Windows.Forms.DataGridView();
+            this.lbStatusText = new System.Windows.Forms.Label();
+            this.lbCommand = new System.Windows.Forms.Label();
+            this.btnDeleteAllDB = new System.Windows.Forms.Button();
+            this.btnDeleteDB = new System.Windows.Forms.Button();
+            this.btnResetDB = new System.Windows.Forms.Button();
+            this.btnAddImageDB = new System.Windows.Forms.Button();
+            this.btnAddDB = new System.Windows.Forms.Button();
+            this.btnReadDB = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.Profile.SuspendLayout();
             this.Diarist.SuspendLayout();
@@ -88,19 +95,35 @@
             // Diarist
             // 
             this.Diarist.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.Diarist.Controls.Add(this.dgvViewer);
             this.Diarist.Controls.Add(this.label2);
             this.Diarist.Controls.Add(this.txtDistsiplina);
             this.Diarist.Controls.Add(this.btnCreateNewMagazine);
             this.Diarist.Controls.Add(this.label1);
-            this.Diarist.Controls.Add(this.lbStatusDiarist);
             this.Diarist.Controls.Add(this.cbSelectGroup);
+            this.Diarist.Controls.Add(this.lbStatusText);
+            this.Diarist.Controls.Add(this.lbCommand);
+            this.Diarist.Controls.Add(this.btnDeleteAllDB);
+            this.Diarist.Controls.Add(this.btnDeleteDB);
+            this.Diarist.Controls.Add(this.btnResetDB);
+            this.Diarist.Controls.Add(this.btnAddImageDB);
+            this.Diarist.Controls.Add(this.btnAddDB);
+            this.Diarist.Controls.Add(this.dgvViewer);
+            this.Diarist.Controls.Add(this.btnReadDB);
             this.Diarist.Location = new System.Drawing.Point(4, 22);
             this.Diarist.Name = "Diarist";
             this.Diarist.Padding = new System.Windows.Forms.Padding(3);
             this.Diarist.Size = new System.Drawing.Size(927, 569);
             this.Diarist.TabIndex = 1;
             this.Diarist.Text = "Diarist";
+            // 
+            // dgvViewer
+            // 
+            this.dgvViewer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvViewer.Location = new System.Drawing.Point(6, 86);
+            this.dgvViewer.Name = "dgvViewer";
+            this.dgvViewer.Size = new System.Drawing.Size(909, 408);
+            this.dgvViewer.TabIndex = 5;
+            this.dgvViewer.Click += new System.EventHandler(this.dgvViewer_Click);
             // 
             // label2
             // 
@@ -137,15 +160,6 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Журнал группы";
             // 
-            // lbStatusDiarist
-            // 
-            this.lbStatusDiarist.AutoSize = true;
-            this.lbStatusDiarist.Location = new System.Drawing.Point(9, 548);
-            this.lbStatusDiarist.Name = "lbStatusDiarist";
-            this.lbStatusDiarist.Size = new System.Drawing.Size(35, 13);
-            this.lbStatusDiarist.TabIndex = 1;
-            this.lbStatusDiarist.Text = "label1";
-            // 
             // cbSelectGroup
             // 
             this.cbSelectGroup.FormattingEnabled = true;
@@ -155,13 +169,83 @@
             this.cbSelectGroup.TabIndex = 0;
             this.cbSelectGroup.SelectedIndexChanged += new System.EventHandler(this.cbSelectGroup_SelectedIndexChanged);
             // 
-            // dgvViewer
+            // lbStatusText
             // 
-            this.dgvViewer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvViewer.Location = new System.Drawing.Point(6, 86);
-            this.dgvViewer.Name = "dgvViewer";
-            this.dgvViewer.Size = new System.Drawing.Size(893, 459);
-            this.dgvViewer.TabIndex = 6;
+            this.lbStatusText.AutoSize = true;
+            this.lbStatusText.Location = new System.Drawing.Point(6, 548);
+            this.lbStatusText.Name = "lbStatusText";
+            this.lbStatusText.Size = new System.Drawing.Size(36, 13);
+            this.lbStatusText.TabIndex = 24;
+            this.lbStatusText.Text = "isError";
+            // 
+            // lbCommand
+            // 
+            this.lbCommand.AutoSize = true;
+            this.lbCommand.Location = new System.Drawing.Point(6, 518);
+            this.lbCommand.Name = "lbCommand";
+            this.lbCommand.Size = new System.Drawing.Size(54, 13);
+            this.lbCommand.TabIndex = 23;
+            this.lbCommand.Text = "Command";
+            // 
+            // btnDeleteAllDB
+            // 
+            this.btnDeleteAllDB.Location = new System.Drawing.Point(503, 500);
+            this.btnDeleteAllDB.Name = "btnDeleteAllDB";
+            this.btnDeleteAllDB.Size = new System.Drawing.Size(75, 23);
+            this.btnDeleteAllDB.TabIndex = 22;
+            this.btnDeleteAllDB.Text = "Delete All";
+            this.btnDeleteAllDB.UseVisualStyleBackColor = true;
+            this.btnDeleteAllDB.Click += new System.EventHandler(this.btnDeleteAllDB_Click);
+            // 
+            // btnDeleteDB
+            // 
+            this.btnDeleteDB.Location = new System.Drawing.Point(422, 500);
+            this.btnDeleteDB.Name = "btnDeleteDB";
+            this.btnDeleteDB.Size = new System.Drawing.Size(75, 23);
+            this.btnDeleteDB.TabIndex = 21;
+            this.btnDeleteDB.Text = "Delete";
+            this.btnDeleteDB.UseVisualStyleBackColor = true;
+            this.btnDeleteDB.Click += new System.EventHandler(this.btnDeleteDB_Click);
+            // 
+            // btnResetDB
+            // 
+            this.btnResetDB.Location = new System.Drawing.Point(341, 500);
+            this.btnResetDB.Name = "btnResetDB";
+            this.btnResetDB.Size = new System.Drawing.Size(75, 23);
+            this.btnResetDB.TabIndex = 20;
+            this.btnResetDB.Text = "Reset";
+            this.btnResetDB.UseVisualStyleBackColor = true;
+            this.btnResetDB.Click += new System.EventHandler(this.btnResetDB_Click);
+            // 
+            // btnAddImageDB
+            // 
+            this.btnAddImageDB.Location = new System.Drawing.Point(260, 500);
+            this.btnAddImageDB.Name = "btnAddImageDB";
+            this.btnAddImageDB.Size = new System.Drawing.Size(75, 23);
+            this.btnAddImageDB.TabIndex = 19;
+            this.btnAddImageDB.Text = "Add Image";
+            this.btnAddImageDB.UseVisualStyleBackColor = true;
+            this.btnAddImageDB.Click += new System.EventHandler(this.btnAddImageDB_Click);
+            // 
+            // btnAddDB
+            // 
+            this.btnAddDB.Location = new System.Drawing.Point(179, 500);
+            this.btnAddDB.Name = "btnAddDB";
+            this.btnAddDB.Size = new System.Drawing.Size(75, 23);
+            this.btnAddDB.TabIndex = 7;
+            this.btnAddDB.Text = "Add";
+            this.btnAddDB.UseVisualStyleBackColor = true;
+            this.btnAddDB.Click += new System.EventHandler(this.btnAddDB_Click);
+            // 
+            // btnReadDB
+            // 
+            this.btnReadDB.Location = new System.Drawing.Point(98, 500);
+            this.btnReadDB.Name = "btnReadDB";
+            this.btnReadDB.Size = new System.Drawing.Size(75, 23);
+            this.btnReadDB.TabIndex = 1;
+            this.btnReadDB.Text = "Read";
+            this.btnReadDB.UseVisualStyleBackColor = true;
+            this.btnReadDB.Click += new System.EventHandler(this.btnReadDB_Click);
             // 
             // FormTeacher
             // 
@@ -190,11 +274,21 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label lbSatusProfile;
         private System.Windows.Forms.ComboBox cbSelectGroup;
-        private System.Windows.Forms.Label lbStatusDiarist;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnCreateNewMagazine;
         private System.Windows.Forms.TextBox txtDistsiplina;
         private System.Windows.Forms.Label label2;
+
+        private System.Windows.Forms.TabPage tabAccountManager;
+        private System.Windows.Forms.Button btnReadDB;
         private System.Windows.Forms.DataGridView dgvViewer;
+        private System.Windows.Forms.Button btnAddDB;
+        private System.Windows.Forms.Button btnAddImageDB;
+        private System.Windows.Forms.Button btnResetDB;
+        private System.Windows.Forms.Button btnDeleteDB;
+        private System.Windows.Forms.Button btnDeleteAllDB;
+        private System.Windows.Forms.Label lbCommand;
+        private System.Windows.Forms.Label lbStatusText;
+
     }
 }

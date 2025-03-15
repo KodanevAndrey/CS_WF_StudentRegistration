@@ -4,16 +4,16 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using System.Data;
-using System;
 using ConnectSQLite_KodanevAndrey;
+using System;
 
 namespace Student_Registration
 {
     internal class MagazinesManager : DBHelper
     {
-        private string dbFileName;
-        private SQLiteConnection m_dbConn = new SQLiteConnection();
-        private SQLiteCommand m_sqlCmd = new SQLiteCommand();
+        //private string dbFileName;
+        //private SQLiteConnection m_dbConn = new SQLiteConnection();
+        //private SQLiteCommand m_sqlCmd = new SQLiteCommand();
 
         public bool ConnectDB(Label lbStatusText, string fileName)
         {
@@ -133,6 +133,15 @@ namespace Student_Registration
         {
             TableNameDB = TableName;
             LoadTableInfo(lbStatusText, dgvViewer);
+        }
+
+        public void SelectedTable(string tableName)
+        {
+            TableNameDB = tableName;
+            DataTable dTable = new DataTable();
+            string sqlQuery = "SELECT * FROM " + TableNameDB + " ";
+            adapter = new SQLiteDataAdapter(sqlQuery, m_dbConn);
+            adapter.Fill(dTable);
         }
     }
 }

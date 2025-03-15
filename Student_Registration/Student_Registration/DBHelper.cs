@@ -146,7 +146,7 @@ namespace ConnectSQLite_KodanevAndrey
         {
             TableNameDB = listBox.SelectedItem.ToString();
             DataTable dTable = new DataTable();
-            String sqlQuery = "SELECT * FROM " + TableNameDB + " ";
+            string sqlQuery = "SELECT * FROM " + TableNameDB + " ";
             adapter = new SQLiteDataAdapter(sqlQuery, m_dbConn);
             adapter.Fill(dTable);
         }

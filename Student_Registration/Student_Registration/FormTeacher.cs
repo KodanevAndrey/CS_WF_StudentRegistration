@@ -28,6 +28,7 @@ namespace Student_Registration
             LoadGroupNames();
             txtDistsiplina.Enabled = false;
             btnCreateNewMagazine.Enabled = false;
+            EnabledAllButtonToConnectDB(false);
         }
 
         private void LoadProfile()
@@ -44,20 +45,20 @@ namespace Student_Registration
 
         private void LoadGroupNames()
         {
-            AM.ConnectDB(lbStatusDiarist, "StudentsAccounts.sqlite");
+            AM.ConnectDB(lbStatusText, "StudentsAccounts.sqlite");
             cbSelectGroup.Text = "";
             cbSelectGroup.SelectedItem = "";
             cbSelectGroup.Items.Clear();
-            foreach (string item in AM.GetNameAllGroups(lbStatusDiarist)) cbSelectGroup.Items.Add(item);
+            foreach (string item in AM.GetNameAllGroups(lbStatusText)) cbSelectGroup.Items.Add(item);
         }
 
         private void btnCreateNewMagazine_Click(object sender, EventArgs e)
         {
             string MagazineName = "Magazine_" + cbSelectGroup.SelectedItem;
             List<string> StudentsSNP = AM.GetAllUsersSNP(cbSelectGroup.SelectedItem.ToString(), "forDB");
-            MM.ConnectDB(lbStatusDiarist, "TeacherAccounts.sqlite");
+            MM.ConnectDB(lbStatusText, "TeacherAccounts.sqlite");
             string altNameDistsiplina = MM.GetDistsiplinaAltName(TeacherProfile["uchebnaya_distsiplina_name"]);
-            MM.CreateNewTableInMagazine(lbStatusDiarist, MagazineName, altNameDistsiplina, StudentsSNP);
+            MM.CreateNewTableInMagazine(lbStatusText, MagazineName, altNameDistsiplina, StudentsSNP);
             btnCreateNewMagazine.Enabled = false;
         }
 
@@ -69,13 +70,14 @@ namespace Student_Registration
         
             if (MM.ConnectDB(lbSatusProfile, "Magazine_" + cbSelectGroup.SelectedItem.ToString() + ".sqlite"))
             {
-                if (MM.CheckTableExistence(lbStatusDiarist, altNameDistsiplina))
+                if (MM.CheckTableExistence(lbStatusText, altNameDistsiplina))
                 {
                     btnCreateNewMagazine.Enabled = false;
-                    //MM.GetTableInfo(lbStatusText);
-                    MM.LoadTableInfo(lbStatusDiarist, dgvViewer, altNameDistsiplina);
-                    MM.ReadDB(lbStatusDiarist, dgvViewer);
-                    //EnabledAllButtonToConnectDB(true);
+                    MM.SelectedTable(altNameDistsiplina);
+                    MM.GetTableInfo(lbStatusText);
+                    MM.LoadTableInfo(lbStatusText, dgvViewer, altNameDistsiplina);
+                    MM.ReadDB(lbStatusText, dgvViewer);
+                    EnabledAllButtonToConnectDB(true);
                 }
                 else
                 {
@@ -83,6 +85,36 @@ namespace Student_Registration
                 }
             }
         }
-    
+
+        private void EnabledAllButtonToConnectDB(bool IsActive)
+        {
+            btnReadDB.Enabled = IsActive;
+            btnAddDB.Enabled = IsActive;
+            btnAddImageDB.Enabled = IsActive;
+            btnResetDB.Enabled = IsActive;
+            btnDeleteDB.Enabled = IsActive;
+            btnDeleteAllDB.Enabled = IsActive;
+        }
+
+        private void btnReadDB_Click(object sender, EventArgs e) => MM.ReadDB(lbStatusText, dgvViewer);
+        private void btnAddDB_Click(object sender, EventArgs e) => MM.AddDB(lbStatusText, lbCommand, dgvViewer);
+        private void btnAddImageDB_Click(object sender, EventArgs e) => MM.AddImageToDB(lbStatusText, lbCommand, dgvViewer);
+        private void btnResetDB_Click(object sender, EventArgs e) => MM.ResetDB(lbStatusText, lbCommand, dgvViewer);
+        private void btnDeleteDB_Click(object sender, EventArgs e) => MM.DeleteDB(lbStatusText, lbCommand, dgvViewer);
+        private void btnDeleteAllDB_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("вы уверены что хотите удалить ВСЕ данные таблицы?", "Удаление всех данных", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                MM.DeleteAllDB(lbStatusText);
+                MM.ReadDB(lbStatusText, dgvViewer);
+            }
+        }
+
+        private void dgvViewer_Click(object sender, EventArgs e)
+        {
+            MM.SelectCellToTable(lbStatusText, dgvViewer);
+        }
+
     }
 }
