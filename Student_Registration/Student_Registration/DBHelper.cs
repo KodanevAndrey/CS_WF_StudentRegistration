@@ -25,10 +25,10 @@ namespace ConnectSQLite_KodanevAndrey
         protected SQLiteCommand m_sqlCmd = new SQLiteCommand();
         protected SQLiteDataAdapter adapter;
         protected string fileLocation = string.Empty;
-        protected string TableSelectColumnName;
-        protected string TableSelectCellName;
-        protected int TableSelectRowIndex;
-        protected int TableSelectColumnIndex;
+        protected string NameSelectedColumn;
+        protected string NameSelectedCell;
+        protected int SelectedRowIndex;
+        protected int SelectedColumnIndex;
         protected List<int> DBTableColumnsTypeBlob = new List<int>();
         protected List<int> DBTableColumnsTypeText = new List<int>();
         protected List<int> DBTableColumnsTypeInt = new List<int>();
@@ -216,18 +216,17 @@ namespace ConnectSQLite_KodanevAndrey
                 System.Text.StringBuilder sb = new System.Text.StringBuilder();
                 for (int i = 0; i < selectedRowCount; i++)
                 {
-                    TableSelectColumnName = dgvViewer.SelectedCells[i].OwningColumn.Name.ToString();
-                    TableSelectRowIndex = dgvViewer.SelectedCells[i].RowIndex;
-                    TableSelectColumnIndex = dgvViewer.SelectedCells[i].ColumnIndex;
-                    sb.Append("Row: " + TableSelectRowIndex);
-                    sb.Append(", Column: " + TableSelectColumnName);
-                    if (dgvViewer.SelectedCells[i].Value != null) { TableSelectCellName = dgvViewer.SelectedCells[i].Value.ToString(); sb.Append(" Cell: " + TableSelectCellName); }
+                    NameSelectedColumn = dgvViewer.SelectedCells[i].OwningColumn.Name.ToString();
+                    SelectedRowIndex = dgvViewer.SelectedCells[i].RowIndex;
+                    SelectedColumnIndex = dgvViewer.SelectedCells[i].ColumnIndex;
+                    sb.Append("Row: " + SelectedRowIndex);
+                    sb.Append(", Column: " + NameSelectedColumn);
+                    if (dgvViewer.SelectedCells[i].Value != null) { NameSelectedCell = dgvViewer.SelectedCells[i].Value.ToString(); sb.Append(" Cell: " + NameSelectedCell); }
                     else { sb.Append(" Cell: NULL"); }
                     sb.Append(Environment.NewLine);
                 }
                 sb.Append("Total: " + selectedRowCount.ToString());
-                //lbStatusText.Text = sb.ToString() + "Selected Rows";
-                lbStatusText.Text = "столбец Name = " + TableSelectColumnName + "столбец Index = " + TableSelectColumnIndex + "\nстрочка = " + TableSelectRowIndex +"\nячейка = " + TableSelectCellName;
+                lbStatusText.Text = "столбец Name = " + NameSelectedColumn + "столбец Index = " + SelectedColumnIndex + "\nстрочка = " + SelectedRowIndex + "\nячейка = " + NameSelectedCell;
             }
         }
 
@@ -330,38 +329,35 @@ namespace ConnectSQLite_KodanevAndrey
 
         public virtual void DeleteDB(Label lbStatusText, Label lbCommandText, DataGridView dgvViewer)
         {
-            /*
-            DialogResult dialogResult = MessageBox.Show("Sure", "Some Title", MessageBoxButtons.YesNo);
+            
+            DialogResult dialogResult = MessageBox.Show("Вы уверены что хотите удалить запись", "Удаление записи", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                //do something
+                if (m_dbConn.State != ConnectionState.Open)
+                {
+                    lbStatusText.Text = "Open connection with database";
+                    lbStatusText.ForeColor = Color.Red;
+                    return;
+                }
+                try
+                {
+                    m_sqlCmd.CommandText = "DELETE FROM " + TableNameDB + " WHERE " + NameSelectedColumn + " = '" + NameSelectedCell + "' ";
+                    lbStatusText.Text = m_sqlCmd.CommandText;
+                    m_sqlCmd.ExecuteNonQuery();
+                    lbStatusText.Text = "удаление выполнено! '" + NameSelectedColumn + "' = " + NameSelectedCell.ToString();
+                    lbStatusText.ForeColor = Color.Green;
+                    ReadDB(lbStatusText, dgvViewer);
+                }
+                catch (SQLiteException ex)
+                {
+                    MessageBox.Show("Error DeleteDB: " + ex.Message);
+                }
+                lbCommandText.Text = m_sqlCmd.CommandText;
             }
             else if (dialogResult == DialogResult.No)
             {
                 //do something else
             }
-            */
-
-            if (m_dbConn.State != ConnectionState.Open)
-            {
-                lbStatusText.Text = "Open connection with database";
-                lbStatusText.ForeColor = Color.Red;
-                return;
-            }
-            try
-            {
-                m_sqlCmd.CommandText = "DELETE FROM " + TableNameDB + " WHERE " + TableSelectColumnName + " = '" + TableSelectCellName + "' ";
-                lbStatusText.Text = m_sqlCmd.CommandText;
-                m_sqlCmd.ExecuteNonQuery();
-                lbStatusText.Text = "удаление выполнено! '" + TableSelectColumnName + "' = " + TableSelectCellName.ToString();
-                lbStatusText.ForeColor = Color.Green;
-                ReadDB(lbStatusText, dgvViewer);
-            }
-            catch (SQLiteException ex)
-            {
-                MessageBox.Show("Error DeleteDB: " + ex.Message);
-            }
-            lbCommandText.Text = m_sqlCmd.CommandText;
         }
 
         public virtual void ResetDB(Label lbStatusText, Label lbCommand, DataGridView dgvViewer)
@@ -380,31 +376,31 @@ namespace ConnectSQLite_KodanevAndrey
             {
                 foreach(int IndexColumnsTypeInt in DBTableColumnsTypeInt)
                 {
-                    if (TableSelectColumnIndex == IndexColumnsTypeInt)
-                        if (!CheckToInt(dgvViewer.Rows[TableSelectRowIndex].Cells[TableSelectColumnIndex].Value))
+                    if (SelectedColumnIndex == IndexColumnsTypeInt)
+                        if (!CheckToInt(dgvViewer.Rows[SelectedRowIndex].Cells[SelectedColumnIndex].Value))
                         {
                             IsActive = false;
-                            status = "введено некорректное значение: ячейка под столбцом " + dgvViewer.Columns[TableSelectColumnIndex].Name + " имеет числовой тип!";
+                            status = "введено некорректное значение: ячейка под столбцом " + dgvViewer.Columns[SelectedColumnIndex].Name + " имеет числовой тип!";
                         }
                 }
 
                 if (IsActive == true)
                 {
                     m_sqlCmd.CommandText = "UPDATE " + TableNameDB + " SET ";
-                    m_sqlCmd.CommandText += TableSelectColumnName + " = ";
+                    m_sqlCmd.CommandText += NameSelectedColumn + " = ";
                     for (int j = 0; j < dgvViewer.Columns.Count; j++)
                     {
-                        if (TableSelectColumnName == dgvViewer.Columns[j].Name)
+                        if (NameSelectedColumn == dgvViewer.Columns[j].Name)
                         {
-                            lbStatusText.Text = "новое значение выбранной ячейки сейчас = " + dgvViewer.Rows[TableSelectRowIndex].Cells[j].Value;
-                            lbStatusText.Text += "\nПри выполнении операции было выбрано:" + "\nстолбец = " + TableSelectColumnName + "\nстрочка = " + TableSelectRowIndex + "\nячейка = " + TableSelectCellName;
-                            m_sqlCmd.CommandText += "'" + dgvViewer.Rows[TableSelectRowIndex].Cells[j].Value + "'";
+                            lbStatusText.Text = "новое значение выбранной ячейки сейчас = " + dgvViewer.Rows[SelectedRowIndex].Cells[j].Value;
+                            lbStatusText.Text += "\nПри выполнении операции было выбрано:" + "\nстолбец = " + NameSelectedColumn + "\nстрочка = " + SelectedRowIndex + "\nячейка = " + NameSelectedCell;
+                            m_sqlCmd.CommandText += "'" + dgvViewer.Rows[SelectedRowIndex].Cells[j].Value + "'";
                         }
                     }
-                    m_sqlCmd.CommandText += " WHERE " + TableSelectColumnName + " = ";
-                    if (TableSelectCellName != "NULL") 
+                    m_sqlCmd.CommandText += " WHERE " + NameSelectedColumn + " = ";
+                    if (NameSelectedCell != "NULL") 
                     { 
-                        m_sqlCmd.CommandText += "'" + TableSelectCellName + "'"; 
+                        m_sqlCmd.CommandText += "'" + NameSelectedCell + "'"; 
                         m_sqlCmd.ExecuteNonQuery(); 
                         status += "ЗАПИСЬ ВЫПОЛНЕНА!";
                         ReadDB(lbStatusText, dgvViewer);
@@ -445,10 +441,7 @@ namespace ConnectSQLite_KodanevAndrey
         private string FileLocation
         {
             get { return fileLocation; }
-            set
-            {
-                fileLocation = value;
-            }
+            set { fileLocation = value; }
         }
 
         private Image LoadImage()
@@ -486,23 +479,23 @@ namespace ConnectSQLite_KodanevAndrey
             }
 
 
-            if (image != null && TableSelectColumnName != null)
+            if (image != null && NameSelectedColumn != null)
             {
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
                 foreach (int ColumnIndex in DBTableColumnsTypeBlob)
                 {
-                    if (TableSelectColumnName == dataTable.Columns[ColumnIndex].ColumnName)
+                    if (NameSelectedColumn == dataTable.Columns[ColumnIndex].ColumnName)
                     {
                         SelectName = dataTable.Columns[ColumnIndex].ColumnName;
                     }
                 }
                 try
                 {
-                    m_sqlCmd.CommandText = "UPDATE " + TableNameDB + " SET " + SelectName + " = '" + image + "' WHERE " + TableSelectColumnName + " = ";
-                    if (TableSelectCellName != "NULL")
+                    m_sqlCmd.CommandText = "UPDATE " + TableNameDB + " SET " + SelectName + " = '" + image + "' WHERE " + NameSelectedColumn + " = ";
+                    if (NameSelectedCell != "NULL")
                     {
-                        m_sqlCmd.CommandText += "'" + TableSelectCellName + "'";
+                        m_sqlCmd.CommandText += "'" + NameSelectedCell + "'";
                         lbCommand.Text = m_sqlCmd.CommandText;
                         lbStatusText.Text += "SelectColumName = " + SelectName;
                         m_sqlCmd.ExecuteNonQuery();
@@ -549,6 +542,11 @@ namespace ConnectSQLite_KodanevAndrey
         */
         public virtual bool CheckToInt(in object cell)
         {
+            if (cell == null) 
+            {
+                MessageBox.Show("Выберите ячейку!");
+                return false; 
+            }
             int CountTypeInt = 0;
             string Value = cell.ToString();
             for (int i = 0; i < Value.Length; i++)

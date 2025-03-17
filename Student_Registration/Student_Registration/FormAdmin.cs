@@ -19,11 +19,17 @@ namespace Student_Registration
         public DBHelper db = new DBHelper();
         private string DBName = null;
         private string TableName = null;
+        private string AdminPassword;
         private List<string> listColumns = new List<string>();
 
         public FormAdmin()
         {
             InitializeComponent();
+
+            btnResetPassword.Enabled = false;
+            AM.ConnectDB(lbStatusAM,"Admin.sqlite");
+            AdminPassword = AM.ReadOneValue(lbStatusAM, "AdminTable", "password", "login", "Admin");
+            txtAdminPassword.Text = AdminPassword;
             this.StartPosition = FormStartPosition.Manual;
             this.Location = new Point(200, 200);
             this.MaximizeBox = false;
@@ -347,21 +353,20 @@ namespace Student_Registration
 
             if (cbUserType.SelectedItem.ToString() == "перподаватель")
             {
+                AM.ConnectDB(lbStatusAM, "TeacherAccounts.sqlite");
                 ClearAllTextElements();
                 ClearAllComboBoxElements();
                 EnabledAllTextElementsToAM(false);
+                btnDeleteGroup.Enabled = false;
                 cbSelectGroup.SelectedItem = "";
                 cbSelectGroup.Text = "";
                 cbSelectGroup.Enabled = false;
-                btnDeleteGroup.Enabled = false;
 
                 cbSelectUser.Enabled = true;
-
                 ReturnTextElementsSettingsToDefault();
 
                 label6.Text = "учитель";
                 label10.Text = "дисциплина";
-                AM.ConnectDB(lbStatusAM, "TeacherAccounts.sqlite");
                 ReloadCBSelectUser();
                 AM.LoadAllItemsForComboBox(cbUchebnayaDistsiplina, "UchebnayaDistsiplinaTable", "uchebnaya_distsiplina_name");
                 AM.LoadAllItemsForComboBox(cbCity, "CityTable", "city_name");
@@ -369,6 +374,7 @@ namespace Student_Registration
             }
             else if (cbUserType.SelectedItem.ToString() == "студент")
             {
+                AM.ConnectDB(lbStatusAM, "StudentsAccounts.sqlite");
                 ClearAllTextElements();
                 ClearAllComboBoxElements();
                 EnabledAllTextElementsToAM(false);
@@ -382,7 +388,6 @@ namespace Student_Registration
 
                 label6.Text = "студент";
                 label10.Text = "группа";
-                AM.ConnectDB(lbStatusAM, "StudentsAccounts.sqlite");
                 ReloadCBSelectGroup();
                 AM.LoadAllItemsForComboBox(cbUchebnayaDistsiplina, "GroupsTable", "group_name");
                 AM.LoadAllItemsForComboBox(cbCity, "CityTable", "city_name");
@@ -403,7 +408,7 @@ namespace Student_Registration
                 btnAddOrUpdateUser.Enabled = true;
                 btnDeleteUser.Enabled = false;
 
-                if(cbUserType.SelectedItem.ToString() == "студент")
+                if (cbUserType.SelectedItem.ToString() == "студент")
                 {
                     cbUchebnayaDistsiplina.SelectedItem = cbSelectGroup.SelectedItem;
                     cbUchebnayaDistsiplina.Text = cbSelectGroup.SelectedItem.ToString();
@@ -420,6 +425,13 @@ namespace Student_Registration
                 ClearAllTextElements();
 
                 ReloadAllUserDataElements("NULL");
+
+                if(cbUserType.SelectedItem.ToString() == "студент")
+                {
+                    cbUchebnayaDistsiplina.SelectedItem = cbSelectGroup.SelectedItem;
+                    cbUchebnayaDistsiplina.Text = cbSelectGroup.SelectedItem.ToString();
+                    cbUchebnayaDistsiplina.Enabled = false;
+                }
             }
             ReturnTextElementsSettingsToDefault();
         }
@@ -711,6 +723,42 @@ namespace Student_Registration
                 ReturnTextElementsSettingsToDefault();
                 cbSelectUser.Enabled = true;
             }
+        }
+
+        private void txtAdminPassword_TextChanged(object sender, EventArgs e)
+        {   
+            if(txtAdminPassword.Text == AdminPassword)
+            {
+                txtAdminPassword.BackColor = Color.White;
+                btnResetPassword.Enabled = false;
+            }
+            else
+            {
+                txtAdminPassword.BackColor = colorChanged;
+                if (AM.CheckForValidity(lbStatusAM, txtAdminPassword.Text, "onlyInt"))
+                {
+                    txtAdminPassword.BackColor = colorChanged;
+                    btnResetPassword.Enabled = true;
+                }
+                else
+                {
+                    txtAdminPassword.BackColor = colorNoCorrect;
+                    btnResetPassword.Enabled = false;
+                }
+            }
+        }
+
+        private void btnResetPassword_Click(object sender, EventArgs e)
+        {
+            AM.ConnectDB(lbStatusText, "Admin.sqlite");
+            AM.ResetAdminPassword(lbStatusAM,txtAdminPassword);
+            txtAdminPassword.BackColor = Color.White;
+            btnResetPassword.Enabled = false;
+
+            if ( cbUserType.SelectedItem?.ToString() == "перподаватель")
+                AM.ConnectDB(lbStatusAM, "TeacherAccounts.sqlite");
+            else if (cbUserType.SelectedItem?.ToString() == "студент") 
+                AM.ConnectDB(lbStatusAM, "StudentsAccounts.sqlite");
         }
     }
 }

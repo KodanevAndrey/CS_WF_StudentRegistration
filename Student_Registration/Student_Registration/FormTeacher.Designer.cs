@@ -33,7 +33,6 @@
             this.lbSatusProfile = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.Diarist = new System.Windows.Forms.TabPage();
-            this.dgvViewer = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
             this.txtDistsiplina = new System.Windows.Forms.TextBox();
             this.btnCreateNewMagazine = new System.Windows.Forms.Button();
@@ -44,8 +43,8 @@
             this.btnDeleteAllDB = new System.Windows.Forms.Button();
             this.btnDeleteDB = new System.Windows.Forms.Button();
             this.btnResetDB = new System.Windows.Forms.Button();
-            this.btnAddImageDB = new System.Windows.Forms.Button();
             this.btnAddDB = new System.Windows.Forms.Button();
+            this.dgvViewer = new System.Windows.Forms.DataGridView();
             this.btnReadDB = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.Profile.SuspendLayout();
@@ -105,7 +104,6 @@
             this.Diarist.Controls.Add(this.btnDeleteAllDB);
             this.Diarist.Controls.Add(this.btnDeleteDB);
             this.Diarist.Controls.Add(this.btnResetDB);
-            this.Diarist.Controls.Add(this.btnAddImageDB);
             this.Diarist.Controls.Add(this.btnAddDB);
             this.Diarist.Controls.Add(this.dgvViewer);
             this.Diarist.Controls.Add(this.btnReadDB);
@@ -115,15 +113,6 @@
             this.Diarist.Size = new System.Drawing.Size(927, 569);
             this.Diarist.TabIndex = 1;
             this.Diarist.Text = "Diarist";
-            // 
-            // dgvViewer
-            // 
-            this.dgvViewer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvViewer.Location = new System.Drawing.Point(6, 86);
-            this.dgvViewer.Name = "dgvViewer";
-            this.dgvViewer.Size = new System.Drawing.Size(909, 408);
-            this.dgvViewer.TabIndex = 5;
-            this.dgvViewer.Click += new System.EventHandler(this.dgvViewer_Click);
             // 
             // label2
             // 
@@ -189,7 +178,7 @@
             // 
             // btnDeleteAllDB
             // 
-            this.btnDeleteAllDB.Location = new System.Drawing.Point(503, 500);
+            this.btnDeleteAllDB.Location = new System.Drawing.Point(584, 57);
             this.btnDeleteAllDB.Name = "btnDeleteAllDB";
             this.btnDeleteAllDB.Size = new System.Drawing.Size(75, 23);
             this.btnDeleteAllDB.TabIndex = 22;
@@ -199,7 +188,7 @@
             // 
             // btnDeleteDB
             // 
-            this.btnDeleteDB.Location = new System.Drawing.Point(422, 500);
+            this.btnDeleteDB.Location = new System.Drawing.Point(503, 57);
             this.btnDeleteDB.Name = "btnDeleteDB";
             this.btnDeleteDB.Size = new System.Drawing.Size(75, 23);
             this.btnDeleteDB.TabIndex = 21;
@@ -209,7 +198,7 @@
             // 
             // btnResetDB
             // 
-            this.btnResetDB.Location = new System.Drawing.Point(341, 500);
+            this.btnResetDB.Location = new System.Drawing.Point(422, 57);
             this.btnResetDB.Name = "btnResetDB";
             this.btnResetDB.Size = new System.Drawing.Size(75, 23);
             this.btnResetDB.TabIndex = 20;
@@ -217,19 +206,9 @@
             this.btnResetDB.UseVisualStyleBackColor = true;
             this.btnResetDB.Click += new System.EventHandler(this.btnResetDB_Click);
             // 
-            // btnAddImageDB
-            // 
-            this.btnAddImageDB.Location = new System.Drawing.Point(260, 500);
-            this.btnAddImageDB.Name = "btnAddImageDB";
-            this.btnAddImageDB.Size = new System.Drawing.Size(75, 23);
-            this.btnAddImageDB.TabIndex = 19;
-            this.btnAddImageDB.Text = "Add Image";
-            this.btnAddImageDB.UseVisualStyleBackColor = true;
-            this.btnAddImageDB.Click += new System.EventHandler(this.btnAddImageDB_Click);
-            // 
             // btnAddDB
             // 
-            this.btnAddDB.Location = new System.Drawing.Point(179, 500);
+            this.btnAddDB.Location = new System.Drawing.Point(341, 57);
             this.btnAddDB.Name = "btnAddDB";
             this.btnAddDB.Size = new System.Drawing.Size(75, 23);
             this.btnAddDB.TabIndex = 7;
@@ -237,9 +216,18 @@
             this.btnAddDB.UseVisualStyleBackColor = true;
             this.btnAddDB.Click += new System.EventHandler(this.btnAddDB_Click);
             // 
+            // dgvViewer
+            // 
+            this.dgvViewer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvViewer.Location = new System.Drawing.Point(6, 86);
+            this.dgvViewer.Name = "dgvViewer";
+            this.dgvViewer.Size = new System.Drawing.Size(909, 408);
+            this.dgvViewer.TabIndex = 5;
+            this.dgvViewer.Click += new System.EventHandler(this.dgvViewer_Click);
+            // 
             // btnReadDB
             // 
-            this.btnReadDB.Location = new System.Drawing.Point(98, 500);
+            this.btnReadDB.Location = new System.Drawing.Point(260, 57);
             this.btnReadDB.Name = "btnReadDB";
             this.btnReadDB.Size = new System.Drawing.Size(75, 23);
             this.btnReadDB.TabIndex = 1;
@@ -283,7 +271,6 @@
         private System.Windows.Forms.Button btnReadDB;
         private System.Windows.Forms.DataGridView dgvViewer;
         private System.Windows.Forms.Button btnAddDB;
-        private System.Windows.Forms.Button btnAddImageDB;
         private System.Windows.Forms.Button btnResetDB;
         private System.Windows.Forms.Button btnDeleteDB;
         private System.Windows.Forms.Button btnDeleteAllDB;

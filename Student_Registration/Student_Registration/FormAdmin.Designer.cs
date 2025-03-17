@@ -43,7 +43,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtDBName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-
             this.tabConnectDB = new System.Windows.Forms.TabPage();
             this.lbStatusText = new System.Windows.Forms.Label();
             this.lbCommand = new System.Windows.Forms.Label();
@@ -55,7 +54,6 @@
             this.btnConnectDB = new System.Windows.Forms.Button();
             this.dgvViewer = new System.Windows.Forms.DataGridView();
             this.btnReadDB = new System.Windows.Forms.Button();
-
             this.tabAccountManager = new System.Windows.Forms.TabPage();
             this.label19 = new System.Windows.Forms.Label();
             this.txtLogin = new System.Windows.Forms.TextBox();
@@ -92,6 +90,7 @@
             this.cbUserType = new System.Windows.Forms.ComboBox();
             this.lbStatusAM = new System.Windows.Forms.Label();
             this.btnResetPassword = new System.Windows.Forms.Button();
+            this.txtAdminPassword = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabCreateDB.SuspendLayout();
             this.tabConnectDB.SuspendLayout();
@@ -369,6 +368,7 @@
             // tabAccountManager
             // 
             this.tabAccountManager.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.tabAccountManager.Controls.Add(this.txtAdminPassword);
             this.tabAccountManager.Controls.Add(this.label19);
             this.tabAccountManager.Controls.Add(this.txtLogin);
             this.tabAccountManager.Controls.Add(this.btnDeleteGroup);
@@ -716,12 +716,21 @@
             // 
             // btnResetPassword
             // 
-            this.btnResetPassword.Location = new System.Drawing.Point(6, 528);
+            this.btnResetPassword.Location = new System.Drawing.Point(648, 36);
             this.btnResetPassword.Name = "btnResetPassword";
             this.btnResetPassword.Size = new System.Drawing.Size(209, 23);
             this.btnResetPassword.TabIndex = 0;
             this.btnResetPassword.Text = "Изменить пароль администратора";
             this.btnResetPassword.UseVisualStyleBackColor = true;
+            this.btnResetPassword.Click += new System.EventHandler(this.btnResetPassword_Click);
+            // 
+            // txtAdminPassword
+            // 
+            this.txtAdminPassword.Location = new System.Drawing.Point(648, 12);
+            this.txtAdminPassword.Name = "txtAdminPassword";
+            this.txtAdminPassword.Size = new System.Drawing.Size(209, 20);
+            this.txtAdminPassword.TabIndex = 39;
+            this.txtAdminPassword.TextChanged += new System.EventHandler(this.txtAdminPassword_TextChanged);
             // 
             // FormAdmin
             // 
@@ -808,5 +817,6 @@
         private System.Windows.Forms.Button btnDeleteGroup;
         private System.Windows.Forms.TextBox txtLogin;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.TextBox txtAdminPassword;
     }
 }

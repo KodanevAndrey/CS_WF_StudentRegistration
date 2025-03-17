@@ -139,7 +139,7 @@ namespace Student_Registration
             }
             catch (SQLiteException ex)
             {
-                MessageBox.Show("ReadCountTables ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+                MessageBox.Show("GetNameAllGroups ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
             }
             return _namesOfAllGroups;
         }
@@ -639,7 +639,7 @@ namespace Student_Registration
             }
             catch (SQLiteException ex)
             {
-                MessageBox.Show("ReadOneValue ERROR:" + ex + "\nCOMMAND: " + query);
+                MessageBox.Show("ReadAllGroups ERROR:" + ex + "\nCOMMAND: " + query);
             }
             if(isFound) return result;
             else return "NOT FOUND!";
@@ -673,13 +673,25 @@ namespace Student_Registration
             else lbStatusText.Text = "введите имя для новой базы данных!";
         }
 
-        public void ExistenceCheckLoginTeacher()
+        public void ResetAdminPassword(Label lbStatusText, TextBox txtAdminPassword)
         {
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                lbStatusText.Text = "Open connection with database";
+                return;
+            }
+            string query = @"UPDATE AdminTable SET password = '"+ txtAdminPassword.Text + "' WHERE login = 'Admin';";
+            try 
+            {
+                m_sqlCmd.CommandText = query;
+                m_sqlCmd.ExecuteNonQuery();
+                lbStatusText.Text = "Пароль администратора изменён!";
 
-        }
-        public void ExistenceCheckLoginStudent()
-        {
-
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("Error ResetDB: " + ex.Message);
+            }
         }
     }
 }

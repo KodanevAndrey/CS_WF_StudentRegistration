@@ -11,10 +11,6 @@ namespace Student_Registration
 {
     internal class MagazinesManager : DBHelper
     {
-        //private string dbFileName;
-        //private SQLiteConnection m_dbConn = new SQLiteConnection();
-        //private SQLiteCommand m_sqlCmd = new SQLiteCommand();
-
         public bool ConnectDB(Label lbStatusText, string fileName)
         {
             dbFileName = fileName;
@@ -142,6 +138,67 @@ namespace Student_Registration
             string sqlQuery = "SELECT * FROM " + TableNameDB + " ";
             adapter = new SQLiteDataAdapter(sqlQuery, m_dbConn);
             adapter.Fill(dTable);
+        }
+
+        public override void ResetDB(Label lbStatusText, Label lbCommand, DataGridView dgvViewer)
+        {
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                lbStatusText.Text = "Open connection with database";
+                return;
+            }
+            string status = "";
+            DataTable dTable = new DataTable();
+            adapter.Fill(dTable);
+            int RowCount = dTable.Rows.Count;
+            bool IsActive = true;
+            try
+            {
+                foreach (int IndexColumnsTypeInt in DBTableColumnsTypeInt)
+                {
+                    if (SelectedColumnIndex == IndexColumnsTypeInt)
+                        if (!CheckToInt(dgvViewer.Rows[SelectedRowIndex].Cells[SelectedColumnIndex].Value))
+                        {
+                            IsActive = false;
+                            status = "введено некорректное значение: ячейка под столбцом " + dgvViewer.Columns[SelectedRowIndex].Name + " имеет числовой тип!";
+                        }
+                        else if ( Convert.ToInt32(dgvViewer.Rows[SelectedRowIndex].Cells[SelectedColumnIndex].Value) > 5 || Convert.ToInt32(dgvViewer.Rows[SelectedRowIndex].Cells[SelectedColumnIndex].Value) < 2)
+                        {
+                            IsActive = false;
+                            status = "введено некорректное значение: значение под столбцом " + dgvViewer.Columns[SelectedRowIndex].Name + " должна быть не меньше 2 и не больше 5!";
+                        }
+                }
+
+                if (IsActive == true)
+                {
+                    m_sqlCmd.CommandText = "UPDATE " + TableNameDB + " SET ";
+                    m_sqlCmd.CommandText += NameSelectedColumn + " = ";
+                    for (int j = 0; j < dgvViewer.Columns.Count; j++)
+                    {
+                        if (NameSelectedColumn == dgvViewer.Columns[j].Name)
+                        {
+                            lbStatusText.Text = "новое значение выбранной ячейки сейчас = " + dgvViewer.Rows[SelectedRowIndex].Cells[j].Value;
+                            lbStatusText.Text += "\nПри выполнении операции было выбрано:" + "\nстолбец = " + NameSelectedColumn + "\nстрочка = " + SelectedRowIndex + "\nячейка = " + NameSelectedCell;
+                            m_sqlCmd.CommandText += "'" + dgvViewer.Rows[SelectedRowIndex].Cells[j].Value + "'";
+                        }
+                    }
+                    m_sqlCmd.CommandText += " WHERE " + NameSelectedColumn + " = ";
+                    if (NameSelectedCell != "NULL")
+                    {
+                        m_sqlCmd.CommandText += "'" + NameSelectedCell + "'";
+                        m_sqlCmd.ExecuteNonQuery();
+                        status += "ЗАПИСЬ ВЫПОЛНЕНА!";
+                        ReadDB(lbStatusText, dgvViewer);
+                    }
+                    else { status += "выберите ячейту для изменения!"; }
+                }
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("Error ResetDB: " + ex.Message);
+            }
+            lbStatusText.Text = status;
+            lbCommand.Text = m_sqlCmd.CommandText;
         }
     }
 }

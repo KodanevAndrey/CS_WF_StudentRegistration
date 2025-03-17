@@ -90,7 +90,6 @@ namespace Student_Registration
         {
             btnReadDB.Enabled = IsActive;
             btnAddDB.Enabled = IsActive;
-            btnAddImageDB.Enabled = IsActive;
             btnResetDB.Enabled = IsActive;
             btnDeleteDB.Enabled = IsActive;
             btnDeleteAllDB.Enabled = IsActive;
@@ -98,7 +97,6 @@ namespace Student_Registration
 
         private void btnReadDB_Click(object sender, EventArgs e) => MM.ReadDB(lbStatusText, dgvViewer);
         private void btnAddDB_Click(object sender, EventArgs e) => MM.AddDB(lbStatusText, lbCommand, dgvViewer);
-        private void btnAddImageDB_Click(object sender, EventArgs e) => MM.AddImageToDB(lbStatusText, lbCommand, dgvViewer);
         private void btnResetDB_Click(object sender, EventArgs e) => MM.ResetDB(lbStatusText, lbCommand, dgvViewer);
         private void btnDeleteDB_Click(object sender, EventArgs e) => MM.DeleteDB(lbStatusText, lbCommand, dgvViewer);
         private void btnDeleteAllDB_Click(object sender, EventArgs e)
