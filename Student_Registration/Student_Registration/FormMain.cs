@@ -35,7 +35,6 @@ namespace Student_Registration
                 }
                 else if (cbUserType.SelectedItem.ToString() == "администратор")
                 {
-                    //AM.ConnectDB(lbStatus, "Admin.sqlite");
                     Login = AM.ReadOneValue(lbStatus, "AdminTable", "login", "login", "Admin");
                     Password = AM.ReadOneValue(lbStatus, "AdminTable", "password", "login", "Admin");
                 }
@@ -48,7 +47,6 @@ namespace Student_Registration
             txtLogin.Enabled = true;
             txtLogin.Text = "";
             txtPassword.Text = "";
-            //LoadLoginAndPassword();
             if (cbUserType.SelectedItem.ToString() == "администратор")
             {
                 txtLogin.Enabled = false;
@@ -72,7 +70,7 @@ namespace Student_Registration
                 {
                     case "администратор": OpenForm(new FormAdmin()); break;
                     case "преподаватель": OpenForm(new FormTeacher(Login,AM)); break;
-                    case "студент": OpenForm(new FormStudent()); break;
+                    case "студент": OpenForm(new FormStudent(Login,AM)); break;
                     default: lbStatus.Text = "Неопределён тип ползователя!"; break;
                 }
             else if (Login == txtLogin.Text && Password != txtPassword.Text)

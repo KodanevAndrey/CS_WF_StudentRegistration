@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SQLite;
 using System.IO;
-using System.Data.Entity.Infrastructure;
-using System.Data.OleDb;
-using System.Data.Common;
-using System.Windows.Input;
+
 
 
 namespace ConnectSQLite_KodanevAndrey
@@ -353,10 +346,6 @@ namespace ConnectSQLite_KodanevAndrey
                     MessageBox.Show("Error DeleteDB: " + ex.Message);
                 }
                 lbCommandText.Text = m_sqlCmd.CommandText;
-            }
-            else if (dialogResult == DialogResult.No)
-            {
-                //do something else
             }
         }
 

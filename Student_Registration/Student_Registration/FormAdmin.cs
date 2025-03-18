@@ -181,7 +181,7 @@ namespace Student_Registration
             if(color == colorNoCorrect) CheckIsNoCorrect();
         }
 
-        private void ReturnTextElementsSettingsToDefault()
+        private void ReturnTextElementsColorToDefault()
         {
             Color localColor = Color.White;
 
@@ -349,7 +349,7 @@ namespace Student_Registration
 
         private void cbUserType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ReturnTextElementsSettingsToDefault();
+            ReturnTextElementsColorToDefault();
 
             if (cbUserType.SelectedItem.ToString() == "перподаватель")
             {
@@ -361,10 +361,8 @@ namespace Student_Registration
                 cbSelectGroup.SelectedItem = "";
                 cbSelectGroup.Text = "";
                 cbSelectGroup.Enabled = false;
-
                 cbSelectUser.Enabled = true;
-                ReturnTextElementsSettingsToDefault();
-
+                ReturnTextElementsColorToDefault();
                 label6.Text = "учитель";
                 label10.Text = "дисциплина";
                 ReloadCBSelectUser();
@@ -380,12 +378,8 @@ namespace Student_Registration
                 EnabledAllTextElementsToAM(false);
                 cbSelectGroup.Enabled = true;
                 btnDeleteGroup.Enabled = false;
-
                 cbSelectUser.Text = "";
-
-                ReturnTextElementsSettingsToDefault();
-
-
+                ReturnTextElementsColorToDefault();
                 label6.Text = "студент";
                 label10.Text = "группа";
                 ReloadCBSelectGroup();
@@ -433,13 +427,12 @@ namespace Student_Registration
                     cbUchebnayaDistsiplina.Enabled = false;
                 }
             }
-            ReturnTextElementsSettingsToDefault();
+            ReturnTextElementsColorToDefault();
         }
 
 
         private void cbSelectGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ReturnTextElementsSettingsToDefault();
             EnabledAllTextElementsToAM(false);
             ClearAllComboBoxElements();
             ClearAllTextElements();
@@ -453,7 +446,7 @@ namespace Student_Registration
                 form.Show();
                 ReloadCBSelectGroup();
                 AM.LoadAllItemsForComboBox(cbUchebnayaDistsiplina, "GroupsTable", "group_name");
-                ReturnTextElementsSettingsToDefault();
+                ReturnTextElementsColorToDefault();
             }
             else
             {
@@ -464,6 +457,7 @@ namespace Student_Registration
                 ReloadCBSelectUser();
                 btnDeleteGroup.Enabled = true;
             }
+            ReturnTextElementsColorToDefault();
         }
 
         private void cbUchebnayaDistsiplina_SelectedIndexChanged(object sender, EventArgs e)
@@ -662,7 +656,7 @@ namespace Student_Registration
                             }
                         }
                     ReloadCBSelectUser();
-                    ReturnTextElementsSettingsToDefault();
+                    ReturnTextElementsColorToDefault();
                     ReloadAllUserDataElements(txtSurname.Text);
                 }
             }
@@ -686,7 +680,7 @@ namespace Student_Registration
                 cbSelectUser.SelectedItem = "";
                 cbSelectUser.Items.Clear();
                 cbSelectUser.Enabled = false;
-                ReturnTextElementsSettingsToDefault();
+                ReturnTextElementsColorToDefault();
                 EnabledAllTextElementsToAM(false);
                 ClearAllComboBoxElements();
                 ClearAllTextElements();
@@ -720,7 +714,7 @@ namespace Student_Registration
                 ClearAllTextElements();
                 ClearAllComboBoxElements();
                 EnabledAllTextElementsToAM(false);
-                ReturnTextElementsSettingsToDefault();
+                ReturnTextElementsColorToDefault();
                 cbSelectUser.Enabled = true;
             }
         }

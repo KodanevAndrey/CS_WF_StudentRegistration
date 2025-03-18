@@ -159,7 +159,7 @@ namespace Student_Registration
                         "name TEXT NOT NULL, " +
                         "surname TEXT NOT NULL, " +
                         "patronymic TEXT NOT NULL, " +
-                        "group_student INTEGER NOT NULL, " +
+                        "group_name INTEGER NOT NULL, " +
                         "email TEXT NOT NULL, " +
                         "login TEXT NOT NULL, " +
                         "password TEXT NOT NULL, " +
@@ -169,7 +169,7 @@ namespace Student_Registration
                         "house_number INTEGER NOT NULL, " +
                         "apartment_number INTEGER NOT NULL, " +
                         "CONSTRAINT " + tableName + "_CityTable_FK FOREIGN KEY (city) REFERENCES CityTable(id), " +
-                        "CONSTRAINT "+ tableName +"_GroupsTable_FK FOREIGN KEY (group_student) REFERENCES GroupsTable(id), " +
+                        "CONSTRAINT "+ tableName +"_GroupsTable_FK FOREIGN KEY (group_name) REFERENCES GroupsTable(id), " +
                         "CONSTRAINT "+ tableName +"_StreetTable_FK FOREIGN KEY (street) REFERENCES StreetTable(id))" +
                         "; " +
                         "INSERT INTO GroupsTable (group_name) VALUES ('" + tableName + "');";
@@ -247,7 +247,7 @@ namespace Student_Registration
                         SELECT a.id, a.name, a.surname, a.patronymic, a.email, a.login, a.password, a.phone_number, a.house_number, a.apartment_number, b.group_name, c.city_name, d.street_name " +
                         "AS " + tableName + ", b.group_name, c.city_name, d.street_name " +
                         "FROM " + tableName +" a " +
-                        "JOIN GroupsTable b ON a.group_student = b.id " +
+                        "JOIN GroupsTable b ON a.group_name = b.id " +
                         "JOIN CityTable c ON a.city = c.id " +
                         "JOIN StreetTable d ON a.street = d.id " +
                         "WHERE a.surname = '" + surname + "'" +
@@ -620,6 +620,21 @@ namespace Student_Registration
                 List<string> groups = GetNameAllGroups(status);
                 for (int i = 0; i < groups.Count; i++)
                 {
+                    /*
+                    switch (column)
+                    {
+                        case "group_name":
+                            query = @"
+                        SELECT b.group_name AS " + tableName + ", b.group_name FROM " + tableName + " a JOIN GroupsTable b ON a.group_name = b.id " +
+                        "WHERE a."+ whereColumn +" = '" + value + "'" +
+                        ";";
+
+                            break;
+                        default: query = @"SELECT " + column + " FROM " + groups[i] + " WHERE " + whereColumn + " = '" + value + "';"; 
+                            break;
+                    }
+                    */
+
                     query = @"SELECT " + column + " FROM " + groups[i] + " WHERE " + whereColumn + " = '" + value + "';";
 
                     using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))
