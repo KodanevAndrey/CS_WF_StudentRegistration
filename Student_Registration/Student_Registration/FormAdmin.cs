@@ -7,7 +7,7 @@ namespace Student_Registration
 {
     public partial class FormAdmin : Form
     {
-        private AccountManager AM = new AccountManager();
+        private readonly IAccountManager AM = new AccountManager();
         private Dictionary<string, string> UserData = new Dictionary<string, string>();
         private bool IsDataChanged = false;
         private bool IsAdding = false;
@@ -16,7 +16,7 @@ namespace Student_Registration
         private Color colorNoCorrect = Color.Orange;
 
         private FormSelectedOpenTable form;
-        public DBHelper db = new DBHelper();
+        public readonly IDBHelper db = new DBHelper();///////////////// <summary>
         private string DBName = null;
         private string TableName = null;
         private string AdminPassword;
@@ -45,11 +45,8 @@ namespace Student_Registration
         {
             if (db.ConnectDB(lbStatusText))
             {
-                form = new FormSelectedOpenTable(db);
-                form.ShowDialog();
-                db.GetTableInfo(lbStatusText);
-                db.LoadTableInfo(lbStatusText, dgvViewer);
-                db.ReadDB(lbStatusText, dgvViewer);
+                form = new FormSelectedOpenTable(db, dgvViewer);
+                form.Show();
                 EnabledAllButtonToConnectDB(true);
             }
         }
@@ -57,7 +54,6 @@ namespace Student_Registration
         private void btnConnectDB_Click(object sender, EventArgs e) => Connect();
         private void btnReadDB_Click(object sender, EventArgs e) => db.ReadDB(lbStatusText,dgvViewer);
         private void btnAddDB_Click(object sender, EventArgs e) => db.AddDB(lbStatusText,lbCommand,dgvViewer);
-        private void btnAddImageDB_Click(object sender, EventArgs e) => db.AddImageToDB(lbStatusText, lbCommand, dgvViewer);
         private void btnResetDB_Click(object sender, EventArgs e) => db.ResetDB(lbStatusText, lbCommand, dgvViewer);
         private void btnDeleteDB_Click(object sender, EventArgs e) => db.DeleteDB(lbStatusText, lbCommand, dgvViewer);
         private void btnDeleteAllDB_Click(object sender, EventArgs e)
@@ -104,7 +100,6 @@ namespace Student_Registration
         {
             btnReadDB.Enabled = IsActive;
             btnAddDB.Enabled = IsActive;
-            btnAddImageDB.Enabled = IsActive;
             btnResetDB.Enabled = IsActive;
             btnDeleteDB.Enabled = IsActive;
             btnDeleteAllDB.Enabled = IsActive;

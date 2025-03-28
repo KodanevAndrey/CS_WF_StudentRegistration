@@ -13,8 +13,8 @@ namespace Student_Registration
     public partial class FormTeacher : Form
     {
 
-        private AccountManager AM;
-        private MagazinesManager MM = new MagazinesManager();
+        private readonly IAccountManager AM;
+        private readonly IMagazinesManager MM = new MagazinesManager();
 
         private Dictionary<string,string> TeacherProfile = new Dictionary<string, string>();
         private string Login;

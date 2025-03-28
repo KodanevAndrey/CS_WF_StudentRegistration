@@ -82,9 +82,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(80, 106);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(33, 13);
+            this.label3.Size = new System.Drawing.Size(36, 13);
             this.label3.TabIndex = 8;
-            this.label3.Text = "Login";
+            this.label3.Text = "логин";
             // 
             // btnSimgIn
             // 

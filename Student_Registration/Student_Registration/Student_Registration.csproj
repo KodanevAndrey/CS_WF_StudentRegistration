@@ -103,6 +103,9 @@
     <Compile Include="FormTeacher.Designer.cs">
       <DependentUpon>FormTeacher.cs</DependentUpon>
     </Compile>
+    <Compile Include="IAccountManager.cs" />
+    <Compile Include="IDBHelper.cs" />
+    <Compile Include="IMagazinesManager.cs" />
     <Compile Include="MagazinesManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

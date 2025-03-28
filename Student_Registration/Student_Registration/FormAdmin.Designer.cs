@@ -49,12 +49,12 @@
             this.btnDeleteAllDB = new System.Windows.Forms.Button();
             this.btnDeleteDB = new System.Windows.Forms.Button();
             this.btnResetDB = new System.Windows.Forms.Button();
-            this.btnAddImageDB = new System.Windows.Forms.Button();
             this.btnAddDB = new System.Windows.Forms.Button();
             this.btnConnectDB = new System.Windows.Forms.Button();
             this.dgvViewer = new System.Windows.Forms.DataGridView();
             this.btnReadDB = new System.Windows.Forms.Button();
             this.tabAccountManager = new System.Windows.Forms.TabPage();
+            this.txtAdminPassword = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.txtLogin = new System.Windows.Forms.TextBox();
             this.btnDeleteGroup = new System.Windows.Forms.Button();
@@ -90,7 +90,6 @@
             this.cbUserType = new System.Windows.Forms.ComboBox();
             this.lbStatusAM = new System.Windows.Forms.Label();
             this.btnResetPassword = new System.Windows.Forms.Button();
-            this.txtAdminPassword = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabCreateDB.SuspendLayout();
             this.tabConnectDB.SuspendLayout();
@@ -130,7 +129,7 @@
             this.tabCreateDB.Padding = new System.Windows.Forms.Padding(3);
             this.tabCreateDB.Size = new System.Drawing.Size(929, 561);
             this.tabCreateDB.TabIndex = 0;
-            this.tabCreateDB.Text = "Create new DB";
+            this.tabCreateDB.Text = "Создание БД";
             // 
             // lbStatus
             // 
@@ -143,11 +142,11 @@
             // 
             // btnCreateDB
             // 
-            this.btnCreateDB.Location = new System.Drawing.Point(3, 505);
+            this.btnCreateDB.Location = new System.Drawing.Point(9, 503);
             this.btnCreateDB.Name = "btnCreateDB";
-            this.btnCreateDB.Size = new System.Drawing.Size(100, 33);
+            this.btnCreateDB.Size = new System.Drawing.Size(141, 33);
             this.btnCreateDB.TabIndex = 19;
-            this.btnCreateDB.Text = "Create Database";
+            this.btnCreateDB.Text = "создать базу данных";
             this.btnCreateDB.UseVisualStyleBackColor = true;
             this.btnCreateDB.Click += new System.EventHandler(this.btnCreateDB_Click);
             // 
@@ -161,21 +160,21 @@
             // 
             // btnDeleteColum
             // 
-            this.btnDeleteColum.Location = new System.Drawing.Point(89, 140);
+            this.btnDeleteColum.Location = new System.Drawing.Point(127, 140);
             this.btnDeleteColum.Name = "btnDeleteColum";
-            this.btnDeleteColum.Size = new System.Drawing.Size(89, 22);
+            this.btnDeleteColum.Size = new System.Drawing.Size(110, 22);
             this.btnDeleteColum.TabIndex = 17;
-            this.btnDeleteColum.Text = "Delete Column";
+            this.btnDeleteColum.Text = "удалить столбец";
             this.btnDeleteColum.UseVisualStyleBackColor = true;
             this.btnDeleteColum.Click += new System.EventHandler(this.btnDeleteColum_Click);
             // 
             // btnAddColum
             // 
-            this.btnAddColum.Location = new System.Drawing.Point(6, 140);
+            this.btnAddColum.Location = new System.Drawing.Point(9, 140);
             this.btnAddColum.Name = "btnAddColum";
-            this.btnAddColum.Size = new System.Drawing.Size(77, 22);
+            this.btnAddColum.Size = new System.Drawing.Size(112, 22);
             this.btnAddColum.TabIndex = 16;
-            this.btnAddColum.Text = "Add Column";
+            this.btnAddColum.Text = "добавить столбец";
             this.btnAddColum.UseVisualStyleBackColor = true;
             this.btnAddColum.Click += new System.EventHandler(this.btnAddColum_Click);
             // 
@@ -186,7 +185,7 @@
             "INTEGER",
             "TEXT",
             "BLOB"});
-            this.CBColumnType.Location = new System.Drawing.Point(97, 88);
+            this.CBColumnType.Location = new System.Drawing.Point(117, 92);
             this.CBColumnType.Name = "CBColumnType";
             this.CBColumnType.Size = new System.Drawing.Size(117, 21);
             this.CBColumnType.TabIndex = 15;
@@ -194,15 +193,15 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(18, 96);
+            this.label4.Location = new System.Drawing.Point(10, 96);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(69, 13);
+            this.label4.Size = new System.Drawing.Size(108, 13);
             this.label4.TabIndex = 14;
-            this.label4.Text = "Column Type";
+            this.label4.Text = "тип данных столбца";
             // 
             // txtColumnName
             // 
-            this.txtColumnName.Location = new System.Drawing.Point(97, 62);
+            this.txtColumnName.Location = new System.Drawing.Point(117, 66);
             this.txtColumnName.Name = "txtColumnName";
             this.txtColumnName.Size = new System.Drawing.Size(192, 20);
             this.txtColumnName.TabIndex = 13;
@@ -210,15 +209,15 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 69);
+            this.label3.Location = new System.Drawing.Point(12, 69);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(73, 13);
+            this.label3.Size = new System.Drawing.Size(99, 13);
             this.label3.TabIndex = 12;
-            this.label3.Text = "Column Name";
+            this.label3.Text = "название столбца";
             // 
             // txtTableName
             // 
-            this.txtTableName.Location = new System.Drawing.Point(97, 36);
+            this.txtTableName.Location = new System.Drawing.Point(117, 40);
             this.txtTableName.Name = "txtTableName";
             this.txtTableName.Size = new System.Drawing.Size(192, 20);
             this.txtTableName.TabIndex = 5;
@@ -226,15 +225,15 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(26, 43);
+            this.label2.Location = new System.Drawing.Point(10, 43);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 13);
+            this.label2.Size = new System.Drawing.Size(101, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Table Name";
+            this.label2.Text = "название таблицы";
             // 
             // txtDBName
             // 
-            this.txtDBName.Location = new System.Drawing.Point(97, 10);
+            this.txtDBName.Location = new System.Drawing.Point(117, 14);
             this.txtDBName.Name = "txtDBName";
             this.txtDBName.Size = new System.Drawing.Size(192, 20);
             this.txtDBName.TabIndex = 3;
@@ -244,9 +243,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(10, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 13);
+            this.label1.Size = new System.Drawing.Size(74, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "DataBase Name";
+            this.label1.Text = "название БД";
             // 
             // tabConnectDB
             // 
@@ -256,7 +255,6 @@
             this.tabConnectDB.Controls.Add(this.btnDeleteAllDB);
             this.tabConnectDB.Controls.Add(this.btnDeleteDB);
             this.tabConnectDB.Controls.Add(this.btnResetDB);
-            this.tabConnectDB.Controls.Add(this.btnAddImageDB);
             this.tabConnectDB.Controls.Add(this.btnAddDB);
             this.tabConnectDB.Controls.Add(this.btnConnectDB);
             this.tabConnectDB.Controls.Add(this.dgvViewer);
@@ -266,7 +264,7 @@
             this.tabConnectDB.Padding = new System.Windows.Forms.Padding(3);
             this.tabConnectDB.Size = new System.Drawing.Size(929, 561);
             this.tabConnectDB.TabIndex = 1;
-            this.tabConnectDB.Text = "Connect DB";
+            this.tabConnectDB.Text = "Подключение";
             // 
             // lbStatusText
             // 
@@ -288,51 +286,41 @@
             // 
             // btnDeleteAllDB
             // 
-            this.btnDeleteAllDB.Location = new System.Drawing.Point(532, 6);
+            this.btnDeleteAllDB.Location = new System.Drawing.Point(599, 6);
             this.btnDeleteAllDB.Name = "btnDeleteAllDB";
-            this.btnDeleteAllDB.Size = new System.Drawing.Size(75, 23);
+            this.btnDeleteAllDB.Size = new System.Drawing.Size(128, 23);
             this.btnDeleteAllDB.TabIndex = 22;
-            this.btnDeleteAllDB.Text = "Delete All";
+            this.btnDeleteAllDB.Text = "удалить все данные";
             this.btnDeleteAllDB.UseVisualStyleBackColor = true;
             this.btnDeleteAllDB.Click += new System.EventHandler(this.btnDeleteAllDB_Click);
             // 
             // btnDeleteDB
             // 
-            this.btnDeleteDB.Location = new System.Drawing.Point(451, 6);
+            this.btnDeleteDB.Location = new System.Drawing.Point(499, 6);
             this.btnDeleteDB.Name = "btnDeleteDB";
-            this.btnDeleteDB.Size = new System.Drawing.Size(75, 23);
+            this.btnDeleteDB.Size = new System.Drawing.Size(94, 23);
             this.btnDeleteDB.TabIndex = 21;
-            this.btnDeleteDB.Text = "Delete";
+            this.btnDeleteDB.Text = "удалить запись";
             this.btnDeleteDB.UseVisualStyleBackColor = true;
             this.btnDeleteDB.Click += new System.EventHandler(this.btnDeleteDB_Click);
             // 
             // btnResetDB
             // 
-            this.btnResetDB.Location = new System.Drawing.Point(370, 6);
+            this.btnResetDB.Location = new System.Drawing.Point(388, 6);
             this.btnResetDB.Name = "btnResetDB";
-            this.btnResetDB.Size = new System.Drawing.Size(75, 23);
+            this.btnResetDB.Size = new System.Drawing.Size(105, 23);
             this.btnResetDB.TabIndex = 20;
-            this.btnResetDB.Text = "Reset";
+            this.btnResetDB.Text = "изменить запись";
             this.btnResetDB.UseVisualStyleBackColor = true;
             this.btnResetDB.Click += new System.EventHandler(this.btnResetDB_Click);
             // 
-            // btnAddImageDB
-            // 
-            this.btnAddImageDB.Location = new System.Drawing.Point(289, 6);
-            this.btnAddImageDB.Name = "btnAddImageDB";
-            this.btnAddImageDB.Size = new System.Drawing.Size(75, 23);
-            this.btnAddImageDB.TabIndex = 19;
-            this.btnAddImageDB.Text = "Add Image";
-            this.btnAddImageDB.UseVisualStyleBackColor = true;
-            this.btnAddImageDB.Click += new System.EventHandler(this.btnAddImageDB_Click);
-            // 
             // btnAddDB
             // 
-            this.btnAddDB.Location = new System.Drawing.Point(208, 6);
+            this.btnAddDB.Location = new System.Drawing.Point(279, 6);
             this.btnAddDB.Name = "btnAddDB";
-            this.btnAddDB.Size = new System.Drawing.Size(75, 23);
+            this.btnAddDB.Size = new System.Drawing.Size(103, 23);
             this.btnAddDB.TabIndex = 7;
-            this.btnAddDB.Text = "Add";
+            this.btnAddDB.Text = "добавить запись";
             this.btnAddDB.UseVisualStyleBackColor = true;
             this.btnAddDB.Click += new System.EventHandler(this.btnAddDB_Click);
             // 
@@ -342,7 +330,7 @@
             this.btnConnectDB.Name = "btnConnectDB";
             this.btnConnectDB.Size = new System.Drawing.Size(115, 23);
             this.btnConnectDB.TabIndex = 6;
-            this.btnConnectDB.Text = "подключение к БД";
+            this.btnConnectDB.Text = "подключиться к БД";
             this.btnConnectDB.UseVisualStyleBackColor = true;
             this.btnConnectDB.Click += new System.EventHandler(this.btnConnectDB_Click);
             // 
@@ -359,9 +347,9 @@
             // 
             this.btnReadDB.Location = new System.Drawing.Point(127, 6);
             this.btnReadDB.Name = "btnReadDB";
-            this.btnReadDB.Size = new System.Drawing.Size(75, 23);
+            this.btnReadDB.Size = new System.Drawing.Size(146, 23);
             this.btnReadDB.TabIndex = 1;
-            this.btnReadDB.Text = "Read";
+            this.btnReadDB.Text = "перезагрузить таблицу";
             this.btnReadDB.UseVisualStyleBackColor = true;
             this.btnReadDB.Click += new System.EventHandler(this.btnReadDB_Click);
             // 
@@ -408,7 +396,15 @@
             this.tabAccountManager.Name = "tabAccountManager";
             this.tabAccountManager.Size = new System.Drawing.Size(929, 561);
             this.tabAccountManager.TabIndex = 2;
-            this.tabAccountManager.Text = "AccountManager";
+            this.tabAccountManager.Text = "Управление аккаунтами";
+            // 
+            // txtAdminPassword
+            // 
+            this.txtAdminPassword.Location = new System.Drawing.Point(648, 12);
+            this.txtAdminPassword.Name = "txtAdminPassword";
+            this.txtAdminPassword.Size = new System.Drawing.Size(209, 20);
+            this.txtAdminPassword.TabIndex = 39;
+            this.txtAdminPassword.TextChanged += new System.EventHandler(this.txtAdminPassword_TextChanged);
             // 
             // label19
             // 
@@ -724,14 +720,6 @@
             this.btnResetPassword.UseVisualStyleBackColor = true;
             this.btnResetPassword.Click += new System.EventHandler(this.btnResetPassword_Click);
             // 
-            // txtAdminPassword
-            // 
-            this.txtAdminPassword.Location = new System.Drawing.Point(648, 12);
-            this.txtAdminPassword.Name = "txtAdminPassword";
-            this.txtAdminPassword.Size = new System.Drawing.Size(209, 20);
-            this.txtAdminPassword.TabIndex = 39;
-            this.txtAdminPassword.TextChanged += new System.EventHandler(this.txtAdminPassword_TextChanged);
-            // 
             // FormAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -763,7 +751,6 @@
         private System.Windows.Forms.DataGridView dgvViewer;
         private System.Windows.Forms.Button btnConnectDB;
         private System.Windows.Forms.Button btnAddDB;
-        private System.Windows.Forms.Button btnAddImageDB;
         private System.Windows.Forms.Button btnResetDB;
         private System.Windows.Forms.Button btnDeleteDB;
         private System.Windows.Forms.Button btnDeleteAllDB;

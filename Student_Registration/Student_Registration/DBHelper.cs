@@ -5,19 +5,20 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Data.SQLite;
 using System.IO;
+using Student_Registration;
 
 
 
 namespace ConnectSQLite_KodanevAndrey
 {
-    public class DBHelper
+    public class DBHelper : IDBHelper
     {
         protected string dbFileName;
         protected string TableNameDB;
+        protected string FileLocation;
         protected SQLiteConnection m_dbConn = new SQLiteConnection();
         protected SQLiteCommand m_sqlCmd = new SQLiteCommand();
         protected SQLiteDataAdapter adapter;
-        protected string fileLocation = string.Empty;
         protected string NameSelectedColumn;
         protected string NameSelectedCell;
         protected int SelectedRowIndex;
@@ -72,13 +73,12 @@ namespace ConnectSQLite_KodanevAndrey
             dlg.InitialDirectory = @"C\\";
             dlg.RestoreDirectory = true;
             dlg.Filter = "DataBase Files (*.mdb; *.sqlite)|*.mdb; *.sqlite";
-            this.FileLocation = dlg.FileName;
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                fileLocation = dlg.FileName;
+                FileLocation = dlg.FileName;
                 if (!File.Exists(FileLocation))
-                    MessageBox.Show("Please, create DB and blank table (Push \"Create\" button)");
+                    MessageBox.Show("ConnectDB: Please, create DB and blank table (Push \"Create\" button)");
                 else
                     try
                     {
@@ -427,13 +427,7 @@ namespace ConnectSQLite_KodanevAndrey
             }
         }
 
-        private string FileLocation
-        {
-            get { return fileLocation; }
-            set { fileLocation = value; }
-        }
-
-        private Image LoadImage()
+        protected virtual Image LoadImage()
         {
             Image image = null;
             OpenFileDialog dlg = new OpenFileDialog();
@@ -445,11 +439,11 @@ namespace ConnectSQLite_KodanevAndrey
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                fileLocation = dlg.FileName;
+                FileLocation = dlg.FileName;
                 var fileStream = dlg.OpenFile();
                 using (StreamReader reader = new StreamReader(fileStream))
                 {
-                    image = Image.FromFile(fileLocation);
+                    image = Image.FromFile(FileLocation);
                 }
             }
             return image;
@@ -502,33 +496,7 @@ namespace ConnectSQLite_KodanevAndrey
             }
             else { lbStatusText.Text = "выберите изображение!"; lbStatusText.ForeColor = Color.Red; }
         }
-        /*
-        public void ReadImageDB(Label lbStatusText, Label lbCommand, DataGridView dgvViewer)
-        {
-            m_sqlCmd.CommandText = "SELECT * FROM Chapter WHERE id ='" + id + "'";
-            DataTable dTable = new DataTable();
-            String sqlQuery;
-            if (m_dbConn.State != ConnectionState.Open)
-            {
-                MessageBox.Show("Open connection with database");
-                return;
-            }
-            try
-            {
-                SQLiteDataReader r = m_sqlCmd.ExecuteReader();
-                r.Read();
-                MemoryStream stmBLOBData = new MemoryStream((byte[])r["img"]);
-                pbFoto.Image = Image.FromStream(stmBLOBData);
-                pbFoto.Refresh();
-                r.Close();
-                r.Dispose();
-            }
-            catch (SQLiteException ex)
-            {
-                MessageBox.Show("Error ReadDB: " + ex.Message);
-            }
-        }
-        */
+
         public virtual bool CheckToInt(in object cell)
         {
             if (cell == null) 
@@ -548,6 +516,5 @@ namespace ConnectSQLite_KodanevAndrey
             if (CountTypeInt == Value.Length) return true;
             else return false;
         }
-
     }
 }

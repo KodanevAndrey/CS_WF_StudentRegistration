@@ -8,13 +8,13 @@ using System.Data;
 using System.Text.RegularExpressions;
 namespace Student_Registration
 {
-    public class AccountManager
+    public class AccountManager : IAccountManager
     {
-        private string dbFileName;
-        private SQLiteConnection m_dbConn = new SQLiteConnection();
-        private SQLiteCommand m_sqlCmd = new SQLiteCommand();
+        protected string dbFileName;
+        protected SQLiteConnection m_dbConn = new SQLiteConnection();
+        protected SQLiteCommand m_sqlCmd = new SQLiteCommand();
 
-        public void ConnectDB(Label lbStatusText ,string fileName)
+        public virtual void ConnectDB(Label lbStatusText ,string fileName)
         {
             dbFileName = fileName;
             if (!File.Exists(dbFileName))
@@ -35,7 +35,7 @@ namespace Student_Registration
             }
         }
 
-        public void CreateAccountsTable(Label status)
+        public virtual void CreateAccountsTable(Label status)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -73,7 +73,7 @@ namespace Student_Registration
             }
         }
 
-        public int GetCountRowsInTable(Label lbStatusText, string tableName)
+        public virtual int GetCountRowsInTable(Label lbStatusText, string tableName)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -96,7 +96,7 @@ namespace Student_Registration
             }
         }
 
-        public List<string> GetNameAllGroups(Label lbStatusText)
+        public virtual List<string> GetNameAllGroups(Label lbStatusText)
         {
             List<string> _namesOfAllGroups = new List<string>();
             bool correct = true;
@@ -144,7 +144,7 @@ namespace Student_Registration
             return _namesOfAllGroups;
         }
 
-        public void CreateNewGroup(Label status, string tableName)
+        public virtual void CreateNewGroup(Label status, string tableName)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -184,7 +184,7 @@ namespace Student_Registration
             }
         }
 
-        public List<string> GetAllUsersSNP(string TableName, string ResultType)
+        public virtual List<string> GetAllUsersSNP(string TableName, string ResultType)
         {
             List<string> result = new List<string>();
             if (m_dbConn.State != ConnectionState.Open)
@@ -217,7 +217,7 @@ namespace Student_Registration
             return result;
         }
 
-        public Dictionary<string, string> ReadSelectedOnlyRow(Label lbStatusText, string tableName, string surname)
+        public virtual Dictionary<string, string> ReadSelectedOnlyRow(Label lbStatusText, string tableName, string surname)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
@@ -273,7 +273,7 @@ namespace Student_Registration
             return data;
         }
 
-        public void LoadAllItemsForComboBox(ComboBox comboBox, string TableName, string ColumName)
+        public virtual void LoadAllItemsForComboBox(ComboBox comboBox, string TableName, string ColumName)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -308,7 +308,7 @@ namespace Student_Registration
             }
         }
 
-        public void AddSecondaryInfo(Label statusText, TextBox textBox, in string TableName, in string ColumnName)
+        public virtual void AddSecondaryInfo(Label statusText, TextBox textBox, in string TableName, in string ColumnName)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -327,7 +327,7 @@ namespace Student_Registration
             }
         }
 
-        public void AddUchebnayaDistsiplina(Label statusText, string distsiplinaName, string AltName)
+        public virtual void AddUchebnayaDistsiplina(Label statusText, string distsiplinaName, string AltName)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -346,7 +346,7 @@ namespace Student_Registration
             }
         }
 
-        public void AddNewUserDB(Label status, string TableName, List<string> columns, List<string> data)
+        public virtual void AddNewUserDB(Label status, string TableName, List<string> columns, List<string> data)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -379,7 +379,7 @@ namespace Student_Registration
             }
         }
 
-        public string GetID(in string tableNameDB, in string ColumnName, in string Value)
+        public virtual string GetID(in string tableNameDB, in string ColumnName, in string Value)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -405,7 +405,7 @@ namespace Student_Registration
             }
         }
 
-        public List<string> GetTableInfo(Label lbStatusText, in string tableNameDB)
+        public virtual List<string> GetTableInfo(Label lbStatusText, in string tableNameDB)
         {
             lbStatusText.Text = "";
             List<string> columns = new List<string>();
@@ -432,7 +432,7 @@ namespace Student_Registration
         }
 
 
-        public void DeleteUser(Label statusText, in string tableNameDB, in string columnName, in string Value)
+        public virtual void DeleteUser(Label statusText, in string tableNameDB, in string columnName, in string Value)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -451,7 +451,7 @@ namespace Student_Registration
             }
         }
 
-        public void DeleteTable(Label statusText, in string tableNameDB)
+        public virtual void DeleteTable(Label statusText, in string tableNameDB)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -471,7 +471,7 @@ namespace Student_Registration
             }
         }
 
-        public void Reset(Label status, string TableName, string column, string value, string id)
+        public virtual void Reset(Label status, string TableName, string column, string value, string id)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -491,7 +491,7 @@ namespace Student_Registration
                 MessageBox.Show("Reset ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
             }
         }
-        public bool CheckForValidity(Label statusText, in string EnterText, in string CheckType )
+        public virtual bool CheckForValidity(Label statusText, in string EnterText, in string CheckType )
         {
             bool IsCorrect = true;
             string pattern;
@@ -508,12 +508,6 @@ namespace Student_Registration
                     break;
 
                 case "email":
-                    // ^ - начало строки
-                    // [a-zA-Z]+ - одна или более латинских букв
-                    // (?=.*@) - обязательно наличие символа '@'
-                    // (?=.*\.) - обязательно наличие символа '.'
-                    // [a-zA-Z@.]* - остальные символы могут быть латинскими буквами, '@' или '.'
-                    // $ - конец строки
                     pattern = @"^[a-zA-Z]";
                     if (!Regex.IsMatch(EnterText, pattern))
                     {
@@ -528,19 +522,6 @@ namespace Student_Registration
                     }
                     break;
                 case "name":
-                    // Регулярное выражение для проверки строки
-                    // ^ - начало строки
-                    // [А-ЯЁ] - первая буква должна быть заглавной русской буквой
-                    // [а-яёА-ЯЁ]* - остальные символы могут быть строчными или заглавными русскими буквами
-                    // $ - конец строки
-                    /*
-                    pattern = @"^[А-ЯЁ]";
-                    if (!Regex.IsMatch(EnterText, pattern))
-                    {
-                        statusText.Text = "первая буква должна быть заглавной русской буквой!";
-                        return false;
-                    }
-                    */
                     pattern = @"^[А-ЯЁ][а-яё]*$";
                     if (!Regex.IsMatch(EnterText, pattern))
                     {
@@ -549,10 +530,6 @@ namespace Student_Registration
                     }
                     break;
                 case "onlyInt":
-                    // Регулярное выражение для проверки строки
-                    // ^ - начало строки
-                    // \d+ - одна или более цифр
-                    // $ - конец строки
                     pattern = @"^\d+$";
 
                     if (!Regex.IsMatch(EnterText, pattern))
@@ -562,10 +539,6 @@ namespace Student_Registration
                     }
                     break;
                 case "onlyEngl":
-                    // Регулярное выражение для проверки строки
-                    // ^ - начало строки
-                    // [a-zA-Z]+ - одна или более латинских букв
-                    // $ - конец строки
                     pattern = @"^[a-zA-Z]+$";
                     if (!Regex.IsMatch(EnterText, pattern))
                     {
@@ -579,7 +552,7 @@ namespace Student_Registration
             return IsCorrect;
         }
 
-        public string ReadOneValue(Label lbStatus, string tableName, string column, string whereColumn, string value)
+        public virtual string ReadOneValue(Label lbStatus, string tableName, string column, string whereColumn, string value)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -606,7 +579,7 @@ namespace Student_Registration
             }
         }
 
-        public string ReadAllGroups(Label status, string column, string whereColumn, string value)
+        public virtual string ReadAllGroups(Label status, string column, string whereColumn, string value)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -620,21 +593,6 @@ namespace Student_Registration
                 List<string> groups = GetNameAllGroups(status);
                 for (int i = 0; i < groups.Count; i++)
                 {
-                    /*
-                    switch (column)
-                    {
-                        case "group_name":
-                            query = @"
-                        SELECT b.group_name AS " + tableName + ", b.group_name FROM " + tableName + " a JOIN GroupsTable b ON a.group_name = b.id " +
-                        "WHERE a."+ whereColumn +" = '" + value + "'" +
-                        ";";
-
-                            break;
-                        default: query = @"SELECT " + column + " FROM " + groups[i] + " WHERE " + whereColumn + " = '" + value + "';"; 
-                            break;
-                    }
-                    */
-
                     query = @"SELECT " + column + " FROM " + groups[i] + " WHERE " + whereColumn + " = '" + value + "';";
 
                     using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))
@@ -660,35 +618,46 @@ namespace Student_Registration
             else return "NOT FOUND!";
         }
 
-        public void CreateNewMagazine(Label lbStatusText, string MagazineName, string TableName)
+        public virtual string GetGroupName(Label status, string column, string whereColumn, string value)
         {
-            if (MagazineName != "")
+            if (m_dbConn.State != ConnectionState.Open)
             {
-                try
+                MessageBox.Show("Open connection with database");
+            }
+            bool isFound = false;
+            string result = "";
+            string query = "";
+            try
+            {
+                List<string> groups = GetNameAllGroups(status);
+                for (int i = 0; i < groups.Count; i++)
                 {
-                    dbFileName = "Magazine_" + MagazineName + ".sqlite";
-                    m_dbConn = new SQLiteConnection("Data Source=" + dbFileName + ";Version=3;");
-                    m_dbConn.Open();
-                    m_sqlCmd.Connection = m_dbConn;
-                    m_sqlCmd.CommandText = "CREATE TABLE IF NOT EXISTS " + TableName + " ( " +
-                        "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                        "name TEXT NOT NULL, " +
-                        "surname TEXT NOT NULL, " +
-                        "patronymic TEXT NOT NULL);";
+                    query = @"SELECT " + column + " FROM " + groups[i] + " WHERE " + whereColumn + " = '" + value + "';";
 
-                    lbStatusText.Text = m_sqlCmd.CommandText;
-                    m_sqlCmd.ExecuteNonQuery();
-                    lbStatusText.Text = "журнал создан!";
-                }
-                catch (SQLiteException ex)
-                {
-                    MessageBox.Show("CreateNewMagazine ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+                    using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))
+                    {
+                        using (SQLiteDataReader reader = command.ExecuteReader())
+                        {
+                            reader.Read();
+                            if (reader.HasRows == true)
+                            {
+                                result = ReadOneValue(status, "GroupsTable", "group_name", "id", reader[column].ToString());
+                                isFound = true;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
-            else lbStatusText.Text = "введите имя для новой базы данных!";
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("GetGroupName ERROR:" + ex + "\nCOMMAND: " + query);
+            }
+            if (isFound) return result;
+            else return "NOT FOUND!";
         }
 
-        public void ResetAdminPassword(Label lbStatusText, TextBox txtAdminPassword)
+        public virtual void ResetAdminPassword(Label lbStatusText, TextBox txtAdminPassword)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {

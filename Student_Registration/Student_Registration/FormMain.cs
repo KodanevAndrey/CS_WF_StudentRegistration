@@ -53,16 +53,10 @@ namespace Student_Registration
                 AM.ConnectDB(lbStatus, "Admin.sqlite");
                 txtLogin.Text = AM.ReadOneValue(lbStatus, "AdminTable", "login", "login", "Admin");
             }
-            else if(cbUserType.SelectedItem.ToString() == "преподаватель")
-            {
-                txtLogin.Text = "Ivanich";
-                txtPassword.Text = "777";
-            }
         }
 
         private void btnSimgIn_Click(object sender, EventArgs e)
         {
-            //AM.ConnectDB(lbStatus,"Admin.sqlite");
             LoadLoginAndPassword();
 
             if (Login == txtLogin.Text && Password == txtPassword.Text)
@@ -79,10 +73,6 @@ namespace Student_Registration
             }
         }
 
-        private void OpenForm(Form form)
-        {
-            form.Show();
-            //btnSimgIn.Enabled = false;
-        }
+        private void OpenForm(Form form) => form.Show();
     }
 }

@@ -15,13 +15,15 @@ namespace Student_Registration
     {
         private string TableName;
         private string ColumnName;
-        private AccountManager AM;
+        private IAccountManager AM;
+        private MagazinesManager MM;
         private Label labelS;
         private ComboBox comboBox1;
 
-        public FormAddingSecondaryInformation(Label lbSatus, ComboBox comboBox, AccountManager accountManager, in string tableName, in string columnName, in string RankAdded)
+        public FormAddingSecondaryInformation(Label lbSatus, ComboBox comboBox, IAccountManager accountManager, in string tableName, in string columnName, in string RankAdded)
         {
             InitializeComponent();
+            MM = new MagazinesManager();
             txtEnglName.Enabled = false;
             this.StartPosition = FormStartPosition.Manual;
             this.Location = new Point(400, 350);
@@ -63,7 +65,7 @@ namespace Student_Registration
 
         private void CreateMagazine()
         {
-            AM.CreateNewMagazine(lbStatus, txtEnter.Text, "BaseInfo");
+            MM.CreateNewMagazine(lbStatus, txtEnter.Text, "BaseInfo");
         }
     }
 }

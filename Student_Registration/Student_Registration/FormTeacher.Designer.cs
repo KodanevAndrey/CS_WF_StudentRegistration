@@ -72,7 +72,7 @@
             this.Profile.Padding = new System.Windows.Forms.Padding(3);
             this.Profile.Size = new System.Drawing.Size(927, 569);
             this.Profile.TabIndex = 0;
-            this.Profile.Text = "Profile";
+            this.Profile.Text = "Профиль";
             // 
             // lbSatusProfile
             // 
@@ -112,7 +112,7 @@
             this.Diarist.Padding = new System.Windows.Forms.Padding(3);
             this.Diarist.Size = new System.Drawing.Size(927, 569);
             this.Diarist.TabIndex = 1;
-            this.Diarist.Text = "Diarist";
+            this.Diarist.Text = "Работа с журналами";
             // 
             // label2
             // 
@@ -178,41 +178,41 @@
             // 
             // btnDeleteAllDB
             // 
-            this.btnDeleteAllDB.Location = new System.Drawing.Point(584, 57);
+            this.btnDeleteAllDB.Location = new System.Drawing.Point(716, 57);
             this.btnDeleteAllDB.Name = "btnDeleteAllDB";
-            this.btnDeleteAllDB.Size = new System.Drawing.Size(75, 23);
+            this.btnDeleteAllDB.Size = new System.Drawing.Size(124, 23);
             this.btnDeleteAllDB.TabIndex = 22;
-            this.btnDeleteAllDB.Text = "Delete All";
+            this.btnDeleteAllDB.Text = "Удалить все данные";
             this.btnDeleteAllDB.UseVisualStyleBackColor = true;
             this.btnDeleteAllDB.Click += new System.EventHandler(this.btnDeleteAllDB_Click);
             // 
             // btnDeleteDB
             // 
-            this.btnDeleteDB.Location = new System.Drawing.Point(503, 57);
+            this.btnDeleteDB.Location = new System.Drawing.Point(610, 57);
             this.btnDeleteDB.Name = "btnDeleteDB";
-            this.btnDeleteDB.Size = new System.Drawing.Size(75, 23);
+            this.btnDeleteDB.Size = new System.Drawing.Size(100, 23);
             this.btnDeleteDB.TabIndex = 21;
-            this.btnDeleteDB.Text = "Delete";
+            this.btnDeleteDB.Text = "Удалить запись";
             this.btnDeleteDB.UseVisualStyleBackColor = true;
             this.btnDeleteDB.Click += new System.EventHandler(this.btnDeleteDB_Click);
             // 
             // btnResetDB
             // 
-            this.btnResetDB.Location = new System.Drawing.Point(422, 57);
+            this.btnResetDB.Location = new System.Drawing.Point(481, 57);
             this.btnResetDB.Name = "btnResetDB";
-            this.btnResetDB.Size = new System.Drawing.Size(75, 23);
+            this.btnResetDB.Size = new System.Drawing.Size(123, 23);
             this.btnResetDB.TabIndex = 20;
-            this.btnResetDB.Text = "Reset";
+            this.btnResetDB.Text = "Измнеить запись";
             this.btnResetDB.UseVisualStyleBackColor = true;
             this.btnResetDB.Click += new System.EventHandler(this.btnResetDB_Click);
             // 
             // btnAddDB
             // 
-            this.btnAddDB.Location = new System.Drawing.Point(341, 57);
+            this.btnAddDB.Location = new System.Drawing.Point(370, 57);
             this.btnAddDB.Name = "btnAddDB";
-            this.btnAddDB.Size = new System.Drawing.Size(75, 23);
+            this.btnAddDB.Size = new System.Drawing.Size(105, 23);
             this.btnAddDB.TabIndex = 7;
-            this.btnAddDB.Text = "Add";
+            this.btnAddDB.Text = "Добавить запись";
             this.btnAddDB.UseVisualStyleBackColor = true;
             this.btnAddDB.Click += new System.EventHandler(this.btnAddDB_Click);
             // 
@@ -227,11 +227,11 @@
             // 
             // btnReadDB
             // 
-            this.btnReadDB.Location = new System.Drawing.Point(260, 57);
+            this.btnReadDB.Location = new System.Drawing.Point(225, 57);
             this.btnReadDB.Name = "btnReadDB";
-            this.btnReadDB.Size = new System.Drawing.Size(75, 23);
+            this.btnReadDB.Size = new System.Drawing.Size(139, 23);
             this.btnReadDB.TabIndex = 1;
-            this.btnReadDB.Text = "Read";
+            this.btnReadDB.Text = "Перезагрузить таблицу";
             this.btnReadDB.UseVisualStyleBackColor = true;
             this.btnReadDB.Click += new System.EventHandler(this.btnReadDB_Click);
             // 

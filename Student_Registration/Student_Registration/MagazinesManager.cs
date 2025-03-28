@@ -9,9 +9,37 @@ using System;
 
 namespace Student_Registration
 {
-    internal class MagazinesManager : DBHelper
+    public class MagazinesManager : DBHelper, IMagazinesManager
     {
-        public bool ConnectDB(Label lbStatusText, string fileName)
+        public virtual void CreateNewMagazine(Label lbStatusText, string MagazineName, string TableName)
+        {
+            if (MagazineName != "")
+            {
+                try
+                {
+                    dbFileName = "Magazine_" + MagazineName + ".sqlite";
+                    m_dbConn = new SQLiteConnection("Data Source=" + dbFileName + ";Version=3;");
+                    m_dbConn.Open();
+                    m_sqlCmd.Connection = m_dbConn;
+                    m_sqlCmd.CommandText = "CREATE TABLE IF NOT EXISTS " + TableName + " ( " +
+                        "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                        "name TEXT NOT NULL, " +
+                        "surname TEXT NOT NULL, " +
+                        "patronymic TEXT NOT NULL);";
+
+                    lbStatusText.Text = m_sqlCmd.CommandText;
+                    m_sqlCmd.ExecuteNonQuery();
+                    lbStatusText.Text = "журнал создан!";
+                }
+                catch (SQLiteException ex)
+                {
+                    MessageBox.Show("CreateNewMagazine ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+                }
+            }
+            else lbStatusText.Text = "введите имя для новой базы данных!";
+        }
+
+        public virtual bool ConnectDB(Label lbStatusText, string fileName)
         {
             dbFileName = fileName;
             if (!File.Exists(dbFileName))
@@ -34,18 +62,13 @@ namespace Student_Registration
             }
         }
 
-        public void CreateNewTableInMagazine(Label lbStatusText, string MagazineName, string TableName, List<string> Students)
+        public virtual void CreateNewTableInMagazine(Label lbStatusText, string MagazineName, string TableName, List<string> listColumns)
         {
-            CreateNewDB(lbStatusText,MagazineName,TableName,Students);
-        }
-
-        private void CreateNewDB(Label lbStatusText, string DBName, string TableName, List<string> listColumns)
-        {
-            if (DBName != "")
+            if (MagazineName != "")
             {
                 try
                 {
-                    dbFileName = DBName + ".sqlite";
+                    dbFileName = MagazineName + ".sqlite";
                     m_dbConn = new SQLiteConnection("Data Source=" + dbFileName + ";Version=3;");
                     m_dbConn.Open();
                     m_sqlCmd.Connection = m_dbConn;
@@ -73,7 +96,7 @@ namespace Student_Registration
             else lbStatusText.Text = "введите имя для новой базы данных!";
         }
 
-        public string GetDistsiplinaAltName(string DistsiplinaName)
+        public virtual string GetDistsiplinaAltName(string DistsiplinaName)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -98,7 +121,7 @@ namespace Student_Registration
             }
         }
 
-        public bool CheckTableExistence(Label lbStatusText, string TableName)
+        public virtual bool CheckTableExistence(Label lbStatusText, string TableName)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -125,13 +148,13 @@ namespace Student_Registration
             }
         }
 
-        public void LoadTableInfo(Label lbStatusText, DataGridView dgvViewer, string TableName)
+        public virtual void LoadTableInfo(Label lbStatusText, DataGridView dgvViewer, string TableName)
         {
             TableNameDB = TableName;
             LoadTableInfo(lbStatusText, dgvViewer);
         }
 
-        public void SelectedTable(string tableName)
+        public virtual void SelectedTable(string tableName)
         {
             TableNameDB = tableName;
             DataTable dTable = new DataTable();
@@ -199,6 +222,48 @@ namespace Student_Registration
             }
             lbStatusText.Text = status;
             lbCommand.Text = m_sqlCmd.CommandText;
+        }
+
+        public virtual List<string> GetNamesAllDisciplines(Label lbStatusText)
+        {
+            List<string> _namesOfAllGroups = new List<string>();
+            bool correct = true;
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+            }
+
+            try
+            {
+                string query = "SELECT count(*) FROM sqlite_master WHERE type='table';";
+                using (var command = new SQLiteCommand(query, m_dbConn))
+                {
+                    int tableCount = Convert.ToInt32(command.ExecuteScalar());
+                    lbStatusText.Text = "Количество таблиц в базе данных: " + tableCount;
+                }
+                query = "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;";
+
+                using (var command = new SQLiteCommand(query, m_dbConn))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            correct = true;
+                            if (reader["name"].ToString() == "BaseInfo" || reader["name"].ToString() == "sqlite_sequence")
+                                correct = false;
+
+                            if (correct == true)
+                                _namesOfAllGroups.Add(reader["name"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("GetNameAllGroups ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+            }
+            return _namesOfAllGroups;
         }
     }
 }
