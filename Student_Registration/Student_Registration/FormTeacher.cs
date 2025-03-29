@@ -22,6 +22,8 @@ namespace Student_Registration
         public FormTeacher(string login, AccountManager manager)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterParent;
+            this.MaximizeBox = false;
             this.Login = login;
             this.AM = manager;
             LoadProfile();
@@ -40,7 +42,7 @@ namespace Student_Registration
             {
                 richTextBox1.Text += key + " | " + TeacherProfile[key] + "\n";
             }
-            txtDistsiplina.Text = TeacherProfile["uchebnaya_distsiplina_name"];
+            txtDistsiplina.Text = TeacherProfile["disciplina_name"];
         }
 
         private void LoadGroupNames()
@@ -57,7 +59,7 @@ namespace Student_Registration
             string MagazineName = "Magazine_" + cbSelectGroup.SelectedItem;
             List<string> StudentsSNP = AM.GetAllUsersSNP(cbSelectGroup.SelectedItem.ToString(), "forDB");
             MM.ConnectDB(lbStatusText, "TeacherAccounts.sqlite");
-            string altNameDistsiplina = MM.GetDistsiplinaAltName(TeacherProfile["uchebnaya_distsiplina_name"]);
+            string altNameDistsiplina = MM.GetDistsiplinaAltName(TeacherProfile["disciplina_name"]);
             MM.CreateNewTableInMagazine(lbStatusText, MagazineName, altNameDistsiplina, StudentsSNP);
             btnCreateNewMagazine.Enabled = false;
         }
@@ -65,7 +67,7 @@ namespace Student_Registration
         private void cbSelectGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
             MM.ConnectDB(lbSatusProfile, "TeacherAccounts.sqlite");
-            string altNameDistsiplina = MM.GetDistsiplinaAltName(TeacherProfile["uchebnaya_distsiplina_name"]);
+            string altNameDistsiplina = MM.GetDistsiplinaAltName(TeacherProfile["disciplina_name"]);
 
         
             if (MM.ConnectDB(lbSatusProfile, "Magazine_" + cbSelectGroup.SelectedItem.ToString() + ".sqlite"))

@@ -35,7 +35,7 @@ namespace Student_Registration
             }
         }
 
-        public virtual void CreateAccountsTable(Label status)
+        protected virtual void CreateAccountsTableFromTeacherDB(Label status)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -48,7 +48,7 @@ namespace Student_Registration
                         "name TEXT NOT NULL, " +
                         "surname TEXT NOT NULL, " +
                         "patronymic TEXT NOT NULL, " +
-                        "uchebnaya_distsiplina INTEGER NOT NULL, " +
+                        "disciplina INTEGER NOT NULL, " +
                         "email TEXT NOT NULL, " +
                         "login TEXT NOT NULL, " +
                         "password TEXT NOT NULL, " +
@@ -58,7 +58,7 @@ namespace Student_Registration
                         "house_number INTEGER NOT NULL, " +
                         "apartment_number INTEGER NOT NULL, " +
                         "CONSTRAINT AccountsTable_CityTable_FK FOREIGN KEY (city) REFERENCES CityTable(id), " +
-                        "CONSTRAINT AccountsTable_UchebnayaDistsiplinaTable_FK FOREIGN KEY (uchebnaya_distsiplina) REFERENCES UchebnayaDistsiplinaTable(id), " +
+                        "CONSTRAINT AccountsTable_DisciplinesTable_FK FOREIGN KEY (disciplina) REFERENCES DisciplinesTable(id), " +
                         "CONSTRAINT AccountsTable_StreetTable_FK FOREIGN KEY (street) REFERENCES StreetTable(id))" +
                         "; ";
             try
@@ -71,6 +71,51 @@ namespace Student_Registration
             {
                 MessageBox.Show("CreateAccountsTable ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
             }
+        }
+
+        protected virtual void CreateSecondaryTablesFromTeacherDB(Label status)
+        {
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Open connection with database");
+                return;
+            }
+            string query = @"
+                        CREATE TABLE DisciplinesTable (
+	                    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	                    AltName TEXT NOT NULL, 
+                        disciplina_name TEXT NOT NULL
+                        );
+                         CREATE TABLE StreetTable (
+	                    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	                    street_name TEXT NOT NULL
+                        );
+                         CREATE TABLE CityTable (
+	                    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	                    city_name TEXT NOT NULL
+                        );
+                        ";
+            try
+            {
+                m_sqlCmd.CommandText = query;
+                m_sqlCmd.ExecuteNonQuery();
+                status.Text += " Таблица учителей создана!";
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("CreateSecondaryTablesFromTeacherDB ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+            }
+        }
+
+        public virtual void CreateTeacherAccounts(Label status)
+        {
+            dbFileName = "TeacherAccounts.sqlite";
+            SQLiteConnection.CreateFile(dbFileName);
+            m_dbConn = new SQLiteConnection("Data Source=" + dbFileName + ";Version=3;");
+            m_dbConn.Open();
+            m_sqlCmd.Connection = m_dbConn;
+            CreateSecondaryTablesFromTeacherDB(status);
+            CreateAccountsTableFromTeacherDB(status);
         }
 
         public virtual int GetCountRowsInTable(Label lbStatusText, string tableName)
@@ -232,10 +277,10 @@ namespace Student_Registration
                 if (tableName == "NULL")
                 {
                      query = @"
-                        SELECT a.id, a.name, a.surname, a.patronymic, a.email, a.login, a.password, a.phone_number, a.house_number, a.apartment_number, b.uchebnaya_distsiplina_name, c.city_name, d.street_name
-                        AS AccountsTable, b.uchebnaya_distsiplina_name, c.city_name, d.street_name
+                        SELECT a.id, a.name, a.surname, a.patronymic, a.email, a.login, a.password, a.phone_number, a.house_number, a.apartment_number, b.disciplina_name, c.city_name, d.street_name
+                        AS AccountsTable, b.disciplina_name, c.city_name, d.street_name
                         FROM AccountsTable a " +
-                        "JOIN UchebnayaDistsiplinaTable b ON a.uchebnaya_distsiplina = b.id " +
+                        "JOIN DisciplinesTable b ON a.disciplina = b.id " +
                         "JOIN CityTable c ON a.city = c.id " +
                         "JOIN StreetTable d ON a.street = d.id " +
                         "WHERE a.surname = '" + surname + "' " +
@@ -285,7 +330,7 @@ namespace Student_Registration
                 case "CityTable": comboBox.Items.Add("добавить город"); break;
                 case "StreetTable": comboBox.Items.Add("добавить улицу"); break;
                 case "GroupsTable": comboBox.Items.Add("добавить группу"); break;
-                case "UchebnayaDistsiplinaTable": comboBox.Items.Add("добавить дисциплину"); break;
+                case "DisciplinesTable": comboBox.Items.Add("добавить дисциплину"); break;
             }
             try
             {
@@ -327,7 +372,7 @@ namespace Student_Registration
             }
         }
 
-        public virtual void AddUchebnayaDistsiplina(Label statusText, string distsiplinaName, string AltName)
+        public virtual void AddDistsiplina(Label statusText, string distsiplinaName, string AltName)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -335,14 +380,14 @@ namespace Student_Registration
             }
             try
             {
-                string query = "INSERT INTO UchebnayaDistsiplinaTable ( uchebnaya_distsiplina_name, AltName ) VALUES ('"+ distsiplinaName +"','"+ AltName +"');";
+                string query = "INSERT INTO DisciplinesTable ( disciplina_name, AltName ) VALUES ('" + distsiplinaName +"','"+ AltName +"');";
                 m_sqlCmd.CommandText = query;
                 m_sqlCmd.ExecuteNonQuery();
                 statusText.Text = "Дисциплина добавлена!";
             }
             catch (SQLiteException ex)
             {
-                MessageBox.Show("AddUchebnayaDistsiplina ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+                MessageBox.Show("AddDistsiplina ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
             }
         }
 

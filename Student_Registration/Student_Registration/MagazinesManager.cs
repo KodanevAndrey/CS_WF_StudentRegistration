@@ -102,7 +102,7 @@ namespace Student_Registration
             {
                 MessageBox.Show("Open connection with database");
             }
-            string query = @"SELECT AltName FROM UchebnayaDistsiplinaTable WHERE uchebnaya_distsiplina_name = '" + DistsiplinaName + "';";
+            string query = @"SELECT AltName FROM DisciplinesTable WHERE disciplina_name = '" + DistsiplinaName + "';";
             try
             {
                 using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))

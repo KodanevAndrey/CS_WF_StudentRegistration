@@ -16,7 +16,7 @@ namespace Student_Registration
         private Color colorNoCorrect = Color.Orange;
 
         private FormSelectedOpenTable form;
-        public readonly IDBHelper db = new DBHelper();///////////////// <summary>
+        public readonly IDBHelper db = new DBHelper();
         private string DBName = null;
         private string TableName = null;
         private string AdminPassword;
@@ -30,8 +30,7 @@ namespace Student_Registration
             AM.ConnectDB(lbStatusAM,"Admin.sqlite");
             AdminPassword = AM.ReadOneValue(lbStatusAM, "AdminTable", "password", "login", "Admin");
             txtAdminPassword.Text = AdminPassword;
-            this.StartPosition = FormStartPosition.Manual;
-            this.Location = new Point(200, 200);
+            this.StartPosition = FormStartPosition.CenterParent;
             this.MaximizeBox = false;
             CBColumnType.SelectedItem = "INTEGER";
             EnabledAllTextElementsToAM(false);
@@ -289,8 +288,8 @@ namespace Student_Registration
             if (cbUserType.SelectedItem.ToString() == "перподаватель")
             {
                 UserData = AM.ReadSelectedOnlyRow(lbStatusText, "NULL", surname);
-                cbUchebnayaDistsiplina.SelectedItem = UserData["uchebnaya_distsiplina_name"];
-                cbUchebnayaDistsiplina.Text = UserData["uchebnaya_distsiplina_name"];
+                cbUchebnayaDistsiplina.SelectedItem = UserData["disciplina_name"];
+                cbUchebnayaDistsiplina.Text = UserData["disciplina_name"];
             }
             else if (cbUserType.SelectedItem.ToString() == "студент")
             {
@@ -361,7 +360,7 @@ namespace Student_Registration
                 label6.Text = "учитель";
                 label10.Text = "дисциплина";
                 ReloadCBSelectUser();
-                AM.LoadAllItemsForComboBox(cbUchebnayaDistsiplina, "UchebnayaDistsiplinaTable", "uchebnaya_distsiplina_name");
+                AM.LoadAllItemsForComboBox(cbUchebnayaDistsiplina, "DisciplinesTable", "disciplina_name");
                 AM.LoadAllItemsForComboBox(cbCity, "CityTable", "city_name");
                 AM.LoadAllItemsForComboBox(cbStreet, "StreetTable", "street_name");
             }
@@ -460,7 +459,7 @@ namespace Student_Registration
             if (cbUchebnayaDistsiplina.SelectedItem.ToString() == "добавить дисциплину")
             {
                 FormAddingSecondaryInformation form;
-                form = new FormAddingSecondaryInformation(lbStatusAM, cbUchebnayaDistsiplina, AM, "UchebnayaDistsiplinaTable", "uchebnaya_distsiplina_name", "дисциплину");
+                form = new FormAddingSecondaryInformation(lbStatusAM, cbUchebnayaDistsiplina, AM, "DisciplinesTable", "disciplina_name", "дисциплину");
                 form.Show();
             }
             if (cbUchebnayaDistsiplina.SelectedItem.ToString() == "добавить группу")
@@ -473,7 +472,7 @@ namespace Student_Registration
             {
                 if (cbUserType.SelectedItem.ToString() == "перподаватель")
                 {
-                    if (cbUchebnayaDistsiplina.SelectedItem.ToString() == UserData["uchebnaya_distsiplina_name"]) cbUchebnayaDistsiplina.BackColor = Color.White;
+                    if (cbUchebnayaDistsiplina.SelectedItem.ToString() == UserData["disciplina_name"]) cbUchebnayaDistsiplina.BackColor = Color.White;
                     else { cbUchebnayaDistsiplina.BackColor = colorChanged; }
                 }
                 else if (cbUserType.SelectedItem.ToString() == "студент")
@@ -583,8 +582,12 @@ namespace Student_Registration
                 _data.Add(txtName.Text);
                 _data.Add(txtSurname.Text);
                 _data.Add(txtPatronymic.Text);
-                if(cbUserType.SelectedItem.ToString() == "перподаватель") 
-                    _data.Add(AM.GetID("UchebnayaDistsiplinaTable", "uchebnaya_distsiplina_name", cbUchebnayaDistsiplina.SelectedItem.ToString()));
+                if (cbUserType.SelectedItem.ToString() == "перподаватель")
+                    _data.Add(AM.GetID(
+                        "DisciplinesTable",
+                        "AltName",
+                        AM.ReadOneValue(lbStatusAM, "DisciplinesTable", "AltName", "disciplina_name", cbUchebnayaDistsiplina.SelectedItem.ToString())
+                        ));
                 else if (cbUserType.SelectedItem.ToString() == "студент")
                     _data.Add(AM.GetID("GroupsTable", "group_name", cbSelectGroup.SelectedItem.ToString()));
                 _data.Add(txtEmail.Text);

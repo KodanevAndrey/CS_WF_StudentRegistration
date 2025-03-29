@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Student_Registration
@@ -12,9 +13,18 @@ namespace Student_Registration
         public FormMain()
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.Manual;
-            this.Location = new Point(750,350);
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.MaximizeBox = false;
+            CheckToExistsFiles();
+        }
+
+        private void CheckToExistsFiles()
+        {
+            if (!File.Exists("TeacherAccounts.sqlite")) 
+            {
+                MessageBox.Show("TeacherAccounts.sqlite not exist!");
+                AM.CreateTeacherAccounts(lbStatus); 
+            }
         }
 
         private void LoadLoginAndPassword()

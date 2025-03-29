@@ -34,7 +34,7 @@ namespace Student_Registration
             this.TableName = tableName;
             this.ColumnName = columnName;
             this.btnAdd.Text = "добввить " + RankAdded;
-            if (TableName == "UchebnayaDistsiplinaTable") txtEnglName.Enabled = true;
+            if (TableName == "DisciplinesTable") txtEnglName.Enabled = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -46,16 +46,16 @@ namespace Student_Registration
                     AM.CreateNewGroup(lbStatus, txtEnter.Text);
                     CreateMagazine();
                 }
-                else if (TableName == "UchebnayaDistsiplinaTable")
+                else if (TableName == "DisciplinesTable")
                 {
-                    if (AM.CheckForValidity(lbStatus, txtEnglName.Text, "onlyEngl")) AM.AddUchebnayaDistsiplina(lbStatus,txtEnter.Text,txtEnglName.Text);
+                    if (AM.CheckForValidity(lbStatus, txtEnglName.Text, "onlyEngl")) AM.AddDistsiplina(lbStatus,txtEnter.Text,txtEnglName.Text);
                 }
                 else
                 {
                     AM.AddSecondaryInfo(labelS, txtEnter, TableName, ColumnName);
-
                 }
-                AM.ConnectDB(lbStatus, "StudentsAccounts.sqlite");
+
+                if(TableName == "GroupsTable") AM.ConnectDB(lbStatus, "StudentsAccounts.sqlite");
                 AM.LoadAllItemsForComboBox(comboBox1, TableName, ColumnName);
                 comboBox1.SelectedItem = txtEnter.Text;
                 comboBox1.Text = txtEnter.Text;

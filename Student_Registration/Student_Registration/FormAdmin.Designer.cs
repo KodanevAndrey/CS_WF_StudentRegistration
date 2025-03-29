@@ -631,7 +631,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(44, 134);
+            this.label8.Location = new System.Drawing.Point(44, 113);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(53, 13);
             this.label8.TabIndex = 11;
@@ -639,7 +639,7 @@
             // 
             // txtSurname
             // 
-            this.txtSurname.Location = new System.Drawing.Point(103, 131);
+            this.txtSurname.Location = new System.Drawing.Point(103, 106);
             this.txtSurname.Name = "txtSurname";
             this.txtSurname.Size = new System.Drawing.Size(199, 20);
             this.txtSurname.TabIndex = 10;
@@ -648,7 +648,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(70, 108);
+            this.label7.Location = new System.Drawing.Point(68, 138);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(27, 13);
             this.label7.TabIndex = 9;
@@ -656,7 +656,7 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(103, 105);
+            this.txtName.Location = new System.Drawing.Point(103, 131);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(199, 20);
             this.txtName.TabIndex = 8;

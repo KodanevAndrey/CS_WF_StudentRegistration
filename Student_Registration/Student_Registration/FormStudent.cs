@@ -21,6 +21,8 @@ namespace Student_Registration
         public FormStudent(string login, AccountManager manager)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterParent;
+            this.MaximizeBox = false;
             this.Login = login;
             this.AM = manager;
             LoadProfile();
