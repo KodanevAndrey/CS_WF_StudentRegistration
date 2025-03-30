@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Student_Registration
@@ -39,7 +33,7 @@ namespace Student_Registration
             StudentProfile = AM.ReadSelectedOnlyRow(lbSatusProfile, GroupName, studentSurname);
             foreach (string key in StudentProfile.Keys)
             {
-                richTextBox1.Text += key + " | " + StudentProfile[key] + "\n";
+                richTextBox1.Text += String.Format("{0,-20}{1,20}\n", key, StudentProfile[key]);
             }
             txtDistsiplina.Text = StudentProfile["group_name"];
         }

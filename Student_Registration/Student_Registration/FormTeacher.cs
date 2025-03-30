@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Student_Registration
@@ -38,9 +32,10 @@ namespace Student_Registration
             AM.ConnectDB(lbSatusProfile, "TeacherAccounts.sqlite");
             string _surname = AM.ReadOneValue(lbSatusProfile, "AccountsTable","surname","login",Login);
             TeacherProfile = AM.ReadSelectedOnlyRow(lbSatusProfile,"NULL", _surname);
+
             foreach (string key in TeacherProfile.Keys)
             {
-                richTextBox1.Text += key + " | " + TeacherProfile[key] + "\n";
+                richTextBox1.Text += String.Format("{0,-20}{1,20}\n", key, TeacherProfile[key]);
             }
             txtDistsiplina.Text = TeacherProfile["disciplina_name"];
         }
