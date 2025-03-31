@@ -8,18 +8,18 @@ namespace Student_Registration
     {
 
         private readonly IAccountManager AM;
-        private readonly IMagazinesManager MM = new MagazinesManager();
+        private readonly ITeacher IT = new MagazinesManager();
 
         private Dictionary<string,string> TeacherProfile = new Dictionary<string, string>();
         private string Login;
 
-        public FormTeacher(string login, AccountManager manager)
+        public FormTeacher(string login, AccountManager accauntManager)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterParent;
             this.MaximizeBox = false;
             this.Login = login;
-            this.AM = manager;
+            this.AM = accauntManager;
             LoadProfile();
             LoadGroupNames();
             txtDistsiplina.Enabled = false;
@@ -53,27 +53,27 @@ namespace Student_Registration
         {
             string MagazineName = "Magazine_" + cbSelectGroup.SelectedItem;
             List<string> StudentsSNP = AM.GetAllUsersSNP(cbSelectGroup.SelectedItem.ToString(), "forDB");
-            MM.ConnectDB(lbStatusText, "TeacherAccounts.sqlite");
-            string altNameDistsiplina = MM.GetDistsiplinaAltName(TeacherProfile["disciplina_name"]);
-            MM.CreateNewTableInMagazine(lbStatusText, MagazineName, altNameDistsiplina, StudentsSNP);
+            IT.ConnectDB(lbStatusText, "TeacherAccounts.sqlite");
+            string altNameDistsiplina = IT.GetDistsiplinaAltName(TeacherProfile["disciplina_name"]);
+            IT.CreateNewTableInMagazine(lbStatusText, MagazineName, altNameDistsiplina, StudentsSNP);
             btnCreateNewMagazine.Enabled = false;
         }
 
         private void cbSelectGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MM.ConnectDB(lbSatusProfile, "TeacherAccounts.sqlite");
-            string altNameDistsiplina = MM.GetDistsiplinaAltName(TeacherProfile["disciplina_name"]);
+            IT.ConnectDB(lbSatusProfile, "TeacherAccounts.sqlite");
+            string altNameDistsiplina = IT.GetDistsiplinaAltName(TeacherProfile["disciplina_name"]);
 
         
-            if (MM.ConnectDB(lbSatusProfile, "Magazine_" + cbSelectGroup.SelectedItem.ToString() + ".sqlite"))
+            if (IT.ConnectDB(lbSatusProfile, "Magazine_" + cbSelectGroup.SelectedItem.ToString() + ".sqlite"))
             {
-                if (MM.CheckTableExistence(lbStatusText, altNameDistsiplina))
+                if (IT.CheckTableExistence(lbStatusText, altNameDistsiplina))
                 {
                     btnCreateNewMagazine.Enabled = false;
-                    MM.SelectedTable(altNameDistsiplina);
-                    MM.GetTableInfo(lbStatusText);
-                    MM.LoadTableInfo(lbStatusText, dgvViewer, altNameDistsiplina);
-                    MM.ReadDB(lbStatusText, dgvViewer);
+                    IT.SelectedTable(altNameDistsiplina);
+                    IT.GetTableInfo(lbStatusText);
+                    IT.LoadTableInfo(lbStatusText, dgvViewer, altNameDistsiplina);
+                    IT.ReadDB(lbStatusText, dgvViewer);
                     EnabledAllButtonToConnectDB(true);
                 }
                 else
@@ -92,23 +92,23 @@ namespace Student_Registration
             btnDeleteAllDB.Enabled = IsActive;
         }
 
-        private void btnReadDB_Click(object sender, EventArgs e) => MM.ReadDB(lbStatusText, dgvViewer);
-        private void btnAddDB_Click(object sender, EventArgs e) => MM.AddDB(lbStatusText, lbCommand, dgvViewer);
-        private void btnResetDB_Click(object sender, EventArgs e) => MM.ResetDB(lbStatusText, lbCommand, dgvViewer);
-        private void btnDeleteDB_Click(object sender, EventArgs e) => MM.DeleteDB(lbStatusText, lbCommand, dgvViewer);
+        private void btnReadDB_Click(object sender, EventArgs e) => IT.ReadDB(lbStatusText, dgvViewer);
+        private void btnAddDB_Click(object sender, EventArgs e) => IT.AddDB(lbStatusText, lbCommand, dgvViewer);
+        private void btnResetDB_Click(object sender, EventArgs e) => IT.ResetDB(lbStatusText, lbCommand, dgvViewer);
+        private void btnDeleteDB_Click(object sender, EventArgs e) => IT.DeleteDB(lbStatusText, lbCommand, dgvViewer);
         private void btnDeleteAllDB_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("вы уверены что хотите удалить ВСЕ данные таблицы?", "Удаление всех данных", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                MM.DeleteAllDB(lbStatusText);
-                MM.ReadDB(lbStatusText, dgvViewer);
+                IT.DeleteAllDB(lbStatusText);
+                IT.ReadDB(lbStatusText, dgvViewer);
             }
         }
 
         private void dgvViewer_Click(object sender, EventArgs e)
         {
-            MM.SelectCellToTable(lbStatusText, dgvViewer);
+            IT.SelectCellToTable(lbStatusText, dgvViewer);
         }
 
     }

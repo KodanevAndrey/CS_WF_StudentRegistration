@@ -9,7 +9,7 @@ using System;
 
 namespace Student_Registration
 {
-    public class MagazinesManager : DBHelper, IMagazinesManager
+    public class MagazinesManager : DBHelper, ITeacher, IStudent
     {
         public virtual void CreateNewMagazine(Label lbStatusText, string MagazineName, string TableName)
         {
@@ -128,7 +128,7 @@ namespace Student_Registration
                 MessageBox.Show("Open connection with database");
             }
 
-            string query = "SELECT name FROM sqlite_master WHERE type='table' AND name='"+ TableName + "'";
+            string query = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + TableName + "'";
             try
             {
                 using (SQLiteCommand command = new SQLiteCommand(query, m_dbConn))
@@ -185,7 +185,7 @@ namespace Student_Registration
                             IsActive = false;
                             status = "введено некорректное значение: ячейка под столбцом " + dgvViewer.Columns[SelectedRowIndex].Name + " имеет числовой тип!";
                         }
-                        else if ( Convert.ToInt32(dgvViewer.Rows[SelectedRowIndex].Cells[SelectedColumnIndex].Value) > 5 || Convert.ToInt32(dgvViewer.Rows[SelectedRowIndex].Cells[SelectedColumnIndex].Value) < 2)
+                        else if (Convert.ToInt32(dgvViewer.Rows[SelectedRowIndex].Cells[SelectedColumnIndex].Value) > 5 || Convert.ToInt32(dgvViewer.Rows[SelectedRowIndex].Cells[SelectedColumnIndex].Value) < 2)
                         {
                             IsActive = false;
                             status = "введено некорректное значение: значение под столбцом " + dgvViewer.Columns[SelectedRowIndex].Name + " должна быть не меньше 2 и не больше 5!";

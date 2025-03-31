@@ -7,7 +7,7 @@ namespace Student_Registration
     public partial class FormStudent : Form
     {
         private readonly IAccountManager AM;
-        private readonly IMagazinesManager MM = new MagazinesManager();
+        private readonly IStudent IS = new MagazinesManager();
 
         private Dictionary<string, string> StudentProfile = new Dictionary<string, string>();
         private string Login;
@@ -40,23 +40,23 @@ namespace Student_Registration
 
         private void LoadDisciplines()
         {
-            MM.ConnectDB(lbSatusProfile, "Magazine_" + StudentProfile["group_name"] + ".sqlite");
+            IS.ConnectDB(lbSatusProfile, "Magazine_" + StudentProfile["group_name"] + ".sqlite");
             cbSelectDiscipline.Text = "";
             cbSelectDiscipline.SelectedItem = "";
             cbSelectDiscipline.Items.Clear();
-            foreach (string item in MM.GetNamesAllDisciplines(lbStatusText)) cbSelectDiscipline.Items.Add(item);
+            foreach (string item in IS.GetNamesAllDisciplines(lbStatusText)) cbSelectDiscipline.Items.Add(item);
         }
 
         private void cbSelectGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            MM.SelectedTable(cbSelectDiscipline.SelectedItem.ToString());
-            MM.GetTableInfo(lbStatusText);
-            MM.LoadTableInfo(lbStatusText, dgvViewer, cbSelectDiscipline.SelectedItem.ToString());
-            MM.ReadDB(lbStatusText, dgvViewer);
+            IS.SelectedTable(cbSelectDiscipline.SelectedItem.ToString());
+            IS.GetTableInfo(lbStatusText);
+            IS.LoadTableInfo(lbStatusText, dgvViewer, cbSelectDiscipline.SelectedItem.ToString());
+            IS.ReadDB(lbStatusText, dgvViewer);
             btnReadDB.Enabled = true;
         }
 
-        private void btnReadDB_Click(object sender, EventArgs e) => MM.ReadDB(lbStatusText, dgvViewer);
+        private void btnReadDB_Click(object sender, EventArgs e) => IS.ReadDB(lbStatusText, dgvViewer);
     }
 }

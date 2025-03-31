@@ -11,21 +11,66 @@ using Student_Registration;
 
 namespace ConnectSQLite_KodanevAndrey
 {
+    /// <summary>
+    /// класс реализует интерфейс IDBHelper 
+    /// </summary>
     public class DBHelper : IDBHelper
     {
+        /// <summary>
+        /// путь к файлу и название SQLite файла
+        /// </summary>
         protected string dbFileName;
+        /// <summary>
+        /// имя таблицы в БД к которой система будет подключаться
+        /// </summary>
         protected string TableNameDB;
+        /// <summary>
+        /// путь к файлу полученный из OpenFileDialog
+        /// </summary>
         protected string FileLocation;
+        /// <summary>
+        /// экземпляр класса для подключения к БД
+        /// </summary>
         protected SQLiteConnection m_dbConn = new SQLiteConnection();
+        /// <summary>
+        /// экземпляр класса для передачи запросов в БД
+        /// </summary>
         protected SQLiteCommand m_sqlCmd = new SQLiteCommand();
+        /// <summary>
+        /// экземпляр класса для взаимодействия с базой данных
+        /// </summary>
         protected SQLiteDataAdapter adapter;
+        /// <summary>
+        /// название выбранного столбика в DataGridView
+        /// </summary>
         protected string NameSelectedColumn;
+        /// <summary>
+        /// название выбранной ячейки в DataGridView
+        /// </summary>
         protected string NameSelectedCell;
+        /// <summary>
+        /// индекс выбранного столбика в DataGridView
+        /// </summary>
         protected int SelectedRowIndex;
+        /// <summary>
+        /// индекс выбранной ячейки в DataGridView
+        /// </summary>
         protected int SelectedColumnIndex;
+        /// <summary>
+        /// список индексов столбцов в таблице с типом данных BLOB
+        /// </summary>
         protected List<int> DBTableColumnsTypeBlob = new List<int>();
+        /// <summary>
+        /// список индексов столбцов в таблице с типом данных TEXT
+        /// </summary>
         protected List<int> DBTableColumnsTypeText = new List<int>();
+        /// <summary>
+        /// список индексов столбцов в таблице с типом данных INTEGER
+        /// </summary>
         protected List<int> DBTableColumnsTypeInt = new List<int>();
+        /// <summary>
+        /// список индексов столбцов в таблице со всеми типами данных кроме BLOB
+        /// </summary>
         protected List<int> DBTableColumnsTypeNotBlob = new List<int>();
 
         public virtual void CreateNewDB(Label lbStatusText, string DBName, string TableName, List<string> listColumns)
