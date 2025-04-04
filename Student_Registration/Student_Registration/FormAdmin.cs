@@ -67,7 +67,7 @@ namespace Student_Registration
 
         private void dgvViewer_Click(object sender, EventArgs e)
         {
-            db.SelectCellToTable(lbStatusText, dgvViewer);
+            db.SelectCellInTable(lbStatusText, dgvViewer);
         }
 
         private void btnCreateDB_Click(object sender, EventArgs e)
@@ -320,7 +320,7 @@ namespace Student_Registration
             cbSelectGroup.SelectedItem = "";
             cbSelectGroup.Items.Clear();
             cbSelectGroup.Items.Add("добавить группу");
-            foreach (string item in AM.GetNameAllGroups(lbStatusAM)) cbSelectGroup.Items.Add(item);
+            foreach (string item in AM.GetNamesAllGroups(lbStatusAM)) cbSelectGroup.Items.Add(item);
         }
 
         private void ReloadCBSelectUser()
@@ -360,9 +360,9 @@ namespace Student_Registration
                 label6.Text = "учитель";
                 label10.Text = "дисциплина";
                 ReloadCBSelectUser();
-                AM.LoadAllItemsForComboBox(cbUchebnayaDistsiplina, "DisciplinesTable", "disciplina_name");
-                AM.LoadAllItemsForComboBox(cbCity, "CityTable", "city_name");
-                AM.LoadAllItemsForComboBox(cbStreet, "StreetTable", "street_name");
+                AM.LoadAllSecondaryItemsInComboBox(cbUchebnayaDistsiplina, "DisciplinesTable", "disciplina_name");
+                AM.LoadAllSecondaryItemsInComboBox(cbCity, "CityTable", "city_name");
+                AM.LoadAllSecondaryItemsInComboBox(cbStreet, "StreetTable", "street_name");
             }
             else if (cbUserType.SelectedItem.ToString() == "студент")
             {
@@ -377,9 +377,9 @@ namespace Student_Registration
                 label6.Text = "студент";
                 label10.Text = "группа";
                 ReloadCBSelectGroup();
-                AM.LoadAllItemsForComboBox(cbUchebnayaDistsiplina, "GroupsTable", "group_name");
-                AM.LoadAllItemsForComboBox(cbCity, "CityTable", "city_name");
-                AM.LoadAllItemsForComboBox(cbStreet, "StreetTable", "street_name");
+                AM.LoadAllSecondaryItemsInComboBox(cbUchebnayaDistsiplina, "GroupsTable", "group_name");
+                AM.LoadAllSecondaryItemsInComboBox(cbCity, "CityTable", "city_name");
+                AM.LoadAllSecondaryItemsInComboBox(cbStreet, "StreetTable", "street_name");
             }
         }
 
@@ -439,7 +439,7 @@ namespace Student_Registration
                 form = new FormAddingSecondaryInformation(lbStatusAM, cbSelectGroup, AM, "GroupsTable", "group_name", "группу");
                 form.Show();
                 ReloadCBSelectGroup();
-                AM.LoadAllItemsForComboBox(cbUchebnayaDistsiplina, "GroupsTable", "group_name");
+                AM.LoadAllSecondaryItemsInComboBox(cbUchebnayaDistsiplina, "GroupsTable", "group_name");
                 ReturnTextElementsColorToDefault();
             }
             else
@@ -603,22 +603,22 @@ namespace Student_Registration
                 {
                     if (cbUserType.SelectedItem.ToString() == "перподаватель")
                     {
-                        _columns = AM.GetTableInfo(lbStatusAM, "AccountsTable");
-                        AM.AddNewUserDB(lbStatusAM, "AccountsTable", _columns, _data);
+                        _columns = AM.GetColumnsNames(lbStatusAM, "AccountsTable");
+                        AM.AddNewUser(lbStatusAM, "AccountsTable", _columns, _data);
                     }
                     else if (cbUserType.SelectedItem.ToString() == "студент")
                     {
-                        _columns = AM.GetTableInfo(lbStatusAM, cbSelectGroup.SelectedItem.ToString());
-                        AM.AddNewUserDB(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns, _data);
+                        _columns = AM.GetColumnsNames(lbStatusAM, cbSelectGroup.SelectedItem.ToString());
+                        AM.AddNewUser(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns, _data);
                         AM.ConnectDB(lbStatusAM, "Magazine_" + cbSelectGroup.SelectedItem.ToString() + ".sqlite");
                         _columns.Clear();
-                        _columns = AM.GetTableInfo(lbStatusAM, "BaseInfo");
+                        _columns = AM.GetColumnsNames(lbStatusAM, "BaseInfo");
 
                         _data.Clear();
                         _data.Add(txtName.Text);
                         _data.Add(txtSurname.Text);
                         _data.Add(txtPatronymic.Text);
-                        AM.AddNewUserDB(lbStatusAM, "BaseInfo", _columns, _data);
+                        AM.AddNewUser(lbStatusAM, "BaseInfo", _columns, _data);
 
                         AM.ConnectDB(lbStatusAM, "StudentsAccounts.sqlite");
                     }
@@ -636,20 +636,20 @@ namespace Student_Registration
                         surname += str[i];
                     }
 
-                    if (cbUserType.SelectedItem.ToString() == "перподаватель") _columns = AM.GetTableInfo(lbStatusAM, "AccountsTable");
-                    else if (cbUserType.SelectedItem.ToString() == "студент") _columns = AM.GetTableInfo(lbStatusAM, cbSelectGroup.SelectedItem.ToString());
+                    if (cbUserType.SelectedItem.ToString() == "перподаватель") _columns = AM.GetColumnsNames(lbStatusAM, "AccountsTable");
+                    else if (cbUserType.SelectedItem.ToString() == "студент") _columns = AM.GetColumnsNames(lbStatusAM, cbSelectGroup.SelectedItem.ToString());
 
                     if (_columns.Count == _data.Count)
                         for (int i = 0;i < _columns.Count; i++)
                         {
                             if (cbUserType.SelectedItem.ToString() == "перподаватель")
                             {
-                                AM.Reset(lbStatusAM, "AccountsTable", _columns[i], _data[i], AM.GetID("AccountsTable", "id", UserData["id"]));
+                                AM.UpdateUserData(lbStatusAM, "AccountsTable", _columns[i], _data[i], AM.GetID("AccountsTable", "id", UserData["id"]));
                                 cbSelectUser.Items.Clear();
                             }
                             else if (cbUserType.SelectedItem.ToString() == "студент")
                             {
-                                AM.Reset(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns[i], _data[i], AM.GetID(cbSelectGroup.SelectedItem.ToString(), "id", UserData["id"]));
+                                AM.UpdateUserData(lbStatusAM, cbSelectGroup.SelectedItem.ToString(), _columns[i], _data[i], AM.GetID(cbSelectGroup.SelectedItem.ToString(), "id", UserData["id"]));
                                 cbSelectUser.Items.Clear();
                             }
                         }

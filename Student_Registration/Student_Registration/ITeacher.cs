@@ -12,7 +12,7 @@ namespace Student_Registration
         void LoadTableInfo(Label lbStatusText, DataGridView dgvViewer, string TableName);
         void SelectedTable(string tableName);
         void GetTableInfo(Label lbStatusText);
-        void SelectCellToTable(Label lbStatusText, DataGridView dgvViewer);
+        void SelectCellInTable(Label lbStatusText, DataGridView dgvViewer);
         void ReadDB(Label lbStatusText, DataGridView dgvViewer);
         void AddDB(Label lbStatusText, Label lbCommand, DataGridView dgvViewer);
         void DeleteDB(Label lbStatusText, Label lbCommandText, DataGridView dgvViewer);

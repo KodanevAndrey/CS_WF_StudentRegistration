@@ -7,8 +7,6 @@ using System.Data.SQLite;
 using System.IO;
 using Student_Registration;
 
-
-
 namespace ConnectSQLite_KodanevAndrey
 {
     /// <summary>
@@ -73,7 +71,7 @@ namespace ConnectSQLite_KodanevAndrey
         /// </summary>
         protected List<int> DBTableColumnsTypeNotBlob = new List<int>();
 
-        public virtual void CreateNewDB(Label lbStatusText, string DBName, string TableName, List<string> listColumns)
+        public virtual void CreateNewDB(Label lbStatusText, in string DBName, in string TableName, in List<string> listColumns)
         {
             if (DBName != "")
             {
@@ -101,7 +99,7 @@ namespace ConnectSQLite_KodanevAndrey
                 {
                     lbStatusText.Text = "Disconnected";
                     lbStatusText.ForeColor = Color.Red;
-                    MessageBox.Show("Error CreateDB: " + ex.Message);
+                    MessageBox.Show("Error CreateNewDB: " + ex.Message);
                 }
             }
             else lbStatusText.Text = "введите имя для новой базы данных!";
@@ -148,7 +146,7 @@ namespace ConnectSQLite_KodanevAndrey
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
-                MessageBox.Show("Open connection with database");
+                MessageBox.Show("Отсутствует подключение в базе данных");
                 return;
             }
             try
@@ -176,11 +174,11 @@ namespace ConnectSQLite_KodanevAndrey
             }
             catch (SQLiteException ex)
             {
-                MessageBox.Show("Error LoadCountTables: " + ex.Message);
+                MessageBox.Show("Error ReadCountTables: " + ex.Message);
             }
         }
 
-        public virtual void SelectedTable(ListBox listBox)
+        public virtual void СhosenTable(ListBox listBox)
         {
             TableNameDB = listBox.SelectedItem.ToString();
             DataTable dTable = new DataTable();
@@ -194,7 +192,7 @@ namespace ConnectSQLite_KodanevAndrey
             lbStatusText.Text = "";
             if (m_dbConn.State != ConnectionState.Open)
             {
-                MessageBox.Show("Open connection with database");
+                MessageBox.Show("Отсутствует подключение в базе данных");
                 return;
             }
             try
@@ -214,7 +212,7 @@ namespace ConnectSQLite_KodanevAndrey
             }
             catch (SQLiteException ex)
             {
-                MessageBox.Show("Error LoadTable: " + ex.Message);
+                MessageBox.Show("Error GetTableInfo: " + ex.Message);
             }
         }
 
@@ -225,7 +223,7 @@ namespace ConnectSQLite_KodanevAndrey
 
             if (m_dbConn.State != ConnectionState.Open)
             {
-                MessageBox.Show("Open connection with database");
+                MessageBox.Show("Отсутствует подключение в базе данных");
                 return;
             }
             try
@@ -242,11 +240,11 @@ namespace ConnectSQLite_KodanevAndrey
             }
             catch (SQLiteException ex)
             {
-                MessageBox.Show("Error LoadTable: " + ex.Message);
+                MessageBox.Show("Error LoadTableInfo: " + ex.Message);
             }
         }
 
-        public virtual void SelectCellToTable(Label lbStatusText, DataGridView dgvViewer)
+        public virtual void SelectCellInTable(Label lbStatusText, DataGridView dgvViewer)
         {
             int selectedRowCount = dgvViewer.GetCellCount(DataGridViewElementStates.Selected);
             if (selectedRowCount > 0)
@@ -274,7 +272,7 @@ namespace ConnectSQLite_KodanevAndrey
             String sqlQuery;
             if (m_dbConn.State != ConnectionState.Open)
             {
-                MessageBox.Show("Open connection with database");
+                MessageBox.Show("Отсутствует подключение в базе данных");
                 return;
             }
             try
@@ -302,7 +300,7 @@ namespace ConnectSQLite_KodanevAndrey
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
-                MessageBox.Show("Open connection with database");
+                MessageBox.Show("Отсутствует подключение в базе данных");
                 return;
             }
             string status = "";
@@ -365,9 +363,13 @@ namespace ConnectSQLite_KodanevAndrey
             lbCommand.Text = m_sqlCmd.CommandText;
         }
 
-        public virtual void DeleteDB(Label lbStatusText, Label lbCommandText, DataGridView dgvViewer)
+        public virtual void DeleteDB(Label lbStatusText, Label lbCommand, DataGridView dgvViewer)
         {
-            
+            if (m_dbConn.State != ConnectionState.Open)
+            {
+                MessageBox.Show("Отсутствует подключение в базе данных");
+                return;
+            }
             DialogResult dialogResult = MessageBox.Show("Вы уверены что хотите удалить запись", "Удаление записи", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
@@ -390,7 +392,7 @@ namespace ConnectSQLite_KodanevAndrey
                 {
                     MessageBox.Show("Error DeleteDB: " + ex.Message);
                 }
-                lbCommandText.Text = m_sqlCmd.CommandText;
+                lbCommand.Text = m_sqlCmd.CommandText;
             }
         }
 
@@ -398,7 +400,7 @@ namespace ConnectSQLite_KodanevAndrey
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
-                lbStatusText.Text = "Open connection with database";
+                MessageBox.Show("Отсутствует подключение в базе данных");
                 return;
             }
             string status = "";
@@ -455,7 +457,7 @@ namespace ConnectSQLite_KodanevAndrey
 
             if (m_dbConn.State != ConnectionState.Open)
             {
-                lbStatusText.Text = "Open connection with database";
+                MessageBox.Show("Отсутствует подключение в базе данных");
                 return;
             }
 
@@ -471,7 +473,10 @@ namespace ConnectSQLite_KodanevAndrey
                 MessageBox.Show("Error DeleteAllDB: " + ex.Message);
             }
         }
-
+        /// <summary>
+        /// фунцфия для загрузки изображения через OpenFileDialog
+        /// </summary>
+        /// <returns>загруженное изображение</returns>
         protected virtual Image LoadImage()
         {
             Image image = null;
@@ -493,7 +498,12 @@ namespace ConnectSQLite_KodanevAndrey
             }
             return image;
         }
-
+        /// <summary>
+        /// метод для загрузки изображения в базу данных
+        /// </summary>
+        /// <param name="lbStatusText">Label для логирования</param>
+        /// <param name="lbCommand">Label для отображения SQL запросов</param>
+        /// <param name="dgvViewer">элемент управления для представления сетки данных</param>
         public virtual void AddImageToDB(Label lbStatusText, Label lbCommand, DataGridView dgvViewer)
         {
             lbStatusText.Text = "";
@@ -502,7 +512,7 @@ namespace ConnectSQLite_KodanevAndrey
             string SelectName = null;
             if (m_dbConn.State != ConnectionState.Open)
             {
-                MessageBox.Show("Open connection with database");
+                MessageBox.Show("Отсутствует подключение в базе данных");
                 return;
             }
 

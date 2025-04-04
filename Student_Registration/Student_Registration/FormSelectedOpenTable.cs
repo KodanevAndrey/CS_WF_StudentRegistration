@@ -18,7 +18,7 @@ namespace Student_Registration
         }
         private void btnOpenTable_Click(object sender, EventArgs e)
         {
-            this.db.SelectedTable(listBox1);
+            this.db.СhosenTable(listBox1);
             this.db.LoadTableInfo(lbStatus, dgvViewer);
             this.db.ReadDB(lbStatus, dgvViewer);
             this.db.GetTableInfo(lbStatus);

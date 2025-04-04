@@ -6,10 +6,12 @@ using System.Drawing;
 using System.IO;
 using System.Data;
 using System.Text.RegularExpressions;
+using static Student_Registration.FormTeacher;
 namespace Student_Registration
 {
     public class AccountManager : IAccountManager
     {
+
         protected string dbFileName;
         protected SQLiteConnection m_dbConn = new SQLiteConnection();
         protected SQLiteCommand m_sqlCmd = new SQLiteCommand();
@@ -118,30 +120,7 @@ namespace Student_Registration
             CreateAccountsTableFromTeacherDB(status);
         }
 
-        public virtual int GetCountRowsInTable(Label lbStatusText, string tableName)
-        {
-            if (m_dbConn.State != ConnectionState.Open)
-            {
-                MessageBox.Show("Open connection with database");
-            }
-            try
-            {
-                string query = "SELECT count(*) FROM "+ tableName +";";
-                using (var command = new SQLiteCommand(query, m_dbConn))
-                {
-                    int tableCount = Convert.ToInt32(command.ExecuteScalar());
-                    lbStatusText.Text = "Количество таблиц в базе данных: " + tableCount;
-                    return tableCount;
-                }
-            }
-            catch (SQLiteException ex)
-            {
-                MessageBox.Show("GetCountRowsInTable ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
-                return 0;
-            }
-        }
-
-        public virtual List<string> GetNameAllGroups(Label lbStatusText)
+        public virtual List<string> GetNamesAllGroups(Label lbStatusText)
         {
             List<string> _namesOfAllGroups = new List<string>();
             bool correct = true;
@@ -189,7 +168,7 @@ namespace Student_Registration
             return _namesOfAllGroups;
         }
 
-        public virtual void CreateNewGroup(Label status, string tableName)
+        public virtual void CreateNewGroup(Label status, string groupName)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -199,7 +178,7 @@ namespace Student_Registration
             try
             {
                 string query = @"
-                        CREATE TABLE "+ tableName +" ( " +
+                        CREATE TABLE "+ groupName + " ( " +
                         "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                         "name TEXT NOT NULL, " +
                         "surname TEXT NOT NULL, " +
@@ -213,11 +192,11 @@ namespace Student_Registration
                         "street INTEGER NOT NULL, " +
                         "house_number INTEGER NOT NULL, " +
                         "apartment_number INTEGER NOT NULL, " +
-                        "CONSTRAINT " + tableName + "_CityTable_FK FOREIGN KEY (city) REFERENCES CityTable(id), " +
-                        "CONSTRAINT "+ tableName +"_GroupsTable_FK FOREIGN KEY (group_name) REFERENCES GroupsTable(id), " +
-                        "CONSTRAINT "+ tableName +"_StreetTable_FK FOREIGN KEY (street) REFERENCES StreetTable(id))" +
+                        "CONSTRAINT " + groupName + "_CityTable_FK FOREIGN KEY (city) REFERENCES CityTable(id), " +
+                        "CONSTRAINT "+ groupName +"_GroupsTable_FK FOREIGN KEY (group_name) REFERENCES GroupsTable(id), " +
+                        "CONSTRAINT "+ groupName +"_StreetTable_FK FOREIGN KEY (street) REFERENCES StreetTable(id))" +
                         "; " +
-                        "INSERT INTO GroupsTable (group_name) VALUES ('" + tableName + "');";
+                        "INSERT INTO GroupsTable (group_name) VALUES ('" + groupName + "');";
 
                 m_sqlCmd.CommandText = query;
                 m_sqlCmd.ExecuteNonQuery();
@@ -318,7 +297,7 @@ namespace Student_Registration
             return data;
         }
 
-        public virtual void LoadAllItemsForComboBox(ComboBox comboBox, string TableName, string ColumName)
+        public virtual void LoadAllSecondaryItemsInComboBox(ComboBox comboBox, string TableName, string ColumName)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -391,7 +370,7 @@ namespace Student_Registration
             }
         }
 
-        public virtual void AddNewUserDB(Label status, string TableName, List<string> columns, List<string> data)
+        public virtual void AddNewUser(Label status, string TableName, List<string> columns, List<string> data)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -420,17 +399,17 @@ namespace Student_Registration
             }
             catch (SQLiteException ex)
             {
-                MessageBox.Show("AddNewUserDB ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
+                MessageBox.Show("AddNewUser ERROR:" + ex + "\nCOMMAND: " + m_sqlCmd.CommandText);
             }
         }
 
-        public virtual string GetID(in string tableNameDB, in string ColumnName, in string Value)
+        public virtual string GetID(in string tableName, in string whereColumn, in string value)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
                 MessageBox.Show("Open connection with database");
             }
-            string query = @"SELECT id FROM " + tableNameDB + " WHERE "+ ColumnName +" = '" + Value + "';";
+            string query = @"SELECT id FROM " + tableName + " WHERE "+ whereColumn + " = '" + value + "';";
             try
             {
 
@@ -450,7 +429,7 @@ namespace Student_Registration
             }
         }
 
-        public virtual List<string> GetTableInfo(Label lbStatusText, in string tableNameDB)
+        public virtual List<string> GetColumnsNames(Label lbStatusText, in string tableNameDB)
         {
             lbStatusText.Text = "";
             List<string> columns = new List<string>();
@@ -477,7 +456,7 @@ namespace Student_Registration
         }
 
 
-        public virtual void DeleteUser(Label statusText, in string tableNameDB, in string columnName, in string Value)
+        public virtual void DeleteUser(Label statusText, in string tableNameDB, in string whereColumn, in string value)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -485,7 +464,7 @@ namespace Student_Registration
             }
             try
             {
-                string query = @"DELETE FROM " + tableNameDB + " WHERE " + columnName + " = '" + Value + "';";
+                string query = @"DELETE FROM " + tableNameDB + " WHERE " + whereColumn + " = '" + value + "';";
                 m_sqlCmd.CommandText = query;
                 m_sqlCmd.ExecuteNonQuery();
                 statusText.Text = "Запись Удалена!";
@@ -516,7 +495,7 @@ namespace Student_Registration
             }
         }
 
-        public virtual void Reset(Label status, string TableName, string column, string value, string id)
+        public virtual void UpdateUserData(Label status, string TableName, string column, string value, string id)
         {
             if (m_dbConn.State != ConnectionState.Open)
             {
@@ -635,7 +614,7 @@ namespace Student_Registration
             string query = "";
             try
             {
-                List<string> groups = GetNameAllGroups(status);
+                List<string> groups = GetNamesAllGroups(status);
                 for (int i = 0; i < groups.Count; i++)
                 {
                     query = @"SELECT " + column + " FROM " + groups[i] + " WHERE " + whereColumn + " = '" + value + "';";
@@ -674,7 +653,7 @@ namespace Student_Registration
             string query = "";
             try
             {
-                List<string> groups = GetNameAllGroups(status);
+                List<string> groups = GetNamesAllGroups(status);
                 for (int i = 0; i < groups.Count; i++)
                 {
                     query = @"SELECT " + column + " FROM " + groups[i] + " WHERE " + whereColumn + " = '" + value + "';";

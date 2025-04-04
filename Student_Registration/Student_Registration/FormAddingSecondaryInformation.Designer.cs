@@ -42,6 +42,7 @@
             this.txtEnter.Name = "txtEnter";
             this.txtEnter.Size = new System.Drawing.Size(288, 20);
             this.txtEnter.TabIndex = 0;
+            this.txtEnter.TextChanged += new System.EventHandler(this.txtEnter_TextChanged);
             // 
             // btnAdd
             // 
@@ -59,6 +60,7 @@
             this.txtEnglName.Name = "txtEnglName";
             this.txtEnglName.Size = new System.Drawing.Size(288, 20);
             this.txtEnglName.TabIndex = 2;
+            this.txtEnglName.TextChanged += new System.EventHandler(this.txtEnglName_TextChanged);
             // 
             // label1
             // 

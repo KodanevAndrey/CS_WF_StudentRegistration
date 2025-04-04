@@ -7,6 +7,12 @@ namespace Student_Registration
     public partial class FormTeacher : Form
     {
 
+        public enum ResultTypes
+        {
+            forUser = 0,
+            forDB = 1,
+        }
+
         private readonly IAccountManager AM;
         private readonly ITeacher IT = new MagazinesManager();
 
@@ -46,7 +52,7 @@ namespace Student_Registration
             cbSelectGroup.Text = "";
             cbSelectGroup.SelectedItem = "";
             cbSelectGroup.Items.Clear();
-            foreach (string item in AM.GetNameAllGroups(lbStatusText)) cbSelectGroup.Items.Add(item);
+            foreach (string item in AM.GetNamesAllGroups(lbStatusText)) cbSelectGroup.Items.Add(item);
         }
 
         private void btnCreateNewMagazine_Click(object sender, EventArgs e)
@@ -108,7 +114,7 @@ namespace Student_Registration
 
         private void dgvViewer_Click(object sender, EventArgs e)
         {
-            IT.SelectCellToTable(lbStatusText, dgvViewer);
+            IT.SelectCellInTable(lbStatusText, dgvViewer);
         }
 
     }
