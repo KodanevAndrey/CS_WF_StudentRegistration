@@ -50,7 +50,7 @@ namespace Student_Registration
         private void cbSelectGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            IS.SelectedTable(cbSelectDiscipline.SelectedItem.ToString());
+            IS.СhosenTable(cbSelectDiscipline.SelectedItem.ToString());
             IS.GetTableInfo(lbStatusText);
             IS.LoadTableInfo(lbStatusText, dgvViewer, cbSelectDiscipline.SelectedItem.ToString());
             IS.ReadDB(lbStatusText, dgvViewer);

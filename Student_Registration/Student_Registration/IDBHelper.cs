@@ -28,7 +28,7 @@ namespace Student_Registration
         /// <summary>
         /// метод для открытия контретной таблицы базы данных
         /// </summary>
-        /// <param name="listBox">Label для логирования</param>
+        /// <param name="listBox">ListBox из которого выберается название открываемой таблицы</param>
         void СhosenTable(ListBox listBox);
         /// <summary>
         /// метод для загрузки информации о типах данных столбцов в таблице базы данных

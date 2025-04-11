@@ -76,7 +76,7 @@ namespace Student_Registration
                 if (IT.CheckTableExistence(lbStatusText, altNameDistsiplina))
                 {
                     btnCreateNewMagazine.Enabled = false;
-                    IT.SelectedTable(altNameDistsiplina);
+                    IT.СhosenTable(altNameDistsiplina);
                     IT.GetTableInfo(lbStatusText);
                     IT.LoadTableInfo(lbStatusText, dgvViewer, altNameDistsiplina);
                     IT.ReadDB(lbStatusText, dgvViewer);

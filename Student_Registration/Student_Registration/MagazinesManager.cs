@@ -154,7 +154,7 @@ namespace Student_Registration
             LoadTableInfo(lbStatusText, dgvViewer);
         }
 
-        public virtual void SelectedTable(string tableName)
+        public virtual void СhosenTable(string tableName)
         {
             TableNameDB = tableName;
             DataTable dTable = new DataTable();

@@ -130,8 +130,29 @@ namespace Student_Registration
         /// <param name="value">значение по которому ищем запись</param>
         /// <returns>поисковое значение</returns>
         string ReadOneValue(Label lbStatus, string tableName, string column, string whereColumn, string value);
+        /// <summary>
+        /// функция для поиска одного определённого значения в группах студентов
+        /// </summary>
+        /// <param name="status">Label для логирования</param>
+        /// <param name="column">название столбца из которого будет загружаться значение</param>
+        /// <param name="whereColumn">название столбца по которому вводим поисковое значение</param>
+        /// <param name="value">значение по которому ищем запись</param>
+        /// <returns>поисковое значение</returns>
         string ReadAllGroups(Label status, string column, string whereColumn, string value);
+        /// <summary>
+        /// функция для поиска имени группы студентов по оперделённому значению
+        /// </summary>
+        /// <param name="status">Label для логирования</param>
+        /// <param name="column">название столбца из которого будет загружаться значение</param>
+        /// <param name="whereColumn">название столбца по которому вводим поисковое значение</param>
+        /// <param name="value">значение по которому ищем запись</param>
+        /// <returns>имя группы студентов</returns>
         string GetGroupName(Label status, string column, string whereColumn, string value);
+        /// <summary>
+        /// метод для изменения пароля администратора
+        /// </summary>
+        /// <param name="lbStatusText">Label для логирования</param>
+        /// <param name="txtAdminPassword">TextBox из которого берётся новое значение для изменеиня пароля</param>
         void ResetAdminPassword(Label lbStatusText, TextBox txtAdminPassword);
     }
 }
